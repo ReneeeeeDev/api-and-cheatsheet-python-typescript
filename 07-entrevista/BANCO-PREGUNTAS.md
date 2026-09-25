@@ -6,8 +6,6 @@ Para después de la prueba práctica, o si te piden explicar tu código. Respues
 
 ## 1. Sobre ti y el puesto (prepara TU versión)
 
-**¿Por qué quieres trabajar en el ISTE?**
-> "Me atrae desarrollar sistemas que usan estudiantes y docentes todos los días: matrículas, laboratorios, notas. El stack del puesto (PHP, Python, JavaScript, SQL, WordPress) coincide con lo que he trabajado, y en un entorno educativo puedo seguir aprendiendo y aportar rápido."
 
 **Háblame de un proyecto del que estés orgulloso.**
 > Usa **STAR**: Situación (contexto) → Tarea (tu responsabilidad) → Acción (qué hiciste tú, con tecnologías concretas) → Resultado (medible: "redujo de 2 días a 2 horas", "lo usan 200 estudiantes").
