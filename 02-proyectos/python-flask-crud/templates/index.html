@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block titulo %}Estudiantes{% endblock %}
+{% block contenido %}
+<form method="get" class="buscar">
+  <input name="q" value="{{ q }}" placeholder="Buscar por nombre o cédula">
+  <button>Buscar</button>
+  {% if q %}<a href="{{ url_for('index') }}">Limpiar</a>{% endif %}
+</form>
+
+<table>
+  <thead>
+    <tr><th>Cédula</th><th>Nombre</th><th>Email</th><th>Carrera</th><th>Promedio</th><th>Acciones</th></tr>
+  </thead>
+  <tbody>
+  {% for e in estudiantes %}
+    <tr>
+      <td>{{ e.cedula }}</td>
+      <td>{{ e.nombre }}</td>
+      <td>{{ e.email }}</td>
+      <td>{{ e.carrera }}</td>
+      <td class="{{ 'ok-txt' if e.promedio >= 7 else 'error-txt' }}">{{ "%.2f"|format(e.promedio) }}</td>
+      <td class="acciones">
+        <a class="btn sec" href="{{ url_for('editar', id_=e.id) }}">Editar</a>
+        <form method="post" action="{{ url_for('eliminar', id_=e.id) }}"
+              onsubmit="return confirm('¿Eliminar a {{ e.nombre }}?')">
+          <button class="peligro">Eliminar</button>
+        </form>
+      </td>
+    </tr>
+  {% else %}
+    <tr><td colspan="6">No hay estudiantes registrados.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+<h2>Resumen por carrera</h2>
+<div class="tarjetas">
+  {% for s in stats %}
+    <div class="tarjeta">
+      <strong>{{ s.nombre }}</strong>
+      <span>{{ s.total }} estudiante(s)</span>
+      <span>Promedio: {{ s.promedio if s.promedio is not none else '-' }}</span>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

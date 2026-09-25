@@ -1,0 +1,503 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Cheatsheet PHP completo (PHP 8)</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,Segoe UI,sans-serif;line-height:1.6;color:#1f2937;background:#f8fafc}
+.layout{display:grid;grid-template-columns:270px 1fr;max-width:1400px;margin:auto}
+nav{position:sticky;top:0;height:100vh;overflow:auto;padding:18px;border-right:1px solid #e5e7eb;background:#fff;font-size:13.5px}
+nav ul{list-style:none;padding-left:10px;margin:3px 0} nav>div>ul{padding-left:0} nav a{color:#334155;text-decoration:none} nav a:hover{color:#0a5bd6}
+.volver{display:inline-block;margin-bottom:10px;font-weight:600;color:#0a5bd6!important}
+main{padding:24px 40px;min-width:0} h1{color:#0a5bd6} h2{border-top:2px solid #e5e7eb;padding-top:22px;margin-top:36px}
+table{border-collapse:collapse;width:100%;margin:12px 0;font-size:14px;display:block;overflow-x:auto}
+th,td{border:1px solid #e5e7eb;padding:6px 10px;text-align:left;vertical-align:top} th{background:#f1f5f9}
+code{background:#eef2f7;padding:1px 5px;border-radius:4px;font-size:.9em}
+.codehilite{border-radius:8px;margin:12px 0;overflow:auto;position:relative} .codehilite pre{padding:14px;margin:0;font-size:13px;line-height:1.5}
+.codehilite code{background:none;padding:0;color:inherit}
+blockquote{margin:12px 0;padding:8px 16px;background:#fff7ed;border-left:4px solid #f59e0b;border-radius:4px}
+.copiar{position:absolute;right:6px;top:6px;padding:3px 10px;font-size:12px;border:0;border-radius:4px;cursor:pointer;background:#334155;color:#fff}
+@media (max-width:900px){.layout{grid-template-columns:1fr} nav{position:static;height:auto;border-right:0} main{padding:16px}}
+pre { line-height: 125%; }
+td.linenos .normal { color: #6e7681; background-color: #0d1117; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #6e7681; background-color: #0d1117; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #e6edf3; background-color: #6e7681; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #e6edf3; background-color: #6e7681; padding-left: 5px; padding-right: 5px; }
+.codehilite .hll { background-color: #6e7681 }
+.codehilite { background: #0d1117; color: #E6EDF3 }
+.codehilite .c { color: #8B949E; font-style: italic } /* Comment */
+.codehilite .err { color: #F85149 } /* Error */
+.codehilite .esc { color: #E6EDF3 } /* Escape */
+.codehilite .g { color: #E6EDF3 } /* Generic */
+.codehilite .k { color: #FF7B72 } /* Keyword */
+.codehilite .l { color: #A5D6FF } /* Literal */
+.codehilite .n { color: #E6EDF3 } /* Name */
+.codehilite .o { color: #FF7B72; font-weight: bold } /* Operator */
+.codehilite .x { color: #E6EDF3 } /* Other */
+.codehilite .p { color: #E6EDF3 } /* Punctuation */
+.codehilite .ch { color: #8B949E; font-style: italic } /* Comment.Hashbang */
+.codehilite .cm { color: #8B949E; font-style: italic } /* Comment.Multiline */
+.codehilite .cp { color: #8B949E; font-weight: bold; font-style: italic } /* Comment.Preproc */
+.codehilite .cpf { color: #8B949E; font-style: italic } /* Comment.PreprocFile */
+.codehilite .c1 { color: #8B949E; font-style: italic } /* Comment.Single */
+.codehilite .cs { color: #8B949E; font-weight: bold; font-style: italic } /* Comment.Special */
+.codehilite .gd { color: #FFA198; background-color: #490202 } /* Generic.Deleted */
+.codehilite .ge { color: #E6EDF3; font-style: italic } /* Generic.Emph */
+.codehilite .ges { color: #E6EDF3; font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.codehilite .gr { color: #FFA198 } /* Generic.Error */
+.codehilite .gh { color: #79C0FF; font-weight: bold } /* Generic.Heading */
+.codehilite .gi { color: #56D364; background-color: #0F5323 } /* Generic.Inserted */
+.codehilite .go { color: #8B949E } /* Generic.Output */
+.codehilite .gp { color: #8B949E } /* Generic.Prompt */
+.codehilite .gs { color: #E6EDF3; font-weight: bold } /* Generic.Strong */
+.codehilite .gu { color: #79C0FF } /* Generic.Subheading */
+.codehilite .gt { color: #FF7B72 } /* Generic.Traceback */
+.codehilite .g-Underline { color: #E6EDF3; text-decoration: underline } /* Generic.Underline */
+.codehilite .kc { color: #79C0FF } /* Keyword.Constant */
+.codehilite .kd { color: #FF7B72 } /* Keyword.Declaration */
+.codehilite .kn { color: #FF7B72 } /* Keyword.Namespace */
+.codehilite .kp { color: #79C0FF } /* Keyword.Pseudo */
+.codehilite .kr { color: #FF7B72 } /* Keyword.Reserved */
+.codehilite .kt { color: #FF7B72 } /* Keyword.Type */
+.codehilite .ld { color: #79C0FF } /* Literal.Date */
+.codehilite .m { color: #A5D6FF } /* Literal.Number */
+.codehilite .s { color: #A5D6FF } /* Literal.String */
+.codehilite .na { color: #E6EDF3 } /* Name.Attribute */
+.codehilite .nb { color: #E6EDF3 } /* Name.Builtin */
+.codehilite .nc { color: #F0883E; font-weight: bold } /* Name.Class */
+.codehilite .no { color: #79C0FF; font-weight: bold } /* Name.Constant */
+.codehilite .nd { color: #D2A8FF; font-weight: bold } /* Name.Decorator */
+.codehilite .ni { color: #FFA657 } /* Name.Entity */
+.codehilite .ne { color: #F0883E; font-weight: bold } /* Name.Exception */
+.codehilite .nf { color: #D2A8FF; font-weight: bold } /* Name.Function */
+.codehilite .nl { color: #79C0FF; font-weight: bold } /* Name.Label */
+.codehilite .nn { color: #FF7B72 } /* Name.Namespace */
+.codehilite .nx { color: #E6EDF3 } /* Name.Other */
+.codehilite .py { color: #79C0FF } /* Name.Property */
+.codehilite .nt { color: #7EE787 } /* Name.Tag */
+.codehilite .nv { color: #79C0FF } /* Name.Variable */
+.codehilite .ow { color: #FF7B72; font-weight: bold } /* Operator.Word */
+.codehilite .pm { color: #E6EDF3 } /* Punctuation.Marker */
+.codehilite .w { color: #6E7681 } /* Text.Whitespace */
+.codehilite .mb { color: #A5D6FF } /* Literal.Number.Bin */
+.codehilite .mf { color: #A5D6FF } /* Literal.Number.Float */
+.codehilite .mh { color: #A5D6FF } /* Literal.Number.Hex */
+.codehilite .mi { color: #A5D6FF } /* Literal.Number.Integer */
+.codehilite .mo { color: #A5D6FF } /* Literal.Number.Oct */
+.codehilite .sa { color: #79C0FF } /* Literal.String.Affix */
+.codehilite .sb { color: #A5D6FF } /* Literal.String.Backtick */
+.codehilite .sc { color: #A5D6FF } /* Literal.String.Char */
+.codehilite .dl { color: #79C0FF } /* Literal.String.Delimiter */
+.codehilite .sd { color: #A5D6FF } /* Literal.String.Doc */
+.codehilite .s2 { color: #A5D6FF } /* Literal.String.Double */
+.codehilite .se { color: #79C0FF } /* Literal.String.Escape */
+.codehilite .sh { color: #79C0FF } /* Literal.String.Heredoc */
+.codehilite .si { color: #A5D6FF } /* Literal.String.Interpol */
+.codehilite .sx { color: #A5D6FF } /* Literal.String.Other */
+.codehilite .sr { color: #79C0FF } /* Literal.String.Regex */
+.codehilite .s1 { color: #A5D6FF } /* Literal.String.Single */
+.codehilite .ss { color: #A5D6FF } /* Literal.String.Symbol */
+.codehilite .bp { color: #E6EDF3 } /* Name.Builtin.Pseudo */
+.codehilite .fm { color: #D2A8FF; font-weight: bold } /* Name.Function.Magic */
+.codehilite .vc { color: #79C0FF } /* Name.Variable.Class */
+.codehilite .vg { color: #79C0FF } /* Name.Variable.Global */
+.codehilite .vi { color: #79C0FF } /* Name.Variable.Instance */
+.codehilite .vm { color: #79C0FF } /* Name.Variable.Magic */
+.codehilite .il { color: #A5D6FF } /* Literal.Number.Integer.Long */
+</style></head><body><div class="layout">
+<nav><a class="volver" href="../LEEME-PRIMERO.html">← Índice del kit</a><br><strong>En esta página</strong><div class="toc">
+<ul>
+<li><a href="#1-como-se-ejecuta-php">1. Cómo se ejecuta PHP</a></li>
+<li><a href="#2-sintaxis-esencial">2. Sintaxis esencial</a></li>
+<li><a href="#3-strings">3. Strings</a></li>
+<li><a href="#4-arrays">4. Arrays</a></li>
+<li><a href="#5-control-de-flujo-y-funciones">5. Control de flujo y funciones</a></li>
+<li><a href="#6-formularios-y-superglobales">6. Formularios y superglobales</a><ul>
+<li><a href="#subir-archivos">Subir archivos</a></li>
+</ul>
+</li>
+<li><a href="#7-pdo-base-de-datos-mysql-sqlite-sql-server">7. PDO: base de datos (MySQL / SQLite / SQL Server)</a></li>
+<li><a href="#8-sesiones-y-login-seguro">8. Sesiones y login seguro</a><ul>
+<li><a href="#token-csrf-proteccion-de-formularios">Token CSRF (protección de formularios)</a></li>
+</ul>
+</li>
+<li><a href="#9-poo-en-php">9. POO en PHP</a><ul>
+<li><a href="#autoload-y-namespaces-proyectos-mas-grandes">Autoload y namespaces (proyectos más grandes)</a></li>
+</ul>
+</li>
+<li><a href="#10-estructura-mvc-simple-en-php-puro">10. Estructura MVC simple en PHP puro</a></li>
+<li><a href="#11-api-json-en-php">11. API JSON en PHP</a></li>
+<li><a href="#12-laravel-en-1-minuto-el-framework-php-mas-usado">12. Laravel en 1 minuto (el framework PHP más usado)</a></li>
+<li><a href="#13-errores-frecuentes">13. Errores frecuentes</a></li>
+</ul>
+</div>
+</nav>
+<main><h1 id="cheatsheet-php-completo-php-8">Cheatsheet PHP completo (PHP 8)</h1>
+<blockquote>
+<p>Ejemplo ejecutable: <code>05-ejemplos/php/basicos.php</code>. Proyecto CRUD completo: <code>02-proyectos/php-pdo-crud/</code>.</p>
+</blockquote>
+<h2 id="1-como-se-ejecuta-php">1. Cómo se ejecuta PHP</h2>
+<table>
+<thead>
+<tr>
+<th>Forma</th>
+<th>Comando / lugar</th>
+<th>Uso</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Consola</td>
+<td><code>php archivo.php</code></td>
+<td>scripts, pruebas de lógica</td>
+</tr>
+<tr>
+<td>Servidor integrado</td>
+<td><code>php -S localhost:8080</code> (en la carpeta del proyecto)</td>
+<td>desarrollo rápido sin XAMPP</td>
+</tr>
+<tr>
+<td>XAMPP (Apache)</td>
+<td>archivos en <code>C:\xampp\htdocs\proyecto\</code> → http://localhost/proyecto/</td>
+<td>lo típico en Ecuador / institutos</td>
+</tr>
+<tr>
+<td>Interactivo</td>
+<td><code>php -a</code></td>
+<td>probar líneas</td>
+</tr>
+<tr>
+<td>Ver configuración</td>
+<td><code>php -v</code>, <code>php -m</code> (módulos), <code>php --ini</code></td>
+<td>diagnosticar</td>
+</tr>
+</tbody>
+</table>
+<p>En Windows con XAMPP, si <code>php</code> "no se reconoce": usa <code>C:\xampp\php\php.exe</code>, o agrega <code>C:\xampp\php</code> al PATH.</p>
+<p>Errores visibles en desarrollo (al inicio del archivo):</p>
+<div class="codehilite"><pre><span></span><code><span class="x">ini_set(&#39;display_errors&#39;, &#39;1&#39;);</span>
+<span class="x">error_reporting(E_ALL);</span>
+</code></pre></div>
+
+<h2 id="2-sintaxis-esencial">2. Sintaxis esencial</h2>
+<div class="codehilite"><pre><span></span><code><span class="cp">&lt;?php</span>
+<span class="k">declare</span><span class="p">(</span><span class="nx">strict_types</span><span class="o">=</span><span class="mi">1</span><span class="p">);</span>                 <span class="c1">// tipos estrictos (recomendado)</span>
+
+<span class="nv">$nombre</span> <span class="o">=</span> <span class="s2">&quot;Ana&quot;</span><span class="p">;</span>                          <span class="c1">// variables con $</span>
+<span class="k">const</span> <span class="no">IVA</span> <span class="o">=</span> <span class="mf">0.15</span><span class="p">;</span>                         <span class="c1">// constante</span>
+<span class="k">echo</span> <span class="s2">&quot;Hola </span><span class="si">$nombre</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">;</span>                    <span class="c1">// comillas dobles interpolan</span>
+<span class="k">echo</span> <span class="s1">&#39;Literal $nombre&#39;</span><span class="p">;</span>                   <span class="c1">// simples no</span>
+<span class="k">echo</span> <span class="s2">&quot;Total: &quot;</span> <span class="o">.</span> <span class="p">(</span><span class="nv">$precio</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="nx">IVA</span><span class="p">));</span>   <span class="c1">// concatenar con .</span>
+<span class="nv">$x</span> <span class="o">??=</span> <span class="mi">10</span><span class="p">;</span>                                <span class="c1">// asigna si es null</span>
+<span class="nv">$edad</span> <span class="o">=</span> <span class="p">(</span><span class="nx">int</span><span class="p">)</span><span class="s2">&quot;25&quot;</span><span class="p">;</span> <span class="nv">$p</span> <span class="o">=</span> <span class="p">(</span><span class="nx">float</span><span class="p">)</span><span class="s2">&quot;3.5&quot;</span><span class="p">;</span> <span class="nv">$s</span> <span class="o">=</span> <span class="p">(</span><span class="nx">string</span><span class="p">)</span><span class="mi">10</span><span class="p">;</span>
+<span class="nb">var_dump</span><span class="p">(</span><span class="nv">$x</span><span class="p">);</span> <span class="nb">print_r</span><span class="p">(</span><span class="nv">$array</span><span class="p">);</span>            <span class="c1">// depurar</span>
+<span class="nb">isset</span><span class="p">(</span><span class="nv">$x</span><span class="p">);</span> <span class="k">empty</span><span class="p">(</span><span class="nv">$x</span><span class="p">);</span> <span class="nb">is_null</span><span class="p">(</span><span class="nv">$x</span><span class="p">);</span> <span class="nb">is_numeric</span><span class="p">(</span><span class="s2">&quot;12.5&quot;</span><span class="p">);</span> <span class="nb">is_array</span><span class="p">(</span><span class="nv">$a</span><span class="p">);</span>
+</code></pre></div>
+
+<p>Comparación: <code>==</code> compara valor con conversión, <code>===</code> compara valor y tipo. <code>&lt;=&gt;</code> devuelve -1, 0 o 1 (útil en usort).</p>
+<h2 id="3-strings">3. Strings</h2>
+<div class="codehilite"><pre><span></span><code><span class="x">strlen($s); mb_strlen($s);              // mb_ para tildes/ñ</span>
+<span class="x">strtoupper($s); strtolower($s); ucfirst($s); ucwords($s); trim($s);</span>
+<span class="x">str_contains($s, &quot;x&quot;); str_starts_with($s, &quot;a&quot;); str_ends_with($s, &quot;z&quot;);   // PHP 8</span>
+<span class="x">strpos($s, &quot;o&quot;); substr($s, 0, 4); str_replace(&quot;a&quot;, &quot;b&quot;, $s); strrev($s);</span>
+<span class="x">explode(&quot;,&quot;, &quot;a,b,c&quot;); implode(&quot;-&quot;, $arr); str_pad(&quot;7&quot;, 3, &quot;0&quot;, STR_PAD_LEFT);</span>
+<span class="x">sprintf(&quot;%05.2f&quot;, 3.14159); number_format(1234.5, 2, &quot;,&quot;, &quot;.&quot;);   // 1.234,50</span>
+<span class="x">htmlspecialchars($texto, ENT_QUOTES, &quot;UTF-8&quot;);                     // ¡contra XSS!</span>
+<span class="x">preg_match(&#39;/^\d{10}$/&#39;, $cedula); preg_replace(&#39;/\s+/&#39;, &#39; &#39;, $s);</span>
+</code></pre></div>
+
+<h2 id="4-arrays">4. Arrays</h2>
+<div class="codehilite"><pre><span></span><code><span class="x">$nums = [5, 3, 8];</span>
+<span class="x">$nums[] = 10;                                    // push</span>
+<span class="x">array_push($nums, 1); array_pop($nums); array_shift($nums); array_unshift($nums, 0);</span>
+<span class="x">count($nums); in_array(8, $nums); array_search(8, $nums); array_sum($nums); max($nums);</span>
+<span class="x">sort($nums); rsort($nums);                       // ordena valores (reindexa)</span>
+<span class="x">$persona = [&quot;nombre&quot; =&gt; &quot;Ana&quot;, &quot;edad&quot; =&gt; 25];    // asociativo</span>
+<span class="x">asort($a); arsort($a); ksort($a); krsort($a);    // ordenar asociativos por valor/clave</span>
+<span class="x">usort($lista, fn($a, $b) =&gt; $a[&quot;nota&quot;] &lt;=&gt; $b[&quot;nota&quot;]);</span>
+<span class="x">array_map(fn($x) =&gt; $x * 2, $nums);</span>
+<span class="x">array_filter($nums, fn($x) =&gt; $x &gt; 3);           // conserva claves → array_values() para reindexar</span>
+<span class="x">array_reduce($nums, fn($acc, $x) =&gt; $acc + $x, 0);</span>
+<span class="x">array_column($filas, &quot;nombre&quot;);                  // extrae una columna de un array de filas</span>
+<span class="x">array_keys($a); array_values($a); array_merge($a, $b); array_unique($a); array_slice($a, 1, 2);</span>
+<span class="x">array_key_exists(&quot;edad&quot;, $persona); unset($persona[&quot;edad&quot;]);</span>
+<span class="x">[$a, $b] = [1, 2];                               // destructuring</span>
+<span class="x">[&#39;nombre&#39; =&gt; $n] = $persona;</span>
+<span class="x">foreach ($persona as $clave =&gt; $valor) { ... }</span>
+</code></pre></div>
+
+<h2 id="5-control-de-flujo-y-funciones">5. Control de flujo y funciones</h2>
+<div class="codehilite"><pre><span></span><code><span class="x">if ($x &gt; 0) { } elseif ($x &lt; 0) { } else { }</span>
+<span class="x">$estado = $nota &gt;= 7 ? &quot;Aprobado&quot; : &quot;Reprobado&quot;;</span>
+<span class="x">$texto = match ($dia) { 1, 7 =&gt; &quot;Fin de semana&quot;, default =&gt; &quot;Laborable&quot; };   // PHP 8, comparación estricta</span>
+<span class="x">switch ($op) { case 1: ...; break; default: ...; }</span>
+<span class="x">for ($i = 0; $i &lt; 10; $i++) { }</span>
+<span class="x">while ($cond) { }  do { } while ($cond);</span>
+<span class="x">foreach ($lista as $i =&gt; $item) { if (...) continue; if (...) break; }</span>
+
+<span class="x">function sumar(int $a, int $b = 0): int { return $a + $b; }</span>
+<span class="x">function total(float ...$precios): float { return array_sum($precios); }</span>
+<span class="x">function buscar(?int $id): ?array { ... }            // ? = puede ser null</span>
+<span class="x">function nada(): void { }</span>
+<span class="x">$doble = fn($x) =&gt; $x * 2;                           // arrow function (captura variables automáticamente)</span>
+<span class="x">$sumarN = function ($x) use ($n) { return $x + $n; };   // closure clásica: use para capturar</span>
+<span class="x">sumar(b: 5, a: 1);                                   // argumentos con nombre (PHP 8)</span>
+</code></pre></div>
+
+<h2 id="6-formularios-y-superglobales">6. Formularios y superglobales</h2>
+<div class="codehilite"><pre><span></span><code><span class="x">$_GET[&quot;q&quot;]           // parámetros de la URL</span>
+<span class="x">$_POST[&quot;nombre&quot;]     // formulario method=&quot;post&quot;</span>
+<span class="x">$_REQUEST            // ambos (evítalo)</span>
+<span class="x">$_FILES[&quot;foto&quot;]      // archivos subidos (form enctype=&quot;multipart/form-data&quot;)</span>
+<span class="x">$_SESSION            // sesión (requiere session_start())</span>
+<span class="x">$_COOKIE</span>
+<span class="x">$_SERVER[&quot;REQUEST_METHOD&quot;], $_SERVER[&quot;REQUEST_URI&quot;], $_SERVER[&quot;HTTP_HOST&quot;]</span>
+
+<span class="x">if ($_SERVER[&quot;REQUEST_METHOD&quot;] === &quot;POST&quot;) {</span>
+<span class="x">    $nombre = trim($_POST[&quot;nombre&quot;] ?? &quot;&quot;);</span>
+<span class="x">    $edad = filter_input(INPUT_POST, &quot;edad&quot;, FILTER_VALIDATE_INT);         // false si inválido</span>
+<span class="x">    $email = filter_var($_POST[&quot;email&quot;] ?? &quot;&quot;, FILTER_VALIDATE_EMAIL);</span>
+<span class="x">    $errores = [];</span>
+<span class="x">    if ($nombre === &quot;&quot;) $errores[] = &quot;Nombre obligatorio&quot;;</span>
+<span class="x">    if ($edad === false || $edad &lt; 0) $errores[] = &quot;Edad inválida&quot;;</span>
+<span class="x">    if (!$errores) {</span>
+<span class="x">        // guardar...</span>
+<span class="x">        header(&quot;Location: index.php?ok=1&quot;);   // redirigir tras POST</span>
+<span class="x">        exit;</span>
+<span class="x">    }</span>
+<span class="x">}</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="p">&lt;</span><span class="nt">input</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;nombre&quot;</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;&lt;?= htmlspecialchars($nombre ?? &#39;&#39;) ?&gt;&quot;</span><span class="p">&gt;</span>
+<span class="cp">&lt;?php foreach ($errores as $e): ?&gt;</span><span class="p">&lt;</span><span class="nt">p</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;error&quot;</span><span class="p">&gt;</span><span class="cp">&lt;?= htmlspecialchars($e) ?&gt;</span><span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span><span class="cp">&lt;?php endforeach; ?&gt;</span>
+</code></pre></div>
+
+<p><code>&lt;?= $x ?&gt;</code> es un atajo de <code>&lt;?php echo $x; ?&gt;</code>. La sintaxis alternativa <code>if: ... endif;</code> y <code>foreach: ... endforeach;</code> resulta más legible dentro del HTML.</p>
+<h3 id="subir-archivos">Subir archivos</h3>
+<div class="codehilite"><pre><span></span><code><span class="x">if (($_FILES[&quot;foto&quot;][&quot;error&quot;] ?? 1) === UPLOAD_ERR_OK) {</span>
+<span class="x">    $ext = strtolower(pathinfo($_FILES[&quot;foto&quot;][&quot;name&quot;], PATHINFO_EXTENSION));</span>
+<span class="x">    if (in_array($ext, [&quot;jpg&quot;, &quot;png&quot;]) &amp;&amp; $_FILES[&quot;foto&quot;][&quot;size&quot;] &lt; 2_000_000) {</span>
+<span class="x">        $destino = __DIR__ . &quot;/uploads/&quot; . uniqid() . &quot;.$ext&quot;;</span>
+<span class="x">        move_uploaded_file($_FILES[&quot;foto&quot;][&quot;tmp_name&quot;], $destino);</span>
+<span class="x">    }</span>
+<span class="x">}</span>
+</code></pre></div>
+
+<h2 id="7-pdo-base-de-datos-mysql-sqlite-sql-server">7. PDO: base de datos (MySQL / SQLite / SQL Server)</h2>
+<div class="codehilite"><pre><span></span><code><span class="x">$pdo = new PDO(&quot;mysql:host=localhost;dbname=tienda;charset=utf8mb4&quot;, &quot;root&quot;, &quot;&quot;, [</span>
+<span class="x">    PDO::ATTR_ERRMODE =&gt; PDO::ERRMODE_EXCEPTION,</span>
+<span class="x">    PDO::ATTR_DEFAULT_FETCH_MODE =&gt; PDO::FETCH_ASSOC,</span>
+<span class="x">]);</span>
+<span class="x">// SQLite:      new PDO(&quot;sqlite:&quot; . __DIR__ . &quot;/datos.db&quot;)</span>
+<span class="x">// SQL Server:  new PDO(&quot;sqlsrv:Server=localhost;Database=tienda&quot;, &quot;sa&quot;, &quot;clave&quot;)</span>
+
+<span class="x">// SELECT varios</span>
+<span class="x">$st = $pdo-&gt;prepare(&quot;SELECT * FROM productos WHERE precio &gt; ? ORDER BY nombre&quot;);</span>
+<span class="x">$st-&gt;execute([10]);</span>
+<span class="x">$filas = $st-&gt;fetchAll();</span>
+
+<span class="x">// Parámetros con nombre</span>
+<span class="x">$st = $pdo-&gt;prepare(&quot;SELECT * FROM productos WHERE id = :id&quot;);</span>
+<span class="x">$st-&gt;execute([&quot;:id&quot; =&gt; $id]);</span>
+<span class="x">$producto = $st-&gt;fetch();                 // false si no existe</span>
+
+<span class="x">// Un solo valor</span>
+<span class="x">$total = $pdo-&gt;query(&quot;SELECT COUNT(*) FROM productos&quot;)-&gt;fetchColumn();</span>
+
+<span class="x">// INSERT / UPDATE / DELETE</span>
+<span class="x">$st = $pdo-&gt;prepare(&quot;INSERT INTO productos (nombre, precio) VALUES (?, ?)&quot;);</span>
+<span class="x">$st-&gt;execute([$nombre, $precio]);</span>
+<span class="x">$nuevoId = $pdo-&gt;lastInsertId();</span>
+<span class="x">$st = $pdo-&gt;prepare(&quot;UPDATE productos SET precio = ? WHERE id = ?&quot;);</span>
+<span class="x">$st-&gt;execute([$precio, $id]);</span>
+<span class="x">$filasAfectadas = $st-&gt;rowCount();</span>
+
+<span class="x">// Transacción</span>
+<span class="x">try {</span>
+<span class="x">    $pdo-&gt;beginTransaction();</span>
+<span class="x">    $pdo-&gt;prepare(&quot;UPDATE cuentas SET saldo = saldo - ? WHERE id = ?&quot;)-&gt;execute([100, 1]);</span>
+<span class="x">    $pdo-&gt;prepare(&quot;UPDATE cuentas SET saldo = saldo + ? WHERE id = ?&quot;)-&gt;execute([100, 2]);</span>
+<span class="x">    $pdo-&gt;commit();</span>
+<span class="x">} catch (Throwable $e) {</span>
+<span class="x">    $pdo-&gt;rollBack();</span>
+<span class="x">    throw $e;</span>
+<span class="x">}</span>
+</code></pre></div>
+
+<p><strong>Nunca:</strong> <code>"SELECT * FROM usuarios WHERE email = '$email'"</code> (eso es SQL Injection). La extensión <code>mysqli</code> también existe, pero PDO es más portable.</p>
+<h2 id="8-sesiones-y-login-seguro">8. Sesiones y login seguro</h2>
+<div class="codehilite"><pre><span></span><code><span class="x">session_start();                                        // al inicio de CADA página que use sesión</span>
+
+<span class="x">// Registro</span>
+<span class="x">$hash = password_hash($_POST[&quot;clave&quot;], PASSWORD_DEFAULT);          // bcrypt</span>
+<span class="x">$pdo-&gt;prepare(&quot;INSERT INTO usuarios (email, clave_hash) VALUES (?, ?)&quot;)-&gt;execute([$email, $hash]);</span>
+
+<span class="x">// Login</span>
+<span class="x">$st = $pdo-&gt;prepare(&quot;SELECT * FROM usuarios WHERE email = ?&quot;);</span>
+<span class="x">$st-&gt;execute([$_POST[&quot;email&quot;]]);</span>
+<span class="x">$u = $st-&gt;fetch();</span>
+<span class="x">if ($u &amp;&amp; password_verify($_POST[&quot;clave&quot;], $u[&quot;clave_hash&quot;])) {</span>
+<span class="x">    session_regenerate_id(true);                         // evita fijación de sesión</span>
+<span class="x">    $_SESSION[&quot;usuario_id&quot;] = $u[&quot;id&quot;];</span>
+<span class="x">    $_SESSION[&quot;rol&quot;] = $u[&quot;rol&quot;];</span>
+<span class="x">    header(&quot;Location: panel.php&quot;); exit;</span>
+<span class="x">}</span>
+<span class="x">$error = &quot;Credenciales incorrectas&quot;;</span>
+
+<span class="x">// Proteger una página (poner arriba de todo)</span>
+<span class="x">if (empty($_SESSION[&quot;usuario_id&quot;])) { header(&quot;Location: login.php&quot;); exit; }</span>
+<span class="x">if ($_SESSION[&quot;rol&quot;] !== &quot;admin&quot;) { http_response_code(403); exit(&quot;Acceso denegado&quot;); }</span>
+
+<span class="x">// Logout</span>
+<span class="x">session_start(); session_destroy(); header(&quot;Location: login.php&quot;); exit;</span>
+</code></pre></div>
+
+<h3 id="token-csrf-proteccion-de-formularios">Token CSRF (protección de formularios)</h3>
+<div class="codehilite"><pre><span></span><code><span class="x">$_SESSION[&quot;csrf&quot;] ??= bin2hex(random_bytes(32));</span>
+<span class="x">// en el form:  &lt;input type=&quot;hidden&quot; name=&quot;csrf&quot; value=&quot;</span><span class="cp">&lt;?</span><span class="o">=</span> <span class="nv">$_SESSION</span><span class="p">[</span><span class="s1">&#39;csrf&#39;</span><span class="p">]</span> <span class="cp">?&gt;</span><span class="x">&quot;&gt;</span>
+<span class="x">if (!hash_equals($_SESSION[&quot;csrf&quot;], $_POST[&quot;csrf&quot;] ?? &quot;&quot;)) { http_response_code(403); exit(&quot;CSRF&quot;); }</span>
+</code></pre></div>
+
+<h2 id="9-poo-en-php">9. POO en PHP</h2>
+<div class="codehilite"><pre><span></span><code><span class="x">interface Pagable { public function calcularPago(): float; }</span>
+
+<span class="x">abstract class Empleado implements Pagable {</span>
+<span class="x">    protected static int $contador = 0;</span>
+<span class="x">    public function __construct(</span>
+<span class="x">        protected string $nombre,                  // promoción de propiedades (PHP 8)</span>
+<span class="x">        private readonly string $cedula,           // readonly (PHP 8.1)</span>
+<span class="x">    ) { static::$contador++; }</span>
+<span class="x">    abstract public function calcularPago(): float;</span>
+<span class="x">    public function getNombre(): string { return $this-&gt;nombre; }</span>
+<span class="x">    public static function total(): int { return static::$contador; }</span>
+<span class="x">    public function __toString(): string { return &quot;{$this-&gt;nombre}: {$this-&gt;calcularPago()}&quot;; }</span>
+<span class="x">}</span>
+
+<span class="x">class Docente extends Empleado {</span>
+<span class="x">    public function __construct(string $n, string $c, private float $sueldo) { parent::__construct($n, $c); }</span>
+<span class="x">    public function calcularPago(): float { return $this-&gt;sueldo; }</span>
+<span class="x">}</span>
+
+<span class="x">trait Timestamps {                                 // reutilizar código entre clases</span>
+<span class="x">    public function ahora(): string { return date(&quot;Y-m-d H:i:s&quot;); }</span>
+<span class="x">}</span>
+<span class="x">class Producto { use Timestamps; }</span>
+
+<span class="x">enum Estado: string { case Activo = &quot;activo&quot;; case Inactivo = &quot;inactivo&quot;; }   // PHP 8.1</span>
+<span class="x">$e = Estado::from(&quot;activo&quot;);  $e-&gt;value;</span>
+
+<span class="x">$d = new Docente(&quot;Ana&quot;, &quot;1710034065&quot;, 1100);</span>
+<span class="x">echo $d, &quot; &quot;, Empleado::total();</span>
+<span class="x">$d instanceof Pagable;                            // true</span>
+</code></pre></div>
+
+<p>Visibilidad: <code>public</code> (todos), <code>protected</code> (clase e hijas), <code>private</code> (solo la clase). <code>self::</code> apunta a la clase donde está escrito el código; <code>static::</code> a la clase real (late static binding). <code>$this-&gt;</code> es la instancia.</p>
+<h3 id="autoload-y-namespaces-proyectos-mas-grandes">Autoload y namespaces (proyectos más grandes)</h3>
+<div class="codehilite"><pre><span></span><code><span class="x">namespace App\Modelos;          // en src/Modelos/Producto.php</span>
+<span class="x">use App\Modelos\Producto;       // en otro archivo</span>
+
+<span class="x">// composer.json:  &quot;autoload&quot;: { &quot;psr-4&quot;: { &quot;App\\&quot;: &quot;src/&quot; } }   →  composer dump-autoload</span>
+<span class="x">require __DIR__ . &quot;/vendor/autoload.php&quot;;</span>
+</code></pre></div>
+
+<h2 id="10-estructura-mvc-simple-en-php-puro">10. Estructura MVC simple en PHP puro</h2>
+<div class="codehilite"><pre><span></span><code>proyecto/
+├── public/index.php          ← único punto de entrada (front controller)
+├── app/
+│   ├── Controladores/ProductoControlador.php
+│   ├── Modelos/Producto.php  ← consultas PDO
+│   └── Vistas/productos/lista.php
+├── config/database.php
+└── composer.json
+</code></pre></div>
+
+<p>Mini enrutador:</p>
+<div class="codehilite"><pre><span></span><code><span class="x">// public/index.php</span>
+<span class="x">$ruta = parse_url($_SERVER[&quot;REQUEST_URI&quot;], PHP_URL_PATH);</span>
+<span class="x">$metodo = $_SERVER[&quot;REQUEST_METHOD&quot;];</span>
+<span class="x">match (true) {</span>
+<span class="x">    $ruta === &quot;/&quot; &amp;&amp; $metodo === &quot;GET&quot;             =&gt; (new ProductoControlador)-&gt;index(),</span>
+<span class="x">    $ruta === &quot;/productos&quot; &amp;&amp; $metodo === &quot;POST&quot;   =&gt; (new ProductoControlador)-&gt;guardar(),</span>
+<span class="x">    preg_match(&#39;#^/productos/(\d+)$#&#39;, $ruta, $m) === 1 =&gt; (new ProductoControlador)-&gt;ver((int)$m[1]),</span>
+<span class="x">    default =&gt; http_response_code(404),</span>
+<span class="x">};</span>
+</code></pre></div>
+
+<h2 id="11-api-json-en-php">11. API JSON en PHP</h2>
+<div class="codehilite"><pre><span></span><code><span class="x">header(&quot;Content-Type: application/json; charset=utf-8&quot;);</span>
+<span class="x">header(&quot;Access-Control-Allow-Origin: *&quot;);              // CORS si la consume otro dominio</span>
+<span class="x">$body = json_decode(file_get_contents(&quot;php://input&quot;), true) ?? [];</span>
+<span class="x">http_response_code(201);</span>
+<span class="x">echo json_encode($datos, JSON_UNESCAPED_UNICODE);</span>
+</code></pre></div>
+
+<h2 id="12-laravel-en-1-minuto-el-framework-php-mas-usado">12. Laravel en 1 minuto (el framework PHP más usado)</h2>
+<div class="codehilite"><pre><span></span><code>composer<span class="w"> </span>create-project<span class="w"> </span>laravel/laravel<span class="w"> </span>tienda
+<span class="nb">cd</span><span class="w"> </span>tienda
+php<span class="w"> </span>artisan<span class="w"> </span>serve<span class="w">                          </span><span class="c1"># http://127.0.0.1:8000</span>
+php<span class="w"> </span>artisan<span class="w"> </span>make:model<span class="w"> </span>Producto<span class="w"> </span>-mcr<span class="w">       </span><span class="c1"># modelo + migración + controlador resource</span>
+php<span class="w"> </span>artisan<span class="w"> </span>migrate
+php<span class="w"> </span>artisan<span class="w"> </span>route:list
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="x">// routes/web.php</span>
+<span class="x">Route::resource(&#39;productos&#39;, ProductoController::class);</span>
+<span class="x">// app/Http/Controllers/ProductoController.php</span>
+<span class="x">public function store(Request $r) {</span>
+<span class="x">    $datos = $r-&gt;validate([&#39;nombre&#39; =&gt; &#39;required|min:3&#39;, &#39;precio&#39; =&gt; &#39;required|numeric|gt:0&#39;]);</span>
+<span class="x">    Producto::create($datos);</span>
+<span class="x">    return redirect()-&gt;route(&#39;productos.index&#39;)-&gt;with(&#39;ok&#39;, &#39;Creado&#39;);</span>
+<span class="x">}</span>
+<span class="x">// Eloquent ORM</span>
+<span class="x">Producto::all(); Producto::find(1); Producto::where(&#39;precio&#39;, &#39;&gt;&#39;, 10)-&gt;orderBy(&#39;nombre&#39;)-&gt;get();</span>
+</code></pre></div>
+
+<p>Vistas Blade: <code>{{ $variable }}</code> (escapado), <code>@foreach ($productos as $p) ... @endforeach</code>, <code>@if</code>, <code>@csrf</code>, <code>@extends('layout')</code>, <code>@section('contenido')</code>.</p>
+<h2 id="13-errores-frecuentes">13. Errores frecuentes</h2>
+<table>
+<thead>
+<tr>
+<th>Error</th>
+<th>Causa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Parse error: syntax error, unexpected ...</code></td>
+<td>Falta <code>;</code> o <code>}</code> en la línea anterior</td>
+</tr>
+<tr>
+<td><code>Undefined variable $x</code> / <code>Undefined array key "x"</code></td>
+<td>Variable o clave inexistente: usa <code>?? ""</code></td>
+</tr>
+<tr>
+<td><code>Cannot modify header information - headers already sent</code></td>
+<td>Hubo salida (echo, espacio o HTML) antes de <code>header()</code>. Nada antes de <code>&lt;?php</code></td>
+</tr>
+<tr>
+<td><code>could not find driver</code></td>
+<td>Falta la extensión: activa <code>extension=pdo_mysql</code> / <code>pdo_sqlite</code> en php.ini</td>
+</tr>
+<tr>
+<td><code>SQLSTATE[HY000] [1045] Access denied</code></td>
+<td>Usuario/clave de MySQL incorrectos</td>
+</tr>
+<tr>
+<td><code>SQLSTATE[HY000] [2002] No connection</code></td>
+<td>MySQL no está iniciado en XAMPP</td>
+</tr>
+<tr>
+<td><code>SQLSTATE[23000] Integrity constraint violation</code></td>
+<td>UNIQUE o FK violada</td>
+</tr>
+<tr>
+<td>Página en blanco</td>
+<td>Error oculto: activa <code>display_errors</code> o revisa <code>C:\xampp\apache\logs\error.log</code></td>
+</tr>
+</tbody>
+</table></main></div>
+<script>
+document.querySelectorAll('.codehilite').forEach(b => {
+  const btn = document.createElement('button'); btn.className = 'copiar'; btn.textContent = 'Copiar';
+  btn.onclick = () => { const t = b.querySelector('pre').innerText;
+    navigator.clipboard.writeText(t).then(() => { btn.textContent = '¡Copiado!'; setTimeout(() => btn.textContent = 'Copiar', 1500); }); };
+  b.prepend(btn);
+});
+</script></body></html>

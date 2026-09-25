@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Práctica DOM - Registro de estudiantes</title>
+  <!-- Abrir con doble clic, o con la extensión Live Server de VS Code (clic derecho → Open with Live Server).
+       Todo el JavaScript está al final. Presiona F12 → Console para ver los console.log. -->
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    :root { --pri: #0a5bd6; --pel: #dc2626; --ok: #16a34a; --borde: #e5e7eb; }
+    body { margin: 0; font-family: system-ui, sans-serif; background: #f1f5f9; color: #1f2937; }
+    header { background: var(--pri); color: #fff; padding: 14px 24px; }
+    main { max-width: 960px; margin: 20px auto; padding: 0 16px; display: grid; gap: 16px; }
+    .panel { background: #fff; border-radius: 10px; padding: 16px; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+    label { display: grid; gap: 4px; font-size: 14px; }
+    input, select { padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; }
+    input.invalido { border-color: var(--pel); background: #fef2f2; }
+    .msg-error { color: var(--pel); font-size: 12px; min-height: 16px; }
+    button { padding: 8px 14px; border: 0; border-radius: 6px; background: var(--pri); color: #fff; cursor: pointer; }
+    button.sec { background: #64748b; } button.pel { background: var(--pel); }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 8px; border-bottom: 1px solid var(--borde); text-align: left; }
+    th[data-orden] { cursor: pointer; user-select: none; }
+    th[data-orden]:hover { color: var(--pri); }
+    .aprobado { color: var(--ok); font-weight: 600; } .reprobado { color: var(--pel); font-weight: 600; }
+    .barra { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 12px; }
+    .tarjetas { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+    .tarjeta { background: #fff; border-radius: 10px; padding: 12px; }
+    .tarjeta strong { display: block; font-size: 24px; }
+    .toast { position: fixed; right: 20px; bottom: 20px; background: #111827; color: #fff; padding: 10px 16px;
+             border-radius: 8px; opacity: 0; transition: opacity .3s; }
+    .toast.visible { opacity: 1; }
+    .oculto { display: none; }
+  </style>
+</head>
+<body>
+  <header><h1 style="margin:0;font-size:20px">Registro de estudiantes (JavaScript puro)</h1></header>
+  <main>
+    <section class="tarjetas" id="resumen"></section>
+
+    <section class="panel">
+      <h2 id="titulo-form">Nuevo estudiante</h2>
+      <form id="form" novalidate>
+        <input type="hidden" name="id">
+        <div class="grid">
+          <label>Cédula <input name="cedula" maxlength="10" inputmode="numeric"><span class="msg-error" data-para="cedula"></span></label>
+          <label>Nombre <input name="nombre"><span class="msg-error" data-para="nombre"></span></label>
+          <label>Email <input name="email" type="email"><span class="msg-error" data-para="email"></span></label>
+          <label>Nota (0-10) <input name="nota" type="number" step="0.1"><span class="msg-error" data-para="nota"></span></label>
+          <label>Carrera
+            <select name="carrera">
+              <option>Software</option><option>Enfermería</option><option>Marketing</option>
+            </select>
+          </label>
+        </div>
+        <p class="barra">
+          <button type="submit">Guardar</button>
+          <button type="button" class="sec oculto" id="cancelar">Cancelar</button>
+        </p>
+      </form>
+    </section>
+
+    <section class="panel">
+      <div class="barra">
+        <input id="buscar" placeholder="Buscar por nombre o cédula...">
+        <select id="filtro-carrera"><option value="">Todas las carreras</option><option>Software</option><option>Enfermería</option><option>Marketing</option></select>
+        <label style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="solo-aprobados"> Solo aprobados</label>
+        <button class="sec" id="exportar">Exportar CSV</button>
+        <button class="sec" id="cargar-api">Cargar de API</button>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th data-orden="cedula">Cédula</th><th data-orden="nombre">Nombre ↕</th><th>Email</th>
+            <th data-orden="carrera">Carrera</th><th data-orden="nota">Nota ↕</th><th></th>
+          </tr>
+        </thead>
+        <tbody id="tabla"></tbody>
+      </table>
+    </section>
+  </main>
+  <div class="toast" id="toast"></div>
+
+<script>
+// ================================================================== ESTADO
+// localStorage guarda datos en el navegador (sobreviven al recargar la página).
+const CLAVE = "estudiantes-practica";
+let estudiantes = cargar();
+let orden = { campo: "nombre", asc: true };
+
+function cargar() {
+  try { return JSON.parse(localStorage.getItem(CLAVE)) ?? semilla(); }
+  catch { return semilla(); }
+}
+function guardar() {
+  try { localStorage.setItem(CLAVE, JSON.stringify(estudiantes)); } catch { /* modo privado */ }
+}
+function semilla() {
+  return [
+    { id: 1, cedula: "1710034065", nombre: "Ana Pérez", email: "ana@mail.com", nota: 9.2, carrera: "Software" },
+    { id: 2, cedula: "0926687856", nombre: "Luis Mora", email: "luis@mail.com", nota: 6.4, carrera: "Enfermería" },
+  ];
+}
+
+// ================================================================== SELECTORES
+const $ = (sel) => document.querySelector(sel);
+const form = $("#form");
+
+// ================================================================== VALIDACIÓN
+function cedulaValida(c) {
+  if (!/^\d{10}$/.test(c)) return false;
+  const prov = Number(c.slice(0, 2));
+  if (!((prov >= 1 && prov <= 24) || prov === 30) || Number(c[2]) >= 6) return false;
+  const suma = [2, 1, 2, 1, 2, 1, 2, 1, 2].reduce((s, k, i) => { const p = c[i] * k; return s + (p > 9 ? p - 9 : p); }, 0);
+  return (10 - (suma % 10)) % 10 === Number(c[9]);
+}
+
+function validar(d) {
+  const errores = {};
+  if (!cedulaValida(d.cedula)) errores.cedula = "Cédula ecuatoriana inválida";
+  else if (estudiantes.some((e) => e.cedula === d.cedula && e.id !== Number(d.id))) errores.cedula = "Cédula ya registrada";
+  if (d.nombre.trim().length < 3) errores.nombre = "Mínimo 3 caracteres";
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(d.email)) errores.email = "Email inválido";
+  const nota = Number(d.nota);
+  if (d.nota === "" || Number.isNaN(nota) || nota < 0 || nota > 10) errores.nota = "Nota entre 0 y 10";
+  return errores;
+}
+
+function mostrarErrores(errores) {
+  document.querySelectorAll(".msg-error").forEach((span) => {
+    const campo = span.dataset.para;
+    span.textContent = errores[campo] ?? "";
+    form[campo].classList.toggle("invalido", Boolean(errores[campo]));
+  });
+}
+
+// ================================================================== RENDER
+function escapar(t) {                                   // evita XSS al usar innerHTML
+  return String(t).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+function filtrados() {
+  const q = $("#buscar").value.toLowerCase();
+  const carrera = $("#filtro-carrera").value;
+  const soloAprobados = $("#solo-aprobados").checked;
+  return estudiantes
+    .filter((e) => (e.nombre.toLowerCase().includes(q) || e.cedula.includes(q))
+      && (!carrera || e.carrera === carrera) && (!soloAprobados || e.nota >= 7))
+    .sort((a, b) => {
+      const va = a[orden.campo], vb = b[orden.campo];
+      const cmp = typeof va === "number" ? va - vb : String(va).localeCompare(String(vb), "es");
+      return orden.asc ? cmp : -cmp;
+    });
+}
+
+function render() {
+  const lista = filtrados();
+  $("#tabla").innerHTML = lista.length ? lista.map((e) => `
+    <tr>
+      <td>${escapar(e.cedula)}</td><td>${escapar(e.nombre)}</td><td>${escapar(e.email)}</td>
+      <td>${escapar(e.carrera)}</td>
+      <td class="${e.nota >= 7 ? "aprobado" : "reprobado"}">${e.nota.toFixed(1)}</td>
+      <td><button class="sec" data-accion="editar" data-id="${e.id}">Editar</button>
+          <button class="pel" data-accion="eliminar" data-id="${e.id}">Eliminar</button></td>
+    </tr>`).join("") : `<tr><td colspan="6">Sin resultados</td></tr>`;
+
+  const notas = estudiantes.map((e) => e.nota);
+  const promedio = notas.length ? notas.reduce((s, n) => s + n, 0) / notas.length : 0;
+  $("#resumen").innerHTML = [
+    ["Estudiantes", estudiantes.length],
+    ["Aprobados", notas.filter((n) => n >= 7).length],
+    ["Promedio", promedio.toFixed(2)],
+    ["Mostrando", lista.length],
+  ].map(([t, v]) => `<div class="tarjeta">${t}<strong>${v}</strong></div>`).join("");
+}
+
+function toast(msg) {
+  const t = $("#toast");
+  t.textContent = msg;
+  t.classList.add("visible");
+  clearTimeout(toast.timer);
+  toast.timer = setTimeout(() => t.classList.remove("visible"), 2000);
+}
+
+function limpiar() {
+  form.reset();
+  form.id.value = "";
+  mostrarErrores({});
+  $("#titulo-form").textContent = "Nuevo estudiante";
+  $("#cancelar").classList.add("oculto");
+}
+
+// ================================================================== EVENTOS
+form.addEventListener("submit", (ev) => {
+  ev.preventDefault();                                   // evita que la página se recargue
+  const datos = Object.fromEntries(new FormData(form));  // { id, cedula, nombre, ... } todos como texto
+  const errores = validar(datos);
+  mostrarErrores(errores);
+  if (Object.keys(errores).length) return;
+
+  const registro = { ...datos, nombre: datos.nombre.trim(), nota: Number(datos.nota) };
+  if (datos.id) {
+    registro.id = Number(datos.id);
+    estudiantes = estudiantes.map((e) => (e.id === registro.id ? registro : e));
+    toast("Estudiante actualizado");
+  } else {
+    registro.id = Math.max(0, ...estudiantes.map((e) => e.id)) + 1;
+    estudiantes.push(registro);
+    toast("Estudiante creado");
+  }
+  guardar(); limpiar(); render();
+});
+
+// Delegación de eventos: un solo listener en la tabla para todos los botones
+$("#tabla").addEventListener("click", (ev) => {
+  const { accion, id } = ev.target.dataset;
+  if (!accion) return;
+  const est = estudiantes.find((e) => e.id === Number(id));
+  if (accion === "editar") {
+    for (const campo of ["id", "cedula", "nombre", "email", "nota", "carrera"]) form[campo].value = est[campo];
+    $("#titulo-form").textContent = `Editar: ${est.nombre}`;
+    $("#cancelar").classList.remove("oculto");
+    form.nombre.focus();
+  }
+  if (accion === "eliminar" && confirm(`¿Eliminar a ${est.nombre}?`)) {
+    estudiantes = estudiantes.filter((e) => e.id !== est.id);
+    guardar(); render(); toast("Eliminado");
+  }
+});
+
+// Ordenar al hacer clic en el encabezado
+document.querySelectorAll("th[data-orden]").forEach((th) =>
+  th.addEventListener("click", () => {
+    const campo = th.dataset.orden;
+    orden = { campo, asc: orden.campo === campo ? !orden.asc : true };
+    render();
+  }));
+
+// Filtros en vivo
+$("#buscar").addEventListener("input", render);
+$("#filtro-carrera").addEventListener("change", render);
+$("#solo-aprobados").addEventListener("change", render);
+$("#cancelar").addEventListener("click", limpiar);
+
+// Solo números en la cédula mientras escribe
+form.cedula.addEventListener("input", () => { form.cedula.value = form.cedula.value.replace(/\D/g, ""); });
+
+// Exportar CSV (descarga un archivo)
+$("#exportar").addEventListener("click", () => {
+  const filas = [["cedula", "nombre", "email", "carrera", "nota"], ...filtrados().map((e) => [e.cedula, e.nombre, e.email, e.carrera, e.nota])];
+  const csv = filas.map((f) => f.map((v) => `"${String(v).replaceAll('"', '""')}"`).join(",")).join("\n");
+  const url = URL.createObjectURL(new Blob(["﻿" + csv], { type: "text/csv" }));
+  const a = Object.assign(document.createElement("a"), { href: url, download: "estudiantes.csv" });
+  a.click();
+  URL.revokeObjectURL(url);
+});
+
+// Consumir una API pública con fetch
+$("#cargar-api").addEventListener("click", async (ev) => {
+  const boton = ev.target;
+  boton.disabled = true; boton.textContent = "Cargando...";
+  try {
+    const r = await fetch("https://jsonplaceholder.typicode.com/users?_limit=3");
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    const usuarios = await r.json();
+    console.log("Usuarios de la API:", usuarios);
+    toast(`API respondió ${usuarios.length} usuarios (ver consola F12)`);
+  } catch (e) {
+    toast("Error de red: " + e.message);
+  } finally {
+    boton.disabled = false; boton.textContent = "Cargar de API";
+  }
+});
+
+render();
+</script>
+</body>
+</html>

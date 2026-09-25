@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventario</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="barra"><h1>Inventario de productos</h1></header>
+  <main class="contenedor">
+    <section class="tarjetas" id="resumen"></section>
+
+    <section class="panel">
+      <h2 id="titulo-form">Nuevo producto</h2>
+      <form id="form" novalidate>
+        <input type="hidden" name="id">
+        <div class="grid">
+          <label>Nombre <input name="nombre" required minlength="3"></label>
+          <label>Categoría <input name="categoria" list="categorias" required></label>
+          <label>Precio <input name="precio" type="number" step="0.01" min="0.01" required></label>
+          <label>Stock <input name="stock" type="number" min="0" value="0" required></label>
+        </div>
+        <datalist id="categorias"></datalist>
+        <ul id="errores" class="errores"></ul>
+        <div class="acciones">
+          <button type="submit">Guardar</button>
+          <button type="button" id="cancelar" class="sec" hidden>Cancelar</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="panel">
+      <div class="filtros">
+        <input id="buscar" placeholder="Buscar por nombre...">
+        <select id="orden">
+          <option value="id">Orden: ID</option>
+          <option value="nombre">Nombre</option>
+          <option value="precio">Precio</option>
+          <option value="stock">Stock</option>
+        </select>
+      </div>
+      <table>
+        <thead><tr><th>ID</th><th>Nombre</th><th>Categoría</th><th>Precio</th><th>Stock</th><th></th></tr></thead>
+        <tbody id="tabla"></tbody>
+      </table>
+    </section>
+  </main>
+  <div id="toast" class="toast" hidden></div>
+  <script src="app.js"></script>
+</body>
+</html>

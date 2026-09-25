@@ -1,0 +1,882 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Cheatsheet Python (para prueba práctica)</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,Segoe UI,sans-serif;line-height:1.6;color:#1f2937;background:#f8fafc}
+.layout{display:grid;grid-template-columns:270px 1fr;max-width:1400px;margin:auto}
+nav{position:sticky;top:0;height:100vh;overflow:auto;padding:18px;border-right:1px solid #e5e7eb;background:#fff;font-size:13.5px}
+nav ul{list-style:none;padding-left:10px;margin:3px 0} nav>div>ul{padding-left:0} nav a{color:#334155;text-decoration:none} nav a:hover{color:#0a5bd6}
+.volver{display:inline-block;margin-bottom:10px;font-weight:600;color:#0a5bd6!important}
+main{padding:24px 40px;min-width:0} h1{color:#0a5bd6} h2{border-top:2px solid #e5e7eb;padding-top:22px;margin-top:36px}
+table{border-collapse:collapse;width:100%;margin:12px 0;font-size:14px;display:block;overflow-x:auto}
+th,td{border:1px solid #e5e7eb;padding:6px 10px;text-align:left;vertical-align:top} th{background:#f1f5f9}
+code{background:#eef2f7;padding:1px 5px;border-radius:4px;font-size:.9em}
+.codehilite{border-radius:8px;margin:12px 0;overflow:auto;position:relative} .codehilite pre{padding:14px;margin:0;font-size:13px;line-height:1.5}
+.codehilite code{background:none;padding:0;color:inherit}
+blockquote{margin:12px 0;padding:8px 16px;background:#fff7ed;border-left:4px solid #f59e0b;border-radius:4px}
+.copiar{position:absolute;right:6px;top:6px;padding:3px 10px;font-size:12px;border:0;border-radius:4px;cursor:pointer;background:#334155;color:#fff}
+@media (max-width:900px){.layout{grid-template-columns:1fr} nav{position:static;height:auto;border-right:0} main{padding:16px}}
+pre { line-height: 125%; }
+td.linenos .normal { color: #6e7681; background-color: #0d1117; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #6e7681; background-color: #0d1117; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #e6edf3; background-color: #6e7681; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #e6edf3; background-color: #6e7681; padding-left: 5px; padding-right: 5px; }
+.codehilite .hll { background-color: #6e7681 }
+.codehilite { background: #0d1117; color: #E6EDF3 }
+.codehilite .c { color: #8B949E; font-style: italic } /* Comment */
+.codehilite .err { color: #F85149 } /* Error */
+.codehilite .esc { color: #E6EDF3 } /* Escape */
+.codehilite .g { color: #E6EDF3 } /* Generic */
+.codehilite .k { color: #FF7B72 } /* Keyword */
+.codehilite .l { color: #A5D6FF } /* Literal */
+.codehilite .n { color: #E6EDF3 } /* Name */
+.codehilite .o { color: #FF7B72; font-weight: bold } /* Operator */
+.codehilite .x { color: #E6EDF3 } /* Other */
+.codehilite .p { color: #E6EDF3 } /* Punctuation */
+.codehilite .ch { color: #8B949E; font-style: italic } /* Comment.Hashbang */
+.codehilite .cm { color: #8B949E; font-style: italic } /* Comment.Multiline */
+.codehilite .cp { color: #8B949E; font-weight: bold; font-style: italic } /* Comment.Preproc */
+.codehilite .cpf { color: #8B949E; font-style: italic } /* Comment.PreprocFile */
+.codehilite .c1 { color: #8B949E; font-style: italic } /* Comment.Single */
+.codehilite .cs { color: #8B949E; font-weight: bold; font-style: italic } /* Comment.Special */
+.codehilite .gd { color: #FFA198; background-color: #490202 } /* Generic.Deleted */
+.codehilite .ge { color: #E6EDF3; font-style: italic } /* Generic.Emph */
+.codehilite .ges { color: #E6EDF3; font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.codehilite .gr { color: #FFA198 } /* Generic.Error */
+.codehilite .gh { color: #79C0FF; font-weight: bold } /* Generic.Heading */
+.codehilite .gi { color: #56D364; background-color: #0F5323 } /* Generic.Inserted */
+.codehilite .go { color: #8B949E } /* Generic.Output */
+.codehilite .gp { color: #8B949E } /* Generic.Prompt */
+.codehilite .gs { color: #E6EDF3; font-weight: bold } /* Generic.Strong */
+.codehilite .gu { color: #79C0FF } /* Generic.Subheading */
+.codehilite .gt { color: #FF7B72 } /* Generic.Traceback */
+.codehilite .g-Underline { color: #E6EDF3; text-decoration: underline } /* Generic.Underline */
+.codehilite .kc { color: #79C0FF } /* Keyword.Constant */
+.codehilite .kd { color: #FF7B72 } /* Keyword.Declaration */
+.codehilite .kn { color: #FF7B72 } /* Keyword.Namespace */
+.codehilite .kp { color: #79C0FF } /* Keyword.Pseudo */
+.codehilite .kr { color: #FF7B72 } /* Keyword.Reserved */
+.codehilite .kt { color: #FF7B72 } /* Keyword.Type */
+.codehilite .ld { color: #79C0FF } /* Literal.Date */
+.codehilite .m { color: #A5D6FF } /* Literal.Number */
+.codehilite .s { color: #A5D6FF } /* Literal.String */
+.codehilite .na { color: #E6EDF3 } /* Name.Attribute */
+.codehilite .nb { color: #E6EDF3 } /* Name.Builtin */
+.codehilite .nc { color: #F0883E; font-weight: bold } /* Name.Class */
+.codehilite .no { color: #79C0FF; font-weight: bold } /* Name.Constant */
+.codehilite .nd { color: #D2A8FF; font-weight: bold } /* Name.Decorator */
+.codehilite .ni { color: #FFA657 } /* Name.Entity */
+.codehilite .ne { color: #F0883E; font-weight: bold } /* Name.Exception */
+.codehilite .nf { color: #D2A8FF; font-weight: bold } /* Name.Function */
+.codehilite .nl { color: #79C0FF; font-weight: bold } /* Name.Label */
+.codehilite .nn { color: #FF7B72 } /* Name.Namespace */
+.codehilite .nx { color: #E6EDF3 } /* Name.Other */
+.codehilite .py { color: #79C0FF } /* Name.Property */
+.codehilite .nt { color: #7EE787 } /* Name.Tag */
+.codehilite .nv { color: #79C0FF } /* Name.Variable */
+.codehilite .ow { color: #FF7B72; font-weight: bold } /* Operator.Word */
+.codehilite .pm { color: #E6EDF3 } /* Punctuation.Marker */
+.codehilite .w { color: #6E7681 } /* Text.Whitespace */
+.codehilite .mb { color: #A5D6FF } /* Literal.Number.Bin */
+.codehilite .mf { color: #A5D6FF } /* Literal.Number.Float */
+.codehilite .mh { color: #A5D6FF } /* Literal.Number.Hex */
+.codehilite .mi { color: #A5D6FF } /* Literal.Number.Integer */
+.codehilite .mo { color: #A5D6FF } /* Literal.Number.Oct */
+.codehilite .sa { color: #79C0FF } /* Literal.String.Affix */
+.codehilite .sb { color: #A5D6FF } /* Literal.String.Backtick */
+.codehilite .sc { color: #A5D6FF } /* Literal.String.Char */
+.codehilite .dl { color: #79C0FF } /* Literal.String.Delimiter */
+.codehilite .sd { color: #A5D6FF } /* Literal.String.Doc */
+.codehilite .s2 { color: #A5D6FF } /* Literal.String.Double */
+.codehilite .se { color: #79C0FF } /* Literal.String.Escape */
+.codehilite .sh { color: #79C0FF } /* Literal.String.Heredoc */
+.codehilite .si { color: #A5D6FF } /* Literal.String.Interpol */
+.codehilite .sx { color: #A5D6FF } /* Literal.String.Other */
+.codehilite .sr { color: #79C0FF } /* Literal.String.Regex */
+.codehilite .s1 { color: #A5D6FF } /* Literal.String.Single */
+.codehilite .ss { color: #A5D6FF } /* Literal.String.Symbol */
+.codehilite .bp { color: #E6EDF3 } /* Name.Builtin.Pseudo */
+.codehilite .fm { color: #D2A8FF; font-weight: bold } /* Name.Function.Magic */
+.codehilite .vc { color: #79C0FF } /* Name.Variable.Class */
+.codehilite .vg { color: #79C0FF } /* Name.Variable.Global */
+.codehilite .vi { color: #79C0FF } /* Name.Variable.Instance */
+.codehilite .vm { color: #79C0FF } /* Name.Variable.Magic */
+.codehilite .il { color: #A5D6FF } /* Literal.Number.Integer.Long */
+</style></head><body><div class="layout">
+<nav><a class="volver" href="../LEEME-PRIMERO.html">← Índice del kit</a><br><strong>En esta página</strong><div class="toc">
+<ul>
+<li><a href="#1-sintaxis-esencial">1. Sintaxis esencial</a></li>
+<li><a href="#2-estructuras-de-control">2. Estructuras de control</a></li>
+<li><a href="#3-listas-diccionarios-sets-tuplas">3. Listas, diccionarios, sets, tuplas</a></li>
+<li><a href="#4-strings">4. Strings</a></li>
+<li><a href="#5-funciones">5. Funciones</a></li>
+<li><a href="#6-poo-clases">6. POO (clases)</a></li>
+<li><a href="#7-archivos-y-json">7. Archivos y JSON</a></li>
+<li><a href="#8-base-de-datos-con-sqlite3-viene-con-python-sin-instalar-nada">8. Base de datos con sqlite3 (viene con Python, sin instalar nada)</a><ul>
+<li><a href="#con-mysql-si-en-el-lab-hay-xampp">Con MySQL (si en el lab hay XAMPP)</a></li>
+</ul>
+</li>
+<li><a href="#9-flask-webapi-rapida">9. Flask (web/API rápida)</a></li>
+<li><a href="#10-testing-en-python">10. Testing en Python</a></li>
+<li><a href="#11-comandos-utiles">11. Comandos útiles</a></li>
+<li><a href="#12-donde-y-como-se-ejecuta-python">12. Dónde y cómo se ejecuta Python</a></li>
+<li><a href="#13-convenciones-pep-8-lo-que-el-evaluador-nota">13. Convenciones (PEP 8), lo que el evaluador nota</a></li>
+<li><a href="#14-comprehensions-avanzadas-y-generadores">14. Comprehensions avanzadas y generadores</a></li>
+<li><a href="#15-modulos-utiles-de-la-biblioteca-estandar-sin-instalar">15. Módulos útiles de la biblioteca estándar (sin instalar)</a></li>
+<li><a href="#16-consumir-apis-con-requests">16. Consumir APIs con requests</a></li>
+<li><a href="#17-flask-ampliado">17. Flask ampliado</a><ul>
+<li><a href="#blueprints-organizar-rutas-en-varios-archivos">Blueprints (organizar rutas en varios archivos)</a></li>
+<li><a href="#login-con-sesion-y-contrasena-con-hash">Login con sesión y contraseña con hash</a></li>
+<li><a href="#paginacion">Paginación</a></li>
+<li><a href="#exportar-csv-descargar">Exportar CSV / descargar</a></li>
+<li><a href="#subir-archivos">Subir archivos</a></li>
+<li><a href="#manejo-de-errores-y-cors">Manejo de errores y CORS</a></li>
+<li><a href="#jinja2-en-10-lineas">Jinja2 en 10 líneas</a></li>
+</ul>
+</li>
+<li><a href="#18-sqlalchemy-flask-sqlalchemy-orm-por-si-lo-piden">18. SQLAlchemy / Flask-SQLAlchemy (ORM), por si lo piden</a></li>
+<li><a href="#19-django-en-1-minuto-por-si-preguntan-la-diferencia">19. Django en 1 minuto (por si preguntan la diferencia)</a></li>
+<li><a href="#20-pruebas-ampliadas">20. Pruebas ampliadas</a></li>
+<li><a href="#21-errores-frecuentes-en-python-y-como-leerlos">21. Errores frecuentes en Python y cómo leerlos</a></li>
+</ul>
+</div>
+</nav>
+<main><h1 id="cheatsheet-python-para-prueba-practica">Cheatsheet Python (para prueba práctica)</h1>
+<h2 id="1-sintaxis-esencial">1. Sintaxis esencial</h2>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Variables y tipos</span>
+<span class="n">nombre</span> <span class="o">=</span> <span class="s2">&quot;Ana&quot;</span>          <span class="c1"># str</span>
+<span class="n">edad</span> <span class="o">=</span> <span class="mi">25</span>               <span class="c1"># int</span>
+<span class="n">nota</span> <span class="o">=</span> <span class="mf">8.5</span>              <span class="c1"># float</span>
+<span class="n">activo</span> <span class="o">=</span> <span class="kc">True</span>           <span class="c1"># bool</span>
+<span class="n">nada</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="c1"># f-strings (lo más usado)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Hola </span><span class="si">{</span><span class="n">nombre</span><span class="si">}</span><span class="s2">, tienes </span><span class="si">{</span><span class="n">edad</span><span class="si">}</span><span class="s2"> años y nota </span><span class="si">{</span><span class="n">nota</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Conversión</span>
+<span class="nb">int</span><span class="p">(</span><span class="s2">&quot;10&quot;</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;3.5&quot;</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="nb">bool</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>   <span class="c1"># 10, 3.5, &quot;10&quot;, False</span>
+
+<span class="c1"># Entrada por consola</span>
+<span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Número: &quot;</span><span class="p">))</span>
+</code></pre></div>
+
+<h2 id="2-estructuras-de-control">2. Estructuras de control</h2>
+<div class="codehilite"><pre><span></span><code><span class="k">if</span> <span class="n">edad</span> <span class="o">&gt;=</span> <span class="mi">18</span> <span class="ow">and</span> <span class="n">activo</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Mayor&quot;</span><span class="p">)</span>
+<span class="k">elif</span> <span class="n">edad</span> <span class="o">&gt;=</span> <span class="mi">12</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Adolescente&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Niño&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>          <span class="c1"># 0..4</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">):</span>  <span class="c1"># 10,8,6,4,2</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">valor</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">]):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">valor</span><span class="p">)</span>
+
+<span class="k">while</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">n</span> <span class="o">-=</span> <span class="mi">1</span>
+
+<span class="c1"># Operador ternario</span>
+<span class="n">estado</span> <span class="o">=</span> <span class="s2">&quot;Aprobado&quot;</span> <span class="k">if</span> <span class="n">nota</span> <span class="o">&gt;=</span> <span class="mi">7</span> <span class="k">else</span> <span class="s2">&quot;Reprobado&quot;</span>
+</code></pre></div>
+
+<h2 id="3-listas-diccionarios-sets-tuplas">3. Listas, diccionarios, sets, tuplas</h2>
+<div class="codehilite"><pre><span></span><code><span class="n">nums</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">nums</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span> <span class="n">nums</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">99</span><span class="p">);</span> <span class="n">nums</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span> <span class="n">nums</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+<span class="n">nums</span><span class="o">.</span><span class="n">sort</span><span class="p">();</span> <span class="n">nums</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ordenada</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">),</span> <span class="nb">sum</span><span class="p">(</span><span class="n">nums</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">nums</span><span class="p">),</span> <span class="nb">min</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>
+<span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">nums</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">nums</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">],</span> <span class="n">nums</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>   <span class="c1"># primero, último, slice, invertida</span>
+
+<span class="c1"># List comprehension (MUY útil)</span>
+<span class="n">pares</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">nums</span> <span class="k">if</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">cuadrados</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="o">**</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">)]</span>
+
+<span class="c1"># Diccionarios</span>
+<span class="n">persona</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;nombre&quot;</span><span class="p">:</span> <span class="s2">&quot;Ana&quot;</span><span class="p">,</span> <span class="s2">&quot;edad&quot;</span><span class="p">:</span> <span class="mi">25</span><span class="p">}</span>
+<span class="n">persona</span><span class="p">[</span><span class="s2">&quot;email&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ana@mail.com&quot;</span>
+<span class="n">persona</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;telefono&quot;</span><span class="p">,</span> <span class="s2">&quot;N/A&quot;</span><span class="p">)</span>       <span class="c1"># valor por defecto, no da error</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">persona</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+<span class="s2">&quot;nombre&quot;</span> <span class="ow">in</span> <span class="n">persona</span>                   <span class="c1"># True</span>
+
+<span class="c1"># Lista de diccionarios (típico en CRUD)</span>
+<span class="n">estudiantes</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s2">&quot;nombre&quot;</span><span class="p">:</span> <span class="s2">&quot;Ana&quot;</span><span class="p">,</span> <span class="s2">&quot;nota&quot;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;nombre&quot;</span><span class="p">:</span> <span class="s2">&quot;Luis&quot;</span><span class="p">,</span> <span class="s2">&quot;nota&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">},</span>
+<span class="p">]</span>
+<span class="n">aprobados</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">estudiantes</span> <span class="k">if</span> <span class="n">e</span><span class="p">[</span><span class="s2">&quot;nota&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">7</span><span class="p">]</span>
+<span class="n">ordenados</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">estudiantes</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="n">e</span><span class="p">[</span><span class="s2">&quot;nota&quot;</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">promedio</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="s2">&quot;nota&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">estudiantes</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">estudiantes</span><span class="p">)</span>
+
+<span class="c1"># Sets (sin repetidos)</span>
+<span class="n">unicos</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>            <span class="c1"># {1,2,3}</span>
+<span class="n">a</span> <span class="o">&amp;</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">|</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span>                    <span class="c1"># intersección, unión, diferencia</span>
+
+<span class="c1"># Contar ocurrencias</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
+<span class="n">Counter</span><span class="p">(</span><span class="s2">&quot;banana&quot;</span><span class="p">)</span>                      <span class="c1"># {&#39;a&#39;:3,&#39;n&#39;:2,&#39;b&#39;:1}</span>
+</code></pre></div>
+
+<h2 id="4-strings">4. Strings</h2>
+<div class="codehilite"><pre><span></span><code><span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;  Hola Mundo  &quot;</span>
+<span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">s</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">s</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">s</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+<span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;Hola&quot;</span><span class="p">,</span> <span class="s2">&quot;Chao&quot;</span><span class="p">)</span>
+<span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>              <span class="c1"># [&#39;Hola&#39;, &#39;Mundo&#39;]</span>
+<span class="s2">&quot;-&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">])</span>   <span class="c1"># &quot;a-b&quot;</span>
+<span class="n">s</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;Ho&quot;</span><span class="p">),</span> <span class="n">s</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;do&quot;</span><span class="p">),</span> <span class="s2">&quot;Mundo&quot;</span> <span class="ow">in</span> <span class="n">s</span>
+<span class="n">s</span><span class="o">.</span><span class="n">isdigit</span><span class="p">(),</span> <span class="n">s</span><span class="o">.</span><span class="n">isalpha</span><span class="p">(),</span> <span class="n">s</span><span class="o">.</span><span class="n">isalnum</span><span class="p">()</span>
+<span class="n">s</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>                <span class="c1"># invertir</span>
+<span class="n">s</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;o&quot;</span><span class="p">),</span> <span class="n">s</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;M&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="5-funciones">5. Funciones</h2>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">saludar</span><span class="p">(</span><span class="n">nombre</span><span class="p">,</span> <span class="n">saludo</span><span class="o">=</span><span class="s2">&quot;Hola&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Docstring: describe la función.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">saludo</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">nombre</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">sumar_todo</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>          <span class="c1"># cantidad variable de argumentos</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+
+<span class="n">cuadrado</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span>
+
+<span class="c1"># Manejo de errores</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">())</span>
+<span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No es un número&quot;</span><span class="p">)</span>
+<span class="k">finally</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Siempre se ejecuta&quot;</span><span class="p">)</span>
+
+<span class="c1"># Lanzar error propio</span>
+<span class="k">if</span> <span class="n">edad</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;La edad no puede ser negativa&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="6-poo-clases">6. POO (clases)</h2>
+<div class="codehilite"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Persona</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nombre</span><span class="p">,</span> <span class="n">edad</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nombre</span> <span class="o">=</span> <span class="n">nombre</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">edad</span> <span class="o">=</span> <span class="n">edad</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">presentarse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Soy </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nombre</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>                <span class="c1"># cómo se imprime</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Persona(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nombre</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">edad</span><span class="si">}</span><span class="s2">)&quot;</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Estudiante</span><span class="p">(</span><span class="n">Persona</span><span class="p">):</span>            <span class="c1"># herencia</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nombre</span><span class="p">,</span> <span class="n">edad</span><span class="p">,</span> <span class="n">carrera</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">nombre</span><span class="p">,</span> <span class="n">edad</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">carrera</span> <span class="o">=</span> <span class="n">carrera</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">presentarse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>            <span class="c1"># polimorfismo (sobrescritura)</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">presentarse</span><span class="p">()</span><span class="si">}</span><span class="s2"> y estudio </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">carrera</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="n">e</span> <span class="o">=</span> <span class="n">Estudiante</span><span class="p">(</span><span class="s2">&quot;Ana&quot;</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="s2">&quot;Software&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">presentarse</span><span class="p">())</span>
+
+<span class="c1"># Dataclass (atajo moderno)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Producto</span><span class="p">:</span>
+    <span class="n">nombre</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">precio</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">stock</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+</code></pre></div>
+
+<p>Los 4 pilares de POO (te lo pueden preguntar):
+- <strong>Encapsulamiento</strong>: ocultar datos internos (<code>self._privado</code>, getters/setters, <code>@property</code>).
+- <strong>Herencia</strong>: una clase hija reutiliza una padre (<code>class B(A)</code>).
+- <strong>Polimorfismo</strong>: mismo método, distinto comportamiento según la clase.
+- <strong>Abstracción</strong>: exponer solo lo necesario (<code>from abc import ABC, abstractmethod</code>).</p>
+<h2 id="7-archivos-y-json">7. Archivos y JSON</h2>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;datos.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Hola</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;datos.txt&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">linea</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">linea</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;datos.json&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">estudiantes</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;datos.json&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">datos</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+<span class="c1"># CSV</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">csv</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;datos.csv&quot;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">fila</span> <span class="ow">in</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictReader</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">fila</span><span class="p">[</span><span class="s2">&quot;nombre&quot;</span><span class="p">])</span>
+</code></pre></div>
+
+<h2 id="8-base-de-datos-con-sqlite3-viene-con-python-sin-instalar-nada">8. Base de datos con sqlite3 (viene con Python, sin instalar nada)</h2>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">sqlite3</span>
+
+<span class="n">con</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;app.db&quot;</span><span class="p">)</span>
+<span class="n">con</span><span class="o">.</span><span class="n">row_factory</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">Row</span>           <span class="c1"># permite fila[&quot;columna&quot;]</span>
+<span class="n">cur</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">CREATE TABLE IF NOT EXISTS productos (</span>
+<span class="s2">    id INTEGER PRIMARY KEY AUTOINCREMENT,</span>
+<span class="s2">    nombre TEXT NOT NULL,</span>
+<span class="s2">    precio REAL NOT NULL,</span>
+<span class="s2">    stock INTEGER DEFAULT 0</span>
+<span class="s2">)&quot;&quot;&quot;</span><span class="p">)</span>
+
+<span class="c1"># SIEMPRE parámetros con ? (evita SQL Injection)</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;INSERT INTO productos (nombre, precio, stock) VALUES (?, ?, ?)&quot;</span><span class="p">,</span>
+            <span class="p">(</span><span class="s2">&quot;Mouse&quot;</span><span class="p">,</span> <span class="mf">12.5</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">con</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+<span class="n">nuevo_id</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">lastrowid</span>
+
+<span class="n">filas</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM productos WHERE precio &gt; ?&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">5</span><span class="p">,))</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">filas</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">f</span><span class="p">[</span><span class="s2">&quot;nombre&quot;</span><span class="p">])</span>
+
+<span class="n">uno</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM productos WHERE id = ?&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,))</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;UPDATE productos SET stock = ? WHERE id = ?&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;DELETE FROM productos WHERE id = ?&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,))</span>
+<span class="n">con</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+<span class="n">con</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre></div>
+
+<h3 id="con-mysql-si-en-el-lab-hay-xampp">Con MySQL (si en el lab hay XAMPP)</h3>
+<div class="codehilite"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>mysql-connector-python
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">mysql.connector</span>
+<span class="n">con</span> <span class="o">=</span> <span class="n">mysql</span><span class="o">.</span><span class="n">connector</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;localhost&quot;</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="s2">&quot;root&quot;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">database</span><span class="o">=</span><span class="s2">&quot;tienda&quot;</span><span class="p">)</span>
+<span class="n">cur</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">cursor</span><span class="p">(</span><span class="n">dictionary</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM productos WHERE id = </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,))</span>   <span class="c1"># ojo: %s, no ?</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cur</span><span class="o">.</span><span class="n">fetchone</span><span class="p">())</span>
+<span class="n">con</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</code></pre></div>
+
+<h2 id="9-flask-webapi-rapida">9. Flask (web/API rápida)</h2>
+<div class="codehilite"><pre><span></span><code>python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>venv
+venv<span class="se">\S</span>cripts<span class="se">\a</span>ctivate<span class="w">        </span><span class="c1"># Windows</span>
+<span class="nb">source</span><span class="w"> </span>venv/bin/activate<span class="w">     </span><span class="c1"># Linux/Mac</span>
+pip<span class="w"> </span>install<span class="w"> </span>flask
+python<span class="w"> </span>app.py
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">flask</span><span class="w"> </span><span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">jsonify</span><span class="p">,</span> <span class="n">render_template</span><span class="p">,</span> <span class="n">redirect</span><span class="p">,</span> <span class="n">url_for</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">inicio</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s2">&quot;index.html&quot;</span><span class="p">,</span> <span class="n">titulo</span><span class="o">=</span><span class="s2">&quot;Inicio&quot;</span><span class="p">)</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/api/productos&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">listar</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">([{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;nombre&quot;</span><span class="p">:</span> <span class="s2">&quot;Mouse&quot;</span><span class="p">}])</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/api/productos&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">crear</span><span class="p">():</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get_json</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;nombre&quot;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;nombre es obligatorio&quot;</span><span class="p">}),</span> <span class="mi">400</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="o">**</span><span class="n">data</span><span class="p">}),</span> <span class="mi">201</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/formulario&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="s2">&quot;POST&quot;</span><span class="p">])</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">formulario</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;POST&quot;</span><span class="p">:</span>
+        <span class="n">nombre</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">[</span><span class="s2">&quot;nombre&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s2">&quot;inicio&quot;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s2">&quot;form.html&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>       <span class="c1"># http://127.0.0.1:5000</span>
+</code></pre></div>
+
+<p>Plantilla Jinja2 (<code>templates/index.html</code>):</p>
+<div class="codehilite"><pre><span></span><code><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>{{ titulo }}<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+{% for p in productos %}
+  <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>{{ p.nombre }} - ${{ &quot;%.2f&quot;|format(p.precio) }}<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+{% else %}
+  <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>No hay productos<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+{% endfor %}
+{% if error %}<span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;error&quot;</span><span class="p">&gt;</span>{{ error }}<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>{% endif %}
+</code></pre></div>
+
+<p>Códigos HTTP a recordar: <strong>200</strong> OK, <strong>201</strong> creado, <strong>204</strong> sin contenido, <strong>400</strong> petición inválida, <strong>401</strong> no autenticado, <strong>403</strong> prohibido, <strong>404</strong> no encontrado, <strong>500</strong> error del servidor.</p>
+<h2 id="10-testing-en-python">10. Testing en Python</h2>
+<div class="codehilite"><pre><span></span><code><span class="c1"># test_calculos.py  → ejecutar: python -m unittest -v</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">unittest</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">calculos</span><span class="w"> </span><span class="kn">import</span> <span class="n">sumar</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">TestCalculos</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_sumar</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">sumar</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="mi">5</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_error</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+            <span class="n">sumar</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+</code></pre></div>
+
+<p>Con pytest (<code>pip install pytest</code>, luego <code>pytest -v</code>):</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_sumar</span><span class="p">():</span>
+    <span class="k">assert</span> <span class="n">sumar</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">==</span> <span class="mi">5</span>
+</code></pre></div>
+
+<h2 id="11-comandos-utiles">11. Comandos útiles</h2>
+<div class="codehilite"><pre><span></span><code>python<span class="w"> </span>--version
+pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+pip<span class="w"> </span>freeze<span class="w"> </span>&gt;<span class="w"> </span>requirements.txt
+python<span class="w"> </span>-m<span class="w"> </span>http.server<span class="w"> </span><span class="m">8000</span><span class="w">     </span><span class="c1"># servidor estático rápido</span>
+</code></pre></div>
+
+<hr />
+<h1 id="parte-2-ampliacion">PARTE 2 — AMPLIACIÓN</h1>
+<blockquote>
+<p>Ejemplos ejecutables de todo esto en <code>05-ejemplos/python/</code> (01 a 10).</p>
+</blockquote>
+<h2 id="12-donde-y-como-se-ejecuta-python">12. Dónde y cómo se ejecuta Python</h2>
+<table>
+<thead>
+<tr>
+<th>Forma</th>
+<th>Cómo</th>
+<th>Cuándo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Archivo</td>
+<td><code>python archivo.py</code></td>
+<td>Siempre en la prueba</td>
+</tr>
+<tr>
+<td>Consola interactiva (REPL)</td>
+<td><code>python</code> → escribir código → <code>exit()</code></td>
+<td>Probar una línea rápida</td>
+</tr>
+<tr>
+<td>Módulo</td>
+<td><code>python -m unittest</code>, <code>python -m venv venv</code>, <code>python -m http.server</code></td>
+<td>Herramientas incluidas</td>
+</tr>
+<tr>
+<td>VS Code</td>
+<td>Botón ▶ arriba a la derecha, o <code>F5</code> para depurar</td>
+<td>Cómodo; revisa el intérprete (abajo a la derecha)</td>
+</tr>
+<tr>
+<td>Con argumentos</td>
+<td><code>python app.py 8080</code> → <code>import sys; sys.argv[1]</code></td>
+<td>Parametrizar</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Estructura típica de un script:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="sd">&quot;&quot;&quot;Descripción del programa.&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>                     <span class="c1"># 1. imports de la biblioteca estándar</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>                <span class="c1"># 2. imports de terceros</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mi_modulo</span><span class="w"> </span><span class="kn">import</span> <span class="n">util</span>     <span class="c1"># 3. imports propios</span>
+
+<span class="n">CONSTANTE</span> <span class="o">=</span> <span class="mi">10</span>                 <span class="c1"># 4. constantes en MAYÚSCULAS</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>                    <span class="c1"># 5. funciones</span>
+    <span class="o">...</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>     <span class="c1"># 6. punto de entrada: solo corre al ejecutar el archivo, no al importarlo</span>
+    <span class="n">main</span><span class="p">()</span>
+</code></pre></div>
+
+<h2 id="13-convenciones-pep-8-lo-que-el-evaluador-nota">13. Convenciones (PEP 8), lo que el evaluador nota</h2>
+<ul>
+<li><code>snake_case</code> para variables y funciones, <code>PascalCase</code> para clases, <code>MAYUSCULAS</code> para constantes.</li>
+<li>4 espacios de sangría (nunca tabs mezclados). Máximo ~100 caracteres por línea.</li>
+<li>Nombres descriptivos: <code>total_ventas</code>, no <code>tv</code>. Funciones con verbo: <code>calcular_promedio()</code>.</li>
+<li>Docstrings en funciones públicas. Comentarios que expliquen el <strong>por qué</strong>, no el qué.</li>
+<li><code>if lista:</code> en lugar de <code>if len(lista) &gt; 0:</code>, y <code>if x is None:</code> en lugar de <code>== None</code>.</li>
+</ul>
+<h2 id="14-comprehensions-avanzadas-y-generadores">14. Comprehensions avanzadas y generadores</h2>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Anidada (aplanar matriz)</span>
+<span class="n">plana</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">fila</span> <span class="ow">in</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fila</span><span class="p">]</span>          <span class="c1"># [1, 2, 3, 4]</span>
+<span class="c1"># Con condición y transformación</span>
+<span class="n">nombres</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span><span class="p">[</span><span class="s2">&quot;nombre&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">estudiantes</span> <span class="k">if</span> <span class="n">e</span><span class="p">[</span><span class="s2">&quot;nota&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">7</span><span class="p">]</span>
+<span class="c1"># Diccionario invertido</span>
+<span class="n">invertido</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>          <span class="c1"># {1: &#39;a&#39;, 2: &#39;b&#39;}</span>
+<span class="c1"># Generador: no crea la lista en memoria (paréntesis)</span>
+<span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1_000_000</span><span class="p">))</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">leer_grande</span><span class="p">(</span><span class="n">ruta</span><span class="p">):</span>          <span class="c1"># función generadora: yield</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">ruta</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">linea</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">linea</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</code></pre></div>
+
+<h2 id="15-modulos-utiles-de-la-biblioteca-estandar-sin-instalar">15. Módulos útiles de la biblioteca estándar (sin instalar)</h2>
+<table>
+<thead>
+<tr>
+<th>Módulo</th>
+<th>Para qué</th>
+<th>Ejemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>os</code>, <code>pathlib</code></td>
+<td>Archivos y rutas</td>
+<td><code>Path("datos").mkdir(exist_ok=True)</code></td>
+</tr>
+<tr>
+<td><code>sys</code></td>
+<td>Argumentos, salir</td>
+<td><code>sys.argv</code>, <code>sys.exit(1)</code></td>
+</tr>
+<tr>
+<td><code>json</code>, <code>csv</code></td>
+<td>Formatos</td>
+<td><code>json.dumps(obj, ensure_ascii=False)</code></td>
+</tr>
+<tr>
+<td><code>sqlite3</code></td>
+<td>Base de datos</td>
+<td>ver sección 8</td>
+</tr>
+<tr>
+<td><code>datetime</code></td>
+<td>Fechas</td>
+<td><code>datetime.now().strftime("%d/%m/%Y")</code></td>
+</tr>
+<tr>
+<td><code>re</code></td>
+<td>Expresiones regulares</td>
+<td><code>re.fullmatch(r"\d{10}", cedula)</code></td>
+</tr>
+<tr>
+<td><code>collections</code></td>
+<td>Counter, defaultdict, deque</td>
+<td><code>Counter(lista).most_common(3)</code></td>
+</tr>
+<tr>
+<td><code>itertools</code></td>
+<td>Combinaciones</td>
+<td><code>combinations([1,2,3], 2)</code>, <code>groupby</code>, <code>chain</code></td>
+</tr>
+<tr>
+<td><code>functools</code></td>
+<td>lru_cache, reduce, partial</td>
+<td><code>@lru_cache</code></td>
+</tr>
+<tr>
+<td><code>math</code>, <code>random</code>, <code>statistics</code></td>
+<td>Números</td>
+<td><code>statistics.mean(notas)</code>, <code>median</code>, <code>stdev</code></td>
+</tr>
+<tr>
+<td><code>decimal</code></td>
+<td>Dinero exacto</td>
+<td><code>Decimal("0.1") + Decimal("0.2")</code></td>
+</tr>
+<tr>
+<td><code>unittest</code></td>
+<td>Pruebas</td>
+<td>ver sección 10</td>
+</tr>
+<tr>
+<td><code>http.server</code></td>
+<td>Servidor web</td>
+<td><code>python -m http.server 8000</code></td>
+</tr>
+<tr>
+<td><code>urllib.request</code></td>
+<td>Peticiones HTTP sin requests</td>
+<td><code>urlopen(url).read()</code></td>
+</tr>
+<tr>
+<td><code>hashlib</code>, <code>secrets</code></td>
+<td>Hash y tokens</td>
+<td><code>hashlib.sha256(b"x").hexdigest()</code>, <code>secrets.token_hex(16)</code></td>
+</tr>
+<tr>
+<td><code>logging</code></td>
+<td>Logs</td>
+<td><code>logging.basicConfig(level=logging.INFO)</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="16-consumir-apis-con-requests">16. Consumir APIs con requests</h2>
+<div class="codehilite"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>requests
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;https://jsonplaceholder.typicode.com/users&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;_limit&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">},</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>                    <span class="c1"># lanza error si 4xx/5xx</span>
+<span class="n">usuarios</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">([</span><span class="n">u</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">usuarios</span><span class="p">])</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;http://localhost:5000/api/estudiantes&quot;</span><span class="p">,</span>
+                  <span class="n">json</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;nombre&quot;</span><span class="p">:</span> <span class="s2">&quot;Ana&quot;</span><span class="p">,</span> <span class="s2">&quot;cedula&quot;</span><span class="p">:</span> <span class="s2">&quot;1710034065&quot;</span><span class="p">},</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+
+<span class="n">requests</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="p">{</span><span class="o">...</span><span class="p">});</span> <span class="n">requests</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="s2">&quot;Bearer TOKEN&quot;</span><span class="p">})</span>
+</code></pre></div>
+
+<h2 id="17-flask-ampliado">17. Flask ampliado</h2>
+<h3 id="blueprints-organizar-rutas-en-varios-archivos">Blueprints (organizar rutas en varios archivos)</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># rutas/productos.py</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flask</span><span class="w"> </span><span class="kn">import</span> <span class="n">Blueprint</span><span class="p">,</span> <span class="n">jsonify</span>
+<span class="n">bp</span> <span class="o">=</span> <span class="n">Blueprint</span><span class="p">(</span><span class="s2">&quot;productos&quot;</span><span class="p">,</span> <span class="vm">__name__</span><span class="p">,</span> <span class="n">url_prefix</span><span class="o">=</span><span class="s2">&quot;/productos&quot;</span><span class="p">)</span>
+
+<span class="nd">@bp</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">listar</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">([])</span>
+
+<span class="c1"># app.py</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rutas.productos</span><span class="w"> </span><span class="kn">import</span> <span class="n">bp</span> <span class="k">as</span> <span class="n">productos_bp</span>
+<span class="n">app</span><span class="o">.</span><span class="n">register_blueprint</span><span class="p">(</span><span class="n">productos_bp</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="login-con-sesion-y-contrasena-con-hash">Login con sesión y contraseña con hash</h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">wraps</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flask</span><span class="w"> </span><span class="kn">import</span> <span class="n">session</span><span class="p">,</span> <span class="n">redirect</span><span class="p">,</span> <span class="n">url_for</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">flash</span><span class="p">,</span> <span class="n">render_template</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">werkzeug.security</span><span class="w"> </span><span class="kn">import</span> <span class="n">generate_password_hash</span><span class="p">,</span> <span class="n">check_password_hash</span>   <span class="c1"># viene con Flask</span>
+
+<span class="c1"># Al registrar:  hash = generate_password_hash(&quot;Clave123&quot;)  → guardar en la BD</span>
+<span class="c1"># Al ingresar:</span>
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/login&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="s2">&quot;POST&quot;</span><span class="p">])</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">login</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;POST&quot;</span><span class="p">:</span>
+        <span class="n">usuario</span> <span class="o">=</span> <span class="n">get_db</span><span class="p">()</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM usuarios WHERE email = ?&quot;</span><span class="p">,</span>
+                                   <span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">[</span><span class="s2">&quot;email&quot;</span><span class="p">],))</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">usuario</span> <span class="ow">and</span> <span class="n">check_password_hash</span><span class="p">(</span><span class="n">usuario</span><span class="p">[</span><span class="s2">&quot;clave_hash&quot;</span><span class="p">],</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">[</span><span class="s2">&quot;clave&quot;</span><span class="p">]):</span>
+            <span class="n">session</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+            <span class="n">session</span><span class="p">[</span><span class="s2">&quot;usuario_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">usuario</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
+            <span class="n">session</span><span class="p">[</span><span class="s2">&quot;nombre&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">usuario</span><span class="p">[</span><span class="s2">&quot;nombre&quot;</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s2">&quot;inicio&quot;</span><span class="p">))</span>
+        <span class="n">flash</span><span class="p">(</span><span class="s2">&quot;Credenciales incorrectas&quot;</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s2">&quot;login.html&quot;</span><span class="p">)</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/logout&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">logout</span><span class="p">():</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s2">&quot;login&quot;</span><span class="p">))</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">login_requerido</span><span class="p">(</span><span class="n">vista</span><span class="p">):</span>
+    <span class="nd">@wraps</span><span class="p">(</span><span class="n">vista</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">envoltura</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s2">&quot;usuario_id&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">session</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s2">&quot;login&quot;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">vista</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">envoltura</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/panel&quot;</span><span class="p">)</span>
+<span class="nd">@login_requerido</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">panel</span><span class="p">():</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Hola </span><span class="si">{</span><span class="n">session</span><span class="p">[</span><span class="s1">&#39;nombre&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+</code></pre></div>
+
+<p>En plantillas: <code>{% if session.usuario_id %} Hola {{ session.nombre }} {% endif %}</code>.</p>
+<h3 id="paginacion">Paginación</h3>
+<div class="codehilite"><pre><span></span><code><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/productos&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">productos</span><span class="p">():</span>
+    <span class="n">pagina</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;pagina&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">por_pagina</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="n">get_db</span><span class="p">()</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT COUNT(*) FROM productos&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">filas</span> <span class="o">=</span> <span class="n">get_db</span><span class="p">()</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM productos ORDER BY id LIMIT ? OFFSET ?&quot;</span><span class="p">,</span>
+                             <span class="p">(</span><span class="n">por_pagina</span><span class="p">,</span> <span class="p">(</span><span class="n">pagina</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">por_pagina</span><span class="p">))</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+    <span class="n">paginas</span> <span class="o">=</span> <span class="p">(</span><span class="n">total</span> <span class="o">+</span> <span class="n">por_pagina</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="n">por_pagina</span>        <span class="c1"># división hacia arriba</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s2">&quot;productos.html&quot;</span><span class="p">,</span> <span class="n">filas</span><span class="o">=</span><span class="n">filas</span><span class="p">,</span> <span class="n">pagina</span><span class="o">=</span><span class="n">pagina</span><span class="p">,</span> <span class="n">paginas</span><span class="o">=</span><span class="n">paginas</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>{% if pagina &gt; 1 %}<span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;?pagina={{ pagina - 1 }}&quot;</span><span class="p">&gt;</span>Anterior<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>{% endif %}
+Página {{ pagina }} de {{ paginas }}
+{% if pagina <span class="p">&lt;</span> <span class="nt">paginas</span> <span class="err">%}&lt;</span><span class="na">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;?pagina={{ pagina + 1 }}&quot;</span><span class="p">&gt;</span>Siguiente<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>{% endif %}
+</code></pre></div>
+
+<h3 id="exportar-csv-descargar">Exportar CSV / descargar</h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">csv</span><span class="o">,</span><span class="w"> </span><span class="nn">io</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flask</span><span class="w"> </span><span class="kn">import</span> <span class="n">Response</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/exportar&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">exportar</span><span class="p">():</span>
+    <span class="n">salida</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">()</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">salida</span><span class="p">)</span>
+    <span class="n">w</span><span class="o">.</span><span class="n">writerow</span><span class="p">([</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;nombre&quot;</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">get_db</span><span class="p">()</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT id, nombre FROM productos&quot;</span><span class="p">):</span>
+        <span class="n">w</span><span class="o">.</span><span class="n">writerow</span><span class="p">([</span><span class="n">f</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">f</span><span class="p">[</span><span class="s2">&quot;nombre&quot;</span><span class="p">]])</span>
+    <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="s2">&quot;﻿&quot;</span> <span class="o">+</span> <span class="n">salida</span><span class="o">.</span><span class="n">getvalue</span><span class="p">(),</span> <span class="n">mimetype</span><span class="o">=</span><span class="s2">&quot;text/csv&quot;</span><span class="p">,</span>
+                    <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Content-Disposition&quot;</span><span class="p">:</span> <span class="s2">&quot;attachment; filename=productos.csv&quot;</span><span class="p">})</span>
+</code></pre></div>
+
+<h3 id="subir-archivos">Subir archivos</h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">werkzeug.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">secure_filename</span>
+<span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/subir&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">subir</span><span class="p">():</span>
+    <span class="n">archivo</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">files</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;foto&quot;</span><span class="p">)</span>          <span class="c1"># &lt;form enctype=&quot;multipart/form-data&quot;&gt;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">archivo</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">archivo</span><span class="o">.</span><span class="n">filename</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">((</span><span class="s2">&quot;.png&quot;</span><span class="p">,</span> <span class="s2">&quot;.jpg&quot;</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="s2">&quot;Archivo inválido&quot;</span><span class="p">,</span> <span class="mi">400</span>
+    <span class="n">archivo</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;static/uploads&quot;</span><span class="p">,</span> <span class="n">secure_filename</span><span class="p">(</span><span class="n">archivo</span><span class="o">.</span><span class="n">filename</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="s2">&quot;OK&quot;</span>
+</code></pre></div>
+
+<h3 id="manejo-de-errores-y-cors">Manejo de errores y CORS</h3>
+<div class="codehilite"><pre><span></span><code><span class="nd">@app</span><span class="o">.</span><span class="n">errorhandler</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">no_encontrado</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s2">&quot;404.html&quot;</span><span class="p">),</span> <span class="mi">404</span>
+
+<span class="c1"># CORS (si un frontend React en otro puerto consume tu API)</span>
+<span class="c1"># pip install flask-cors</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flask_cors</span><span class="w"> </span><span class="kn">import</span> <span class="n">CORS</span>
+<span class="n">CORS</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="jinja2-en-10-lineas">Jinja2 en 10 líneas</h3>
+<div class="codehilite"><pre><span></span><code>{{ variable }}  {{ variable|upper }}  {{ lista|length }}  {{ precio|round(2) }}  {{ texto|default(&quot;—&quot;) }}
+{{ &quot;%.2f&quot;|format(precio) }}   {{ fecha.strftime(&quot;%d/%m/%Y&quot;) }}
+{% if cond %}...{% elif otra %}...{% else %}...{% endif %}
+{% for x in lista %} {{ loop.index }} {{ x }} {% else %} vacío {% endfor %}
+{% extends &quot;base.html&quot; %}  {% block contenido %}{% endblock %}  {% include &quot;parcial.html&quot; %}
+{% set total = items|sum(attribute=&quot;precio&quot;) %}
+{{ url_for(&#39;editar&#39;, id=5) }}   {{ url_for(&#39;static&#39;, filename=&#39;css/app.css&#39;) }}
+{# comentario #}
+</code></pre></div>
+
+<p>Jinja <strong>escapa HTML automáticamente</strong> (protege de XSS). <code>{{ html|safe }}</code> desactiva el escape; úsalo solo con contenido tuyo.</p>
+<h2 id="18-sqlalchemy-flask-sqlalchemy-orm-por-si-lo-piden">18. SQLAlchemy / Flask-SQLAlchemy (ORM), por si lo piden</h2>
+<div class="codehilite"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>flask-sqlalchemy
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">flask_sqlalchemy</span><span class="w"> </span><span class="kn">import</span> <span class="n">SQLAlchemy</span>
+<span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;SQLALCHEMY_DATABASE_URI&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;sqlite:///tienda.db&quot;</span>   <span class="c1"># MySQL: &quot;mysql+pymysql://root:@localhost/tienda&quot;</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">SQLAlchemy</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Categoria</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">nombre</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="mi">60</span><span class="p">),</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">productos</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">relationship</span><span class="p">(</span><span class="s2">&quot;Producto&quot;</span><span class="p">,</span> <span class="n">backref</span><span class="o">=</span><span class="s2">&quot;categoria&quot;</span><span class="p">)</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Producto</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">nombre</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">precio</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Float</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">categoria_id</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">db</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s2">&quot;categoria.id&quot;</span><span class="p">))</span>
+
+<span class="k">with</span> <span class="n">app</span><span class="o">.</span><span class="n">app_context</span><span class="p">():</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">create_all</span><span class="p">()</span>
+
+<span class="c1"># CRUD</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">Producto</span><span class="p">(</span><span class="n">nombre</span><span class="o">=</span><span class="s2">&quot;Mouse&quot;</span><span class="p">,</span> <span class="n">precio</span><span class="o">=</span><span class="mi">10</span><span class="p">);</span> <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">p</span><span class="p">);</span> <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+<span class="n">Producto</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">all</span><span class="p">();</span> <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">Producto</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span> <span class="n">Producto</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">nombre</span><span class="o">=</span><span class="s2">&quot;Mouse&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+<span class="n">Producto</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Producto</span><span class="o">.</span><span class="n">precio</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="n">Producto</span><span class="o">.</span><span class="n">nombre</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="n">p</span><span class="o">.</span><span class="n">precio</span> <span class="o">=</span> <span class="mi">12</span><span class="p">;</span> <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+<span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">p</span><span class="p">);</span> <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</code></pre></div>
+
+<p><strong>ORM vs SQL directo:</strong> el ORM mapea tablas a clases, evita escribir SQL y es portable entre bases. El SQL directo da más control y es más transparente. En una prueba de 3 horas, <code>sqlite3</code> directo es lo más rápido de montar.</p>
+<h2 id="19-django-en-1-minuto-por-si-preguntan-la-diferencia">19. Django en 1 minuto (por si preguntan la diferencia)</h2>
+<div class="codehilite"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>django
+django-admin<span class="w"> </span>startproject<span class="w"> </span>sitio<span class="w"> </span>.
+python<span class="w"> </span>manage.py<span class="w"> </span>startapp<span class="w"> </span>inventario
+python<span class="w"> </span>manage.py<span class="w"> </span>makemigrations<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>python<span class="w"> </span>manage.py<span class="w"> </span>migrate
+python<span class="w"> </span>manage.py<span class="w"> </span>createsuperuser
+python<span class="w"> </span>manage.py<span class="w"> </span>runserver<span class="w">                 </span><span class="c1"># http://127.0.0.1:8000/admin</span>
+</code></pre></div>
+
+<p>Django trae ORM, panel de administración, autenticación y formularios incluidos ("baterías incluidas"). Flask es minimalista: tú eliges cada pieza. Patrón de Django: <strong>MVT</strong> (Model–View–Template).</p>
+<h2 id="20-pruebas-ampliadas">20. Pruebas ampliadas</h2>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">unittest</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">unittest.mock</span><span class="w"> </span><span class="kn">import</span> <span class="n">patch</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">TestCalculos</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setUpClass</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>        <span class="c1"># una vez para toda la clase</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">datos</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>            <span class="c1"># antes de CADA prueba</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lista</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_iguales</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datos</span><span class="p">),</span> <span class="mi">6</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="mf">0.1</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">)</span>       <span class="c1"># floats</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datos</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="nb">all</span><span class="p">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">datos</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNone</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_excepcion</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ZeroDivisionError</span><span class="p">):</span>
+            <span class="mi">1</span> <span class="o">/</span> <span class="mi">0</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_con_subcasos</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">entrada</span><span class="p">,</span> <span class="n">esperado</span> <span class="ow">in</span> <span class="p">[(</span><span class="mi">2</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="kc">False</span><span class="p">)]:</span>
+            <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">subTest</span><span class="p">(</span><span class="n">entrada</span><span class="o">=</span><span class="n">entrada</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">entrada</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">esperado</span><span class="p">)</span>
+
+    <span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;random.randint&quot;</span><span class="p">,</span> <span class="n">return_value</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>          <span class="c1"># simular (mock) una dependencia</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_mock</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="mi">4</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Comandos: <code>python -m unittest -v</code>, <code>python -m unittest discover tests</code>, <code>python -m unittest test_modulo.TestClase.test_metodo</code>.</p>
+<h2 id="21-errores-frecuentes-en-python-y-como-leerlos">21. Errores frecuentes en Python y cómo leerlos</h2>
+<div class="codehilite"><pre><span></span><code>Traceback (most recent call last):
+  File &quot;app.py&quot;, line 12, in &lt;module&gt;      ← archivo y línea donde ocurrió
+    print(usuario[&quot;email&quot;])
+KeyError: &#39;email&#39;                          ← TIPO de error: mensaje   ← ¡lee esto primero!
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th>Error</th>
+<th>Causa típica</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>IndentationError: expected an indented block</code></td>
+<td>Falta sangría después de <code>:</code></td>
+</tr>
+<tr>
+<td><code>SyntaxError: invalid syntax</code></td>
+<td>Falta <code>:</code> en if/def/for, paréntesis sin cerrar, <code>=</code> en vez de <code>==</code></td>
+</tr>
+<tr>
+<td><code>TypeError: can only concatenate str (not "int") to str</code></td>
+<td><code>"Edad: " + 5</code> → usa f-string</td>
+</tr>
+<tr>
+<td><code>TypeError: 'NoneType' object is not subscriptable</code></td>
+<td><code>fetchone()</code> devolvió None (no existe el registro)</td>
+</tr>
+<tr>
+<td><code>UnboundLocalError</code></td>
+<td>Asignas una variable global dentro de una función sin <code>global</code></td>
+</tr>
+<tr>
+<td><code>RecursionError</code></td>
+<td>Recursión sin caso base</td>
+</tr>
+<tr>
+<td><code>sqlite3.ProgrammingError: Incorrect number of bindings</code></td>
+<td>Cantidad de <code>?</code> distinta a la de valores. Ojo: <code>(x)</code> no es tupla, usa <code>(x,)</code></td>
+</tr>
+<tr>
+<td><code>jinja2.exceptions.UndefinedError</code></td>
+<td>Variable no pasada a <code>render_template</code></td>
+</tr>
+</tbody>
+</table></main></div>
+<script>
+document.querySelectorAll('.codehilite').forEach(b => {
+  const btn = document.createElement('button'); btn.className = 'copiar'; btn.textContent = 'Copiar';
+  btn.onclick = () => { const t = b.querySelector('pre').innerText;
+    navigator.clipboard.writeText(t).then(() => { btn.textContent = '¡Copiado!'; setTimeout(() => btn.textContent = 'Copiar', 1500); }); };
+  b.prepend(btn);
+});
+</script></body></html>

@@ -1,0 +1,693 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Cheatsheet: Dart/Flutter, WordPress a fondo, Azure y Vercel paso a paso</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,Segoe UI,sans-serif;line-height:1.6;color:#1f2937;background:#f8fafc}
+.layout{display:grid;grid-template-columns:270px 1fr;max-width:1400px;margin:auto}
+nav{position:sticky;top:0;height:100vh;overflow:auto;padding:18px;border-right:1px solid #e5e7eb;background:#fff;font-size:13.5px}
+nav ul{list-style:none;padding-left:10px;margin:3px 0} nav>div>ul{padding-left:0} nav a{color:#334155;text-decoration:none} nav a:hover{color:#0a5bd6}
+.volver{display:inline-block;margin-bottom:10px;font-weight:600;color:#0a5bd6!important}
+main{padding:24px 40px;min-width:0} h1{color:#0a5bd6} h2{border-top:2px solid #e5e7eb;padding-top:22px;margin-top:36px}
+table{border-collapse:collapse;width:100%;margin:12px 0;font-size:14px;display:block;overflow-x:auto}
+th,td{border:1px solid #e5e7eb;padding:6px 10px;text-align:left;vertical-align:top} th{background:#f1f5f9}
+code{background:#eef2f7;padding:1px 5px;border-radius:4px;font-size:.9em}
+.codehilite{border-radius:8px;margin:12px 0;overflow:auto;position:relative} .codehilite pre{padding:14px;margin:0;font-size:13px;line-height:1.5}
+.codehilite code{background:none;padding:0;color:inherit}
+blockquote{margin:12px 0;padding:8px 16px;background:#fff7ed;border-left:4px solid #f59e0b;border-radius:4px}
+.copiar{position:absolute;right:6px;top:6px;padding:3px 10px;font-size:12px;border:0;border-radius:4px;cursor:pointer;background:#334155;color:#fff}
+@media (max-width:900px){.layout{grid-template-columns:1fr} nav{position:static;height:auto;border-right:0} main{padding:16px}}
+pre { line-height: 125%; }
+td.linenos .normal { color: #6e7681; background-color: #0d1117; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #6e7681; background-color: #0d1117; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #e6edf3; background-color: #6e7681; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #e6edf3; background-color: #6e7681; padding-left: 5px; padding-right: 5px; }
+.codehilite .hll { background-color: #6e7681 }
+.codehilite { background: #0d1117; color: #E6EDF3 }
+.codehilite .c { color: #8B949E; font-style: italic } /* Comment */
+.codehilite .err { color: #F85149 } /* Error */
+.codehilite .esc { color: #E6EDF3 } /* Escape */
+.codehilite .g { color: #E6EDF3 } /* Generic */
+.codehilite .k { color: #FF7B72 } /* Keyword */
+.codehilite .l { color: #A5D6FF } /* Literal */
+.codehilite .n { color: #E6EDF3 } /* Name */
+.codehilite .o { color: #FF7B72; font-weight: bold } /* Operator */
+.codehilite .x { color: #E6EDF3 } /* Other */
+.codehilite .p { color: #E6EDF3 } /* Punctuation */
+.codehilite .ch { color: #8B949E; font-style: italic } /* Comment.Hashbang */
+.codehilite .cm { color: #8B949E; font-style: italic } /* Comment.Multiline */
+.codehilite .cp { color: #8B949E; font-weight: bold; font-style: italic } /* Comment.Preproc */
+.codehilite .cpf { color: #8B949E; font-style: italic } /* Comment.PreprocFile */
+.codehilite .c1 { color: #8B949E; font-style: italic } /* Comment.Single */
+.codehilite .cs { color: #8B949E; font-weight: bold; font-style: italic } /* Comment.Special */
+.codehilite .gd { color: #FFA198; background-color: #490202 } /* Generic.Deleted */
+.codehilite .ge { color: #E6EDF3; font-style: italic } /* Generic.Emph */
+.codehilite .ges { color: #E6EDF3; font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.codehilite .gr { color: #FFA198 } /* Generic.Error */
+.codehilite .gh { color: #79C0FF; font-weight: bold } /* Generic.Heading */
+.codehilite .gi { color: #56D364; background-color: #0F5323 } /* Generic.Inserted */
+.codehilite .go { color: #8B949E } /* Generic.Output */
+.codehilite .gp { color: #8B949E } /* Generic.Prompt */
+.codehilite .gs { color: #E6EDF3; font-weight: bold } /* Generic.Strong */
+.codehilite .gu { color: #79C0FF } /* Generic.Subheading */
+.codehilite .gt { color: #FF7B72 } /* Generic.Traceback */
+.codehilite .g-Underline { color: #E6EDF3; text-decoration: underline } /* Generic.Underline */
+.codehilite .kc { color: #79C0FF } /* Keyword.Constant */
+.codehilite .kd { color: #FF7B72 } /* Keyword.Declaration */
+.codehilite .kn { color: #FF7B72 } /* Keyword.Namespace */
+.codehilite .kp { color: #79C0FF } /* Keyword.Pseudo */
+.codehilite .kr { color: #FF7B72 } /* Keyword.Reserved */
+.codehilite .kt { color: #FF7B72 } /* Keyword.Type */
+.codehilite .ld { color: #79C0FF } /* Literal.Date */
+.codehilite .m { color: #A5D6FF } /* Literal.Number */
+.codehilite .s { color: #A5D6FF } /* Literal.String */
+.codehilite .na { color: #E6EDF3 } /* Name.Attribute */
+.codehilite .nb { color: #E6EDF3 } /* Name.Builtin */
+.codehilite .nc { color: #F0883E; font-weight: bold } /* Name.Class */
+.codehilite .no { color: #79C0FF; font-weight: bold } /* Name.Constant */
+.codehilite .nd { color: #D2A8FF; font-weight: bold } /* Name.Decorator */
+.codehilite .ni { color: #FFA657 } /* Name.Entity */
+.codehilite .ne { color: #F0883E; font-weight: bold } /* Name.Exception */
+.codehilite .nf { color: #D2A8FF; font-weight: bold } /* Name.Function */
+.codehilite .nl { color: #79C0FF; font-weight: bold } /* Name.Label */
+.codehilite .nn { color: #FF7B72 } /* Name.Namespace */
+.codehilite .nx { color: #E6EDF3 } /* Name.Other */
+.codehilite .py { color: #79C0FF } /* Name.Property */
+.codehilite .nt { color: #7EE787 } /* Name.Tag */
+.codehilite .nv { color: #79C0FF } /* Name.Variable */
+.codehilite .ow { color: #FF7B72; font-weight: bold } /* Operator.Word */
+.codehilite .pm { color: #E6EDF3 } /* Punctuation.Marker */
+.codehilite .w { color: #6E7681 } /* Text.Whitespace */
+.codehilite .mb { color: #A5D6FF } /* Literal.Number.Bin */
+.codehilite .mf { color: #A5D6FF } /* Literal.Number.Float */
+.codehilite .mh { color: #A5D6FF } /* Literal.Number.Hex */
+.codehilite .mi { color: #A5D6FF } /* Literal.Number.Integer */
+.codehilite .mo { color: #A5D6FF } /* Literal.Number.Oct */
+.codehilite .sa { color: #79C0FF } /* Literal.String.Affix */
+.codehilite .sb { color: #A5D6FF } /* Literal.String.Backtick */
+.codehilite .sc { color: #A5D6FF } /* Literal.String.Char */
+.codehilite .dl { color: #79C0FF } /* Literal.String.Delimiter */
+.codehilite .sd { color: #A5D6FF } /* Literal.String.Doc */
+.codehilite .s2 { color: #A5D6FF } /* Literal.String.Double */
+.codehilite .se { color: #79C0FF } /* Literal.String.Escape */
+.codehilite .sh { color: #79C0FF } /* Literal.String.Heredoc */
+.codehilite .si { color: #A5D6FF } /* Literal.String.Interpol */
+.codehilite .sx { color: #A5D6FF } /* Literal.String.Other */
+.codehilite .sr { color: #79C0FF } /* Literal.String.Regex */
+.codehilite .s1 { color: #A5D6FF } /* Literal.String.Single */
+.codehilite .ss { color: #A5D6FF } /* Literal.String.Symbol */
+.codehilite .bp { color: #E6EDF3 } /* Name.Builtin.Pseudo */
+.codehilite .fm { color: #D2A8FF; font-weight: bold } /* Name.Function.Magic */
+.codehilite .vc { color: #79C0FF } /* Name.Variable.Class */
+.codehilite .vg { color: #79C0FF } /* Name.Variable.Global */
+.codehilite .vi { color: #79C0FF } /* Name.Variable.Instance */
+.codehilite .vm { color: #79C0FF } /* Name.Variable.Magic */
+.codehilite .il { color: #A5D6FF } /* Literal.Number.Integer.Long */
+</style></head><body><div class="layout">
+<nav><a class="volver" href="../LEEME-PRIMERO.html">← Índice del kit</a><br><strong>En esta página</strong><div class="toc">
+<ul>
+<li><a href="#parte-a-dart-y-flutter-en-lo-basico">PARTE A — Dart (y Flutter en lo básico)</a><ul>
+<li><a href="#ejecutar">Ejecutar</a></li>
+<li><a href="#sintaxis">Sintaxis</a></li>
+<li><a href="#async-en-dart">Async en Dart</a></li>
+<li><a href="#flutter-minimo-contador-lista">Flutter mínimo (contador + lista)</a></li>
+</ul>
+</li>
+<li><a href="#parte-b-wordpress-a-fondo">PARTE B — WordPress a fondo</a><ul>
+<li><a href="#instalacion-local-con-xampp-paso-a-paso">Instalación local con XAMPP (paso a paso)</a></li>
+<li><a href="#tareas-tipicas-en-una-prueba">Tareas típicas en una prueba</a></li>
+<li><a href="#estructura-de-archivos">Estructura de archivos</a></li>
+<li><a href="#tema-hijo-child-theme">Tema hijo (child theme)</a></li>
+<li><a href="#hooks-actions-y-filters">Hooks: actions y filters</a></li>
+<li><a href="#shortcode-custom-post-type-y-consulta">Shortcode, Custom Post Type y consulta</a></li>
+<li><a href="#plugin-minimo-propio">Plugin mínimo propio</a></li>
+<li><a href="#the-loop-plantillas-de-tema">The Loop (plantillas de tema)</a></li>
+<li><a href="#mantenimiento-y-seguridad-preguntas-tipicas">Mantenimiento y seguridad (preguntas típicas)</a></li>
+</ul>
+</li>
+<li><a href="#parte-c-vercel-paso-a-paso">PARTE C — Vercel paso a paso</a></li>
+<li><a href="#parte-d-azure-paso-a-paso">PARTE D — Azure paso a paso</a><ul>
+<li><a href="#conceptos">Conceptos</a></li>
+<li><a href="#servicios-mas-comunes">Servicios más comunes</a></li>
+<li><a href="#desplegar-una-app-nodepython-en-app-service-portal">Desplegar una app Node/Python en App Service (portal)</a></li>
+<li><a href="#azure-cli-alternativa">Azure CLI (alternativa)</a></li>
+<li><a href="#azure-sql">Azure SQL</a></li>
+</ul>
+</li>
+<li><a href="#parte-e-testing-qa-ampliado">PARTE E — Testing / QA ampliado</a><ul>
+<li><a href="#piramide-de-pruebas">Pirámide de pruebas</a></li>
+<li><a href="#tecnicas-de-diseno-de-casos-de-prueba">Técnicas de diseño de casos de prueba</a></li>
+<li><a href="#plantilla-de-caso-de-prueba">Plantilla de caso de prueba</a></li>
+<li><a href="#reporte-de-bug-defecto">Reporte de bug (defecto)</a></li>
+<li><a href="#e2e-con-playwright-ejemplo">E2E con Playwright (ejemplo)</a></li>
+<li><a href="#otros-terminos-de-qa">Otros términos de QA</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav>
+<main><h1 id="cheatsheet-dartflutter-wordpress-a-fondo-azure-y-vercel-paso-a-paso">Cheatsheet: Dart/Flutter, WordPress a fondo, Azure y Vercel paso a paso</h1>
+<hr />
+<h2 id="parte-a-dart-y-flutter-en-lo-basico">PARTE A — Dart (y Flutter en lo básico)</h2>
+<h3 id="ejecutar">Ejecutar</h3>
+<ul>
+<li>Instalar el Flutter SDK (incluye Dart) desde https://docs.flutter.dev/get-started/install, o solo Dart SDK.</li>
+<li>Sin instalar nada: <strong>https://dartpad.dev</strong> (online).</li>
+</ul>
+<div class="codehilite"><pre><span></span><code>dart<span class="w"> </span>--version
+dart<span class="w"> </span>run<span class="w"> </span>archivo.dart<span class="w">            </span><span class="c1"># ejecutar un script</span>
+dart<span class="w"> </span>create<span class="w"> </span>-t<span class="w"> </span>console<span class="w"> </span>mi_app<span class="w">    </span><span class="c1"># proyecto de consola</span>
+flutter<span class="w"> </span>create<span class="w"> </span>mi_app<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>mi_app<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>flutter<span class="w"> </span>run<span class="w">    </span><span class="c1"># app móvil/web/escritorio</span>
+flutter<span class="w"> </span>doctor<span class="w">                   </span><span class="c1"># diagnóstico del entorno</span>
+</code></pre></div>
+
+<h3 id="sintaxis">Sintaxis</h3>
+<div class="codehilite"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="n">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Variables</span>
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="n">nombre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Ana&#39;</span><span class="p">;</span><span class="w">            </span><span class="c1">// inferido</span>
+<span class="w">  </span><span class="kt">String</span><span class="w"> </span><span class="n">ciudad</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Ambato&#39;</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">edad</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">25</span><span class="p">;</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">nota</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8.5</span><span class="p">;</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">activo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">creado</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DateTime</span><span class="p">.</span><span class="n">now</span><span class="p">();</span><span class="w"> </span><span class="c1">// se asigna una vez (en ejecución)</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="n">iva</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.15</span><span class="p">;</span><span class="w">              </span><span class="c1">// constante en compilación</span>
+<span class="w">  </span><span class="kt">String</span><span class="o">?</span><span class="w"> </span><span class="n">email</span><span class="p">;</span><span class="w">                 </span><span class="c1">// null safety: ? = puede ser null</span>
+<span class="w">  </span><span class="n">print</span><span class="p">(</span><span class="s1">&#39;Hola </span><span class="si">$</span><span class="n">nombre</span><span class="s1">, </span><span class="si">${</span><span class="n">edad</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="si">}</span><span class="s1"> años. Email: </span><span class="si">${</span><span class="n">email</span><span class="w"> </span><span class="o">??</span><span class="w"> </span><span class="s2">&quot;sin email&quot;</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Listas, mapas y sets</span>
+<span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">nums</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">];</span>
+<span class="w">  </span><span class="n">nums</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="m">10</span><span class="p">);</span>
+<span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">pares</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nums</span><span class="p">.</span><span class="n">where</span><span class="p">((</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">n</span><span class="p">.</span><span class="n">isEven</span><span class="p">).</span><span class="n">toList</span><span class="p">();</span>
+<span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">dobles</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nums</span><span class="p">.</span><span class="n">map</span><span class="p">((</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">2</span><span class="p">).</span><span class="n">toList</span><span class="p">();</span>
+<span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nums</span><span class="p">.</span><span class="n">reduce</span><span class="p">((</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">);</span>
+<span class="w">  </span><span class="n">nums</span><span class="p">.</span><span class="n">sort</span><span class="p">((</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="n">compareTo</span><span class="p">(</span><span class="n">a</span><span class="p">));</span>
+<span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">persona</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s1">&#39;nombre&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Ana&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;edad&#39;</span><span class="o">:</span><span class="w"> </span><span class="m">25</span><span class="p">};</span><span class="w">   </span><span class="c1">// Map&lt;String, Object&gt;</span>
+<span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">unicos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">};</span><span class="w">                     </span><span class="c1">// Set</span>
+<span class="w">  </span><span class="n">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">$</span><span class="n">pares</span><span class="s1"> </span><span class="si">$</span><span class="n">dobles</span><span class="s1"> </span><span class="si">$</span><span class="n">total</span><span class="s1"> </span><span class="si">$</span><span class="n">nums</span><span class="s1"> </span><span class="si">${</span><span class="n">persona</span><span class="p">[</span><span class="s1">&#39;nombre&#39;</span><span class="p">]</span><span class="si">}</span><span class="s1"> </span><span class="si">$</span><span class="n">unicos</span><span class="s1">&#39;</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Control de flujo</span>
+<span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">estado</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nota</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="m">7</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s1">&#39;Aprobado&#39;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Reprobado&#39;</span><span class="p">;</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">final</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">nums</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">5</span><span class="p">)</span><span class="w"> </span><span class="k">break</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">edad</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">case</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">18</span><span class="o">:</span><span class="w"> </span><span class="n">print</span><span class="p">(</span><span class="s1">&#39;Menor&#39;</span><span class="p">);</span><span class="w"> </span><span class="k">default</span><span class="o">:</span><span class="w"> </span><span class="n">print</span><span class="p">(</span><span class="s1">&#39;Mayor&#39;</span><span class="p">);</span><span class="w"> </span><span class="p">}</span><span class="w">   </span><span class="c1">// Dart 3</span>
+
+<span class="w">  </span><span class="c1">// Funciones</span>
+<span class="w">  </span><span class="n">print</span><span class="p">(</span><span class="n">sumar</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">));</span>
+<span class="w">  </span><span class="n">print</span><span class="p">(</span><span class="n">saludar</span><span class="p">(</span><span class="s1">&#39;Luis&#39;</span><span class="p">,</span><span class="w"> </span><span class="nl">saludo:</span><span class="w"> </span><span class="s1">&#39;Buenas&#39;</span><span class="p">));</span>
+<span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">doble</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">2</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">// POO</span>
+<span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Docente</span><span class="p">(</span><span class="s1">&#39;María&#39;</span><span class="p">,</span><span class="w"> </span><span class="m">1100</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;POO&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;BD&#39;</span><span class="p">]);</span>
+<span class="w">  </span><span class="n">print</span><span class="p">(</span><span class="n">d</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="n">sumar</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">;</span>
+<span class="kt">String</span><span class="w"> </span><span class="n">saludar</span><span class="p">(</span><span class="kt">String</span><span class="w"> </span><span class="n">nombre</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="kt">String</span><span class="w"> </span><span class="n">saludo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Hola&#39;</span><span class="p">})</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s1">&#39;</span><span class="si">$</span><span class="n">saludo</span><span class="s1">, </span><span class="si">$</span><span class="n">nombre</span><span class="s1">&#39;</span><span class="p">;</span><span class="w">   </span><span class="c1">// parámetro con nombre</span>
+
+<span class="kd">abstract</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Empleado</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="n">nombre</span><span class="p">;</span>
+<span class="w">  </span><span class="n">Empleado</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="n">nombre</span><span class="p">);</span><span class="w">                 </span><span class="c1">// atajo para asignar</span>
+<span class="w">  </span><span class="kt">double</span><span class="w"> </span><span class="n">calcularSueldo</span><span class="p">();</span>
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="kt">String</span><span class="w"> </span><span class="n">toString</span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s1">&#39;</span><span class="si">$</span><span class="n">nombre</span><span class="s1">: </span><span class="se">\$</span><span class="si">${</span><span class="n">calcularSueldo</span><span class="p">().</span><span class="n">toStringAsFixed</span><span class="p">(</span><span class="m">2</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">class</span><span class="w"> </span><span class="nc">Docente</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Empleado</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">base</span><span class="p">;</span>
+<span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">materias</span><span class="p">;</span>
+<span class="w">  </span><span class="n">Docente</span><span class="p">(</span><span class="k">super</span><span class="p">.</span><span class="n">nombre</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="n">base</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="n">materias</span><span class="p">);</span>
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="kt">double</span><span class="w"> </span><span class="n">calcularSueldo</span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">base</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">25</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">materias</span><span class="p">.</span><span class="n">length</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="async-en-dart">Async en Dart</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="s1">&#39;dart:convert&#39;</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="s1">&#39;package:http/http.dart&#39;</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">http</span><span class="p">;</span><span class="w">    </span><span class="c1">// dart pub add http</span>
+
+<span class="n">Future</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="kt">dynamic</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">cargarUsuarios</span><span class="p">()</span><span class="w"> </span><span class="kd">async</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">http</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="n">Uri</span><span class="p">.</span><span class="n">parse</span><span class="p">(</span><span class="s1">&#39;https://jsonplaceholder.typicode.com/users&#39;</span><span class="p">));</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">r</span><span class="p">.</span><span class="n">statusCode</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="m">200</span><span class="p">)</span><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="n">Exception</span><span class="p">(</span><span class="s1">&#39;Error </span><span class="si">${</span><span class="n">r</span><span class="p">.</span><span class="n">statusCode</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">);</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">jsonDecode</span><span class="p">(</span><span class="n">r</span><span class="p">.</span><span class="n">body</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="kt">dynamic</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="flutter-minimo-contador-lista">Flutter mínimo (contador + lista)</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="s1">&#39;package:flutter/material.dart&#39;</span><span class="p">;</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="n">main</span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">runApp</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">MaterialApp</span><span class="p">(</span><span class="nl">home:</span><span class="w"> </span><span class="n">Tareas</span><span class="p">()));</span>
+
+<span class="kd">class</span><span class="w"> </span><span class="nc">Tareas</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">StatefulWidget</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="n">Tareas</span><span class="p">({</span><span class="k">super</span><span class="p">.</span><span class="n">key</span><span class="p">});</span>
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="n">State</span><span class="o">&lt;</span><span class="n">Tareas</span><span class="o">&gt;</span><span class="w"> </span><span class="n">createState</span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">_TareasState</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kd">class</span><span class="w"> </span><span class="nc">_TareasState</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">State</span><span class="o">&lt;</span><span class="n">Tareas</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">_items</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">[];</span>
+<span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">_ctrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TextEditingController</span><span class="p">();</span>
+
+<span class="w">  </span><span class="nd">@override</span>
+<span class="w">  </span><span class="n">Widget</span><span class="w"> </span><span class="n">build</span><span class="p">(</span><span class="n">BuildContext</span><span class="w"> </span><span class="n">context</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">Scaffold</span><span class="p">(</span>
+<span class="w">      </span><span class="nl">appBar:</span><span class="w"> </span><span class="n">AppBar</span><span class="p">(</span><span class="nl">title:</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">Text</span><span class="p">(</span><span class="s1">&#39;Tareas&#39;</span><span class="p">)),</span>
+<span class="w">      </span><span class="nl">body:</span><span class="w"> </span><span class="n">Column</span><span class="p">(</span><span class="nl">children:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="n">Padding</span><span class="p">(</span>
+<span class="w">          </span><span class="nl">padding:</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">EdgeInsets</span><span class="p">.</span><span class="n">all</span><span class="p">(</span><span class="m">8</span><span class="p">),</span>
+<span class="w">          </span><span class="nl">child:</span><span class="w"> </span><span class="n">Row</span><span class="p">(</span><span class="nl">children:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="n">Expanded</span><span class="p">(</span><span class="nl">child:</span><span class="w"> </span><span class="n">TextField</span><span class="p">(</span><span class="nl">controller:</span><span class="w"> </span><span class="n">_ctrl</span><span class="p">,</span><span class="w"> </span><span class="nl">decoration:</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">InputDecoration</span><span class="p">(</span><span class="nl">labelText:</span><span class="w"> </span><span class="s1">&#39;Nueva tarea&#39;</span><span class="p">))),</span>
+<span class="w">            </span><span class="n">IconButton</span><span class="p">(</span><span class="nl">icon:</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">Icon</span><span class="p">(</span><span class="n">Icons</span><span class="p">.</span><span class="n">add</span><span class="p">),</span><span class="w"> </span><span class="nl">onPressed:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">              </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">_ctrl</span><span class="p">.</span><span class="n">text</span><span class="p">.</span><span class="n">trim</span><span class="p">().</span><span class="n">isEmpty</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
+<span class="w">              </span><span class="n">setState</span><span class="p">(()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">_items</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">_ctrl</span><span class="p">.</span><span class="n">text</span><span class="p">.</span><span class="n">trim</span><span class="p">()));</span><span class="w">   </span><span class="c1">// setState redibuja</span>
+<span class="w">              </span><span class="n">_ctrl</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
+<span class="w">            </span><span class="p">}),</span>
+<span class="w">          </span><span class="p">]),</span>
+<span class="w">        </span><span class="p">),</span>
+<span class="w">        </span><span class="n">Expanded</span><span class="p">(</span>
+<span class="w">          </span><span class="nl">child:</span><span class="w"> </span><span class="n">ListView</span><span class="p">.</span><span class="n">builder</span><span class="p">(</span>
+<span class="w">            </span><span class="nl">itemCount:</span><span class="w"> </span><span class="n">_items</span><span class="p">.</span><span class="n">length</span><span class="p">,</span>
+<span class="w">            </span><span class="nl">itemBuilder:</span><span class="w"> </span><span class="p">(</span><span class="n">_</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">ListTile</span><span class="p">(</span>
+<span class="w">              </span><span class="nl">title:</span><span class="w"> </span><span class="n">Text</span><span class="p">(</span><span class="n">_items</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span>
+<span class="w">              </span><span class="nl">trailing:</span><span class="w"> </span><span class="n">IconButton</span><span class="p">(</span><span class="nl">icon:</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">Icon</span><span class="p">(</span><span class="n">Icons</span><span class="p">.</span><span class="n">delete</span><span class="p">),</span><span class="w"> </span><span class="nl">onPressed:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">setState</span><span class="p">(()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">_items</span><span class="p">.</span><span class="n">removeAt</span><span class="p">(</span><span class="n">i</span><span class="p">))),</span>
+<span class="w">            </span><span class="p">),</span>
+<span class="w">          </span><span class="p">),</span>
+<span class="w">        </span><span class="p">),</span>
+<span class="w">      </span><span class="p">]),</span>
+<span class="w">    </span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Conceptos: todo es un <strong>Widget</strong>. <code>StatelessWidget</code> (sin estado) vs <code>StatefulWidget</code> (con estado y <code>setState</code>). Layout con <code>Column</code>, <code>Row</code>, <code>Expanded</code>, <code>Padding</code>, <code>Container</code>, <code>ListView</code>. Navegación: <code>Navigator.push(context, MaterialPageRoute(builder: (_) =&gt; Detalle()))</code>.</p>
+<hr />
+<h2 id="parte-b-wordpress-a-fondo">PARTE B — WordPress a fondo</h2>
+<h3 id="instalacion-local-con-xampp-paso-a-paso">Instalación local con XAMPP (paso a paso)</h3>
+<ol>
+<li>XAMPP → Start <strong>Apache</strong> y <strong>MySQL</strong>.</li>
+<li>http://localhost/phpmyadmin → <em>Nueva</em> → base <code>wp_iste</code> → cotejamiento <code>utf8mb4_unicode_ci</code> → Crear.</li>
+<li>Descarga https://es.wordpress.org/download/ y descomprime en <code>C:\xampp\htdocs\wp-iste\</code>.</li>
+<li>http://localhost/wp-iste → idioma → datos de la base: nombre <code>wp_iste</code>, usuario <code>root</code>, contraseña (vacía), servidor <code>localhost</code>, prefijo <code>wp_</code>.</li>
+<li>Título, usuario administrador (¡anota la contraseña!), email → Instalar.</li>
+<li>Panel: http://localhost/wp-iste/wp-admin</li>
+</ol>
+<h3 id="tareas-tipicas-en-una-prueba">Tareas típicas en una prueba</h3>
+<table>
+<thead>
+<tr>
+<th>Tarea</th>
+<th>Dónde</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Crear página "Nosotros"</td>
+<td>Páginas → Añadir nueva → editor de bloques (Gutenberg) → Publicar</td>
+</tr>
+<tr>
+<td>Crear entrada de blog con categoría</td>
+<td>Entradas → Añadir → panel derecho: Categorías, Etiquetas, Imagen destacada</td>
+</tr>
+<tr>
+<td>Página de inicio estática</td>
+<td>Ajustes → Lectura → "Una página estática" → Portada: Inicio, Entradas: Blog</td>
+</tr>
+<tr>
+<td>URLs amigables</td>
+<td>Ajustes → Enlaces permanentes → "Nombre de la entrada"</td>
+</tr>
+<tr>
+<td>Menú</td>
+<td>Apariencia → Menús (temas clásicos) o Apariencia → Editor → Navegación (temas de bloques)</td>
+</tr>
+<tr>
+<td>Instalar tema</td>
+<td>Apariencia → Temas → Añadir nuevo (Astra, Kadence, GeneratePress, Twenty Twenty-Five)</td>
+</tr>
+<tr>
+<td>Formulario de contacto</td>
+<td>Plugins → Añadir → <strong>Contact Form 7</strong> → copiar el shortcode <code>[contact-form-7 id="..."]</code> en una página</td>
+</tr>
+<tr>
+<td>Tienda</td>
+<td>Plugin <strong>WooCommerce</strong> → asistente → Productos → Añadir</td>
+</tr>
+<tr>
+<td>SEO</td>
+<td><strong>Yoast SEO</strong> o <strong>Rank Math</strong></td>
+</tr>
+<tr>
+<td>Copias de seguridad</td>
+<td><strong>UpdraftPlus</strong></td>
+</tr>
+<tr>
+<td>Seguridad</td>
+<td><strong>Wordfence</strong>, limitar intentos de login, usuarios con contraseñas fuertes</td>
+</tr>
+<tr>
+<td>Caché y velocidad</td>
+<td><strong>LiteSpeed Cache</strong> / <strong>WP Super Cache</strong>, optimizar imágenes con <strong>Smush</strong></td>
+</tr>
+<tr>
+<td>Usuarios</td>
+<td>Usuarios → Añadir → rol (Administrador, Editor, Autor, Colaborador, Suscriptor)</td>
+</tr>
+<tr>
+<td>Constructor visual</td>
+<td><strong>Elementor</strong></td>
+</tr>
+<tr>
+<td>Migrar un sitio</td>
+<td>Plugin <strong>All-in-One WP Migration</strong> o <strong>Duplicator</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="estructura-de-archivos">Estructura de archivos</h3>
+<div class="codehilite"><pre><span></span><code>wp-iste/
+├── wp-config.php          ← credenciales de BD, claves, WP_DEBUG
+├── wp-content/
+│   ├── themes/            ← temas (NUNCA edites el tema padre: usa un tema hijo)
+│   ├── plugins/
+│   └── uploads/           ← imágenes subidas
+├── wp-admin/  wp-includes/   ← núcleo (no tocar)
+</code></pre></div>
+
+<p>Tablas principales: <code>wp_posts</code> (entradas, páginas, adjuntos, menús), <code>wp_postmeta</code>, <code>wp_users</code>, <code>wp_usermeta</code>, <code>wp_options</code> (configuración, <code>siteurl</code>, <code>home</code>), <code>wp_terms</code> / <code>wp_term_taxonomy</code> (categorías, etiquetas), <code>wp_comments</code>.</p>
+<p>Activar la depuración en <code>wp-config.php</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="x">define(&#39;WP_DEBUG&#39;, true);</span>
+<span class="x">define(&#39;WP_DEBUG_LOG&#39;, true);        // escribe en wp-content/debug.log</span>
+<span class="x">define(&#39;WP_DEBUG_DISPLAY&#39;, false);</span>
+</code></pre></div>
+
+<h3 id="tema-hijo-child-theme">Tema hijo (child theme)</h3>
+<p><code>wp-content/themes/astra-hijo/style.css</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c">/*</span>
+<span class="c">Theme Name: Astra Hijo</span>
+<span class="c">Template: astra</span>
+<span class="c">*/</span>
+</code></pre></div>
+
+<p><code>wp-content/themes/astra-hijo/functions.php</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="cp">&lt;?php</span>
+<span class="nx">add_action</span><span class="p">(</span><span class="s1">&#39;wp_enqueue_scripts&#39;</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nx">wp_enqueue_style</span><span class="p">(</span><span class="s1">&#39;padre&#39;</span><span class="p">,</span> <span class="nx">get_template_directory_uri</span><span class="p">()</span> <span class="o">.</span> <span class="s1">&#39;/style.css&#39;</span><span class="p">);</span>
+    <span class="nx">wp_enqueue_style</span><span class="p">(</span><span class="s1">&#39;hijo&#39;</span><span class="p">,</span> <span class="nx">get_stylesheet_uri</span><span class="p">(),</span> <span class="p">[</span><span class="s1">&#39;padre&#39;</span><span class="p">]);</span>
+<span class="p">});</span>
+</code></pre></div>
+
+<p>Apariencia → Temas → activar "Astra Hijo".</p>
+<h3 id="hooks-actions-y-filters">Hooks: actions y filters</h3>
+<div class="codehilite"><pre><span></span><code><span class="x">// ACTION: hacer algo en un momento determinado</span>
+<span class="x">add_action(&#39;wp_footer&#39;, function () {</span>
+<span class="x">    echo &#39;&lt;p style=&quot;text-align:center&quot;&gt;© &#39; . date(&#39;Y&#39;) . &#39; ISTE&lt;/p&gt;&#39;;</span>
+<span class="x">});</span>
+
+<span class="x">// FILTER: modificar un valor y devolverlo</span>
+<span class="x">add_filter(&#39;the_title&#39;, function ($titulo) {</span>
+<span class="x">    return is_single() ? &#39;📘 &#39; . $titulo : $titulo;</span>
+<span class="x">});</span>
+<span class="x">add_filter(&#39;excerpt_length&#39;, fn() =&gt; 20);</span>
+</code></pre></div>
+
+<h3 id="shortcode-custom-post-type-y-consulta">Shortcode, Custom Post Type y consulta</h3>
+<div class="codehilite"><pre><span></span><code><span class="x">// [cursos cantidad=&quot;3&quot;]</span>
+<span class="x">add_shortcode(&#39;cursos&#39;, function ($atts) {</span>
+<span class="x">    $a = shortcode_atts([&#39;cantidad&#39; =&gt; 5], $atts);</span>
+<span class="x">    $q = new WP_Query([&#39;post_type&#39; =&gt; &#39;curso&#39;, &#39;posts_per_page&#39; =&gt; (int)$a[&#39;cantidad&#39;]]);</span>
+<span class="x">    $html = &#39;&lt;ul&gt;&#39;;</span>
+<span class="x">    while ($q-&gt;have_posts()) { $q-&gt;the_post(); $html .= &#39;&lt;li&gt;&lt;a href=&quot;&#39; . get_permalink() . &#39;&quot;&gt;&#39; . esc_html(get_the_title()) . &#39;&lt;/a&gt;&lt;/li&gt;&#39;; }</span>
+<span class="x">    wp_reset_postdata();</span>
+<span class="x">    return $html . &#39;&lt;/ul&gt;&#39;;</span>
+<span class="x">});</span>
+
+<span class="x">// Custom Post Type &quot;Curso&quot;</span>
+<span class="x">add_action(&#39;init&#39;, function () {</span>
+<span class="x">    register_post_type(&#39;curso&#39;, [</span>
+<span class="x">        &#39;labels&#39; =&gt; [&#39;name&#39; =&gt; &#39;Cursos&#39;, &#39;singular_name&#39; =&gt; &#39;Curso&#39;],</span>
+<span class="x">        &#39;public&#39; =&gt; true, &#39;has_archive&#39; =&gt; true, &#39;menu_icon&#39; =&gt; &#39;dashicons-welcome-learn-more&#39;,</span>
+<span class="x">        &#39;supports&#39; =&gt; [&#39;title&#39;, &#39;editor&#39;, &#39;thumbnail&#39;], &#39;show_in_rest&#39; =&gt; true,</span>
+<span class="x">    ]);</span>
+<span class="x">});</span>
+</code></pre></div>
+
+<p>Tras registrar un CPT: Ajustes → Enlaces permanentes → <strong>Guardar</strong>, para refrescar las URLs.</p>
+<h3 id="plugin-minimo-propio">Plugin mínimo propio</h3>
+<p><code>wp-content/plugins/mi-aviso/mi-aviso.php</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="cp">&lt;?php</span>
+<span class="sd">/**</span>
+<span class="sd"> * Plugin Name: Mi Aviso</span>
+<span class="sd"> * Description: Muestra un aviso al inicio de cada entrada.</span>
+<span class="sd"> * Version: 1.0</span>
+<span class="sd"> */</span>
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nb">defined</span><span class="p">(</span><span class="s1">&#39;ABSPATH&#39;</span><span class="p">))</span> <span class="k">exit</span><span class="p">;</span>           <span class="c1">// seguridad: no ejecutar directamente</span>
+<span class="nx">add_filter</span><span class="p">(</span><span class="s1">&#39;the_content&#39;</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nv">$contenido</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">is_single</span><span class="p">())</span> <span class="k">return</span> <span class="nv">$contenido</span><span class="p">;</span>
+    <span class="k">return</span> <span class="s1">&#39;&lt;div class=&quot;aviso&quot;&gt;Inscripciones abiertas&lt;/div&gt;&#39;</span> <span class="o">.</span> <span class="nv">$contenido</span><span class="p">;</span>
+<span class="p">});</span>
+</code></pre></div>
+
+<p>Plugins → activar "Mi Aviso".</p>
+<h3 id="the-loop-plantillas-de-tema">The Loop (plantillas de tema)</h3>
+<div class="codehilite"><pre><span></span><code><span class="cp">&lt;?php</span> <span class="k">if</span> <span class="p">(</span><span class="nx">have_posts</span><span class="p">())</span> <span class="o">:</span> <span class="k">while</span> <span class="p">(</span><span class="nx">have_posts</span><span class="p">())</span> <span class="o">:</span> <span class="nx">the_post</span><span class="p">();</span> <span class="cp">?&gt;</span>
+<span class="x">  &lt;article&gt;</span>
+<span class="x">    &lt;h2&gt;&lt;a href=&quot;</span><span class="cp">&lt;?php</span> <span class="nx">the_permalink</span><span class="p">();</span> <span class="cp">?&gt;</span><span class="x">&quot;&gt;</span><span class="cp">&lt;?php</span> <span class="nx">the_title</span><span class="p">();</span> <span class="cp">?&gt;</span><span class="x">&lt;/a&gt;&lt;/h2&gt;</span>
+<span class="x">    </span><span class="cp">&lt;?php</span> <span class="nx">the_post_thumbnail</span><span class="p">(</span><span class="s1">&#39;medium&#39;</span><span class="p">);</span> <span class="cp">?&gt;</span>
+<span class="x">    </span><span class="cp">&lt;?php</span> <span class="nx">the_excerpt</span><span class="p">();</span> <span class="cp">?&gt;</span>
+<span class="x">  &lt;/article&gt;</span>
+<span class="cp">&lt;?php</span> <span class="k">endwhile</span><span class="p">;</span> <span class="k">else</span> <span class="o">:</span> <span class="cp">?&gt;</span>
+<span class="x">  &lt;p&gt;No hay entradas.&lt;/p&gt;</span>
+<span class="cp">&lt;?php</span> <span class="k">endif</span><span class="p">;</span> <span class="cp">?&gt;</span>
+</code></pre></div>
+
+<p>Jerarquía de plantillas: <code>single-curso.php</code> → <code>single.php</code> → <code>index.php</code>, y <code>page-nosotros.php</code> → <code>page.php</code> → <code>index.php</code>.</p>
+<p>Funciones de seguridad: <code>esc_html()</code>, <code>esc_attr()</code>, <code>esc_url()</code>, <code>sanitize_text_field()</code>, <code>wp_nonce_field()</code> / <code>wp_verify_nonce()</code>, <code>current_user_can('edit_posts')</code>.</p>
+<p><strong>API REST de WordPress:</strong> <code>http://localhost/wp-iste/wp-json/wp/v2/posts</code>, <code>/pages</code>, <code>/users</code>, <code>/curso</code> (si el CPT tiene <code>show_in_rest</code>).</p>
+<h3 id="mantenimiento-y-seguridad-preguntas-tipicas">Mantenimiento y seguridad (preguntas típicas)</h3>
+<ul>
+<li>Actualizar núcleo, temas y plugins (con respaldo previo).</li>
+<li>Eliminar plugins y temas que no se usan.</li>
+<li>No usar el usuario "admin"; contraseñas fuertes y 2FA.</li>
+<li>Certificado SSL (https) y copias de seguridad automáticas.</li>
+<li>Si aparece "pantalla blanca de la muerte": activar WP_DEBUG, desactivar plugins renombrando la carpeta <code>plugins</code>, cambiar a un tema por defecto.</li>
+<li>"Error al establecer una conexión con la base de datos": revisar los datos de <code>wp-config.php</code> y que MySQL esté iniciado.</li>
+</ul>
+<hr />
+<h2 id="parte-c-vercel-paso-a-paso">PARTE C — Vercel paso a paso</h2>
+<ol>
+<li>Sube el proyecto a GitHub.</li>
+<li>https://vercel.com → <em>Sign up with GitHub</em>.</li>
+<li><strong>Add New → Project</strong> → <em>Import</em> el repositorio.</li>
+<li>Vercel detecta el framework (Next.js, Vite/React, estático). Revisa:
+   - Build Command: <code>npm run build</code>
+   - Output Directory: <code>dist</code> (Vite) o automático (Next).</li>
+<li><strong>Environment Variables</strong> (si hace falta, por ejemplo <code>VITE_API_URL</code>).</li>
+<li><strong>Deploy</strong> → URL tipo <code>https://mi-app.vercel.app</code>.</li>
+<li>Cada <code>git push</code> a <code>main</code> redespliega a producción; cada rama o Pull Request genera una <strong>Preview URL</strong>.</li>
+</ol>
+<p>CLI: <code>npm i -g vercel</code> → <code>vercel</code> (preview) → <code>vercel --prod</code>.</p>
+<p>API serverless en Vercel (sin Next):</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">// api/hola.js</span>
+<span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">handler</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span><span class="w"> </span><span class="nx">res</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">res</span><span class="p">.</span><span class="nx">status</span><span class="p">(</span><span class="mf">200</span><span class="p">).</span><span class="nx">json</span><span class="p">({</span><span class="w"> </span><span class="nx">mensaje</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Hola desde Vercel&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">metodo</span><span class="o">:</span><span class="w"> </span><span class="nx">req</span><span class="p">.</span><span class="nx">method</span><span class="w"> </span><span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>En React con Vite, si usas React Router añade <code>vercel.json</code> con <code>{"rewrites":[{"source":"/(.*)","destination":"/"}]}</code> para que al refrescar no dé 404.</p>
+<hr />
+<h2 id="parte-d-azure-paso-a-paso">PARTE D — Azure paso a paso</h2>
+<h3 id="conceptos">Conceptos</h3>
+<ul>
+<li><strong>Suscripción</strong> → <strong>Grupo de recursos</strong> (carpeta lógica) → <strong>Recursos</strong> (App Service, BD, Storage...).</li>
+<li><strong>Región:</strong> dónde está físicamente (ej. East US, Brazil South).</li>
+<li><strong>IaaS</strong> (Virtual Machines) vs <strong>PaaS</strong> (App Service, Azure SQL) vs <strong>SaaS</strong> (Microsoft 365) vs <strong>Serverless</strong> (Azure Functions).</li>
+</ul>
+<h3 id="servicios-mas-comunes">Servicios más comunes</h3>
+<table>
+<thead>
+<tr>
+<th>Servicio</th>
+<th>Para qué</th>
+<th>Equivalente AWS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>App Service</td>
+<td>Hospedar web/API (.NET, Node, Python, PHP, Java)</td>
+<td>Elastic Beanstalk</td>
+</tr>
+<tr>
+<td>Static Web Apps</td>
+<td>Frontend estático (React) + API</td>
+<td>Amplify / S3</td>
+</tr>
+<tr>
+<td>Azure Functions</td>
+<td>Código serverless por eventos</td>
+<td>Lambda</td>
+</tr>
+<tr>
+<td>Azure SQL Database</td>
+<td>SQL Server administrado</td>
+<td>RDS</td>
+</tr>
+<tr>
+<td>Azure Database for MySQL/PostgreSQL</td>
+<td>MySQL/Postgres administrados</td>
+<td>RDS</td>
+</tr>
+<tr>
+<td>Cosmos DB</td>
+<td>NoSQL</td>
+<td>DynamoDB</td>
+</tr>
+<tr>
+<td>Storage Account (Blob)</td>
+<td>Archivos e imágenes</td>
+<td>S3</td>
+</tr>
+<tr>
+<td>Key Vault</td>
+<td>Secretos y contraseñas</td>
+<td>Secrets Manager</td>
+</tr>
+<tr>
+<td>Entra ID (antes Azure AD)</td>
+<td>Identidad y login</td>
+<td>IAM / Cognito</td>
+</tr>
+<tr>
+<td>Virtual Machines</td>
+<td>Servidores completos</td>
+<td>EC2</td>
+</tr>
+<tr>
+<td>Azure DevOps / GitHub Actions</td>
+<td>CI/CD</td>
+<td>CodePipeline</td>
+</tr>
+<tr>
+<td>Application Insights</td>
+<td>Monitoreo y logs</td>
+<td>CloudWatch</td>
+</tr>
+</tbody>
+</table>
+<h3 id="desplegar-una-app-nodepython-en-app-service-portal">Desplegar una app Node/Python en App Service (portal)</h3>
+<ol>
+<li>https://portal.azure.com → <strong>Crear un recurso</strong> → <strong>Aplicación web</strong>.</li>
+<li>Grupo de recursos: nuevo <code>rg-iste</code>. Nombre: <code>reservas-iste</code> (será <code>reservas-iste.azurewebsites.net</code>).</li>
+<li>Pila del entorno: Node 22 LTS / Python 3.12. SO: Linux. Plan: <strong>Free F1</strong> (para pruebas).</li>
+<li>Crear → ir al recurso → <strong>Centro de implementación</strong> → Origen: <strong>GitHub</strong> → repositorio y rama → Guardar (crea un GitHub Action que despliega en cada push).</li>
+<li><strong>Configuración → Variables de entorno</strong>: <code>PORT</code>, cadenas de conexión, etc.</li>
+<li>Para Python/Flask: Configuración → Comando de inicio: <code>gunicorn --bind=0.0.0.0 --timeout 600 app:app</code> (y agrega <code>gunicorn</code> a requirements.txt).</li>
+</ol>
+<h3 id="azure-cli-alternativa">Azure CLI (alternativa)</h3>
+<div class="codehilite"><pre><span></span><code>az<span class="w"> </span>login
+az<span class="w"> </span>group<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>rg-iste<span class="w"> </span>-l<span class="w"> </span>eastus
+az<span class="w"> </span>webapp<span class="w"> </span>up<span class="w"> </span>--name<span class="w"> </span>reservas-iste<span class="w"> </span>--runtime<span class="w"> </span><span class="s2">&quot;NODE:22-lts&quot;</span><span class="w"> </span>--sku<span class="w"> </span>F1<span class="w">     </span><span class="c1"># desde la carpeta del proyecto</span>
+az<span class="w"> </span>webapp<span class="w"> </span>log<span class="w"> </span>tail<span class="w"> </span>--name<span class="w"> </span>reservas-iste<span class="w"> </span>--resource-group<span class="w"> </span>rg-iste
+</code></pre></div>
+
+<h3 id="azure-sql">Azure SQL</h3>
+<p>Crear recurso <strong>SQL Database</strong> → servidor nuevo (usuario/contraseña) → Redes: "Permitir que servicios de Azure accedan" y agregar tu IP → la cadena de conexión está en <em>Cadenas de conexión</em>.</p>
+<hr />
+<h2 id="parte-e-testing-qa-ampliado">PARTE E — Testing / QA ampliado</h2>
+<h3 id="piramide-de-pruebas">Pirámide de pruebas</h3>
+<div class="codehilite"><pre><span></span><code>        /  E2E  \        pocas: lentas, prueban el flujo completo en el navegador (Playwright, Cypress, Selenium)
+       / Integración \   varias: API + BD (Supertest, Flask test_client)
+      /   Unitarias    \ muchas: funciones puras, rápidas (unittest, pytest, Jest, JUnit, xUnit)
+</code></pre></div>
+
+<h3 id="tecnicas-de-diseno-de-casos-de-prueba">Técnicas de diseño de casos de prueba</h3>
+<ul>
+<li><strong>Partición de equivalencia:</strong> dividir las entradas en grupos que se comportan igual (nota: &lt;0 inválida, 0–6.99 reprueba, 7–10 aprueba, &gt;10 inválida) y probar un valor de cada grupo.</li>
+<li><strong>Valores límite:</strong> probar en los bordes: -0.01, 0, 6.99, 7, 10, 10.01.</li>
+<li><strong>Tabla de decisión:</strong> combinaciones de condiciones (laboratorio disponible × horario libre × horas válidas).</li>
+<li><strong>Transición de estados:</strong> ticket abierto → en proceso → cerrado (probar transiciones válidas e inválidas).</li>
+<li><strong>Pruebas negativas:</strong> datos vacíos, tipos incorrectos, duplicados, IDs inexistentes, textos muy largos, caracteres especiales (<code>&lt;script&gt;</code>, <code>' OR 1=1</code>).</li>
+</ul>
+<h3 id="plantilla-de-caso-de-prueba">Plantilla de caso de prueba</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Ejemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ID</td>
+<td>CP-RES-003</td>
+</tr>
+<tr>
+<td>Módulo</td>
+<td>Reservas</td>
+</tr>
+<tr>
+<td>Descripción</td>
+<td>Rechazar reserva que se cruza con otra existente</td>
+</tr>
+<tr>
+<td>Precondición</td>
+<td>Existe reserva LAB-002, 25/09/2026, 08:00–10:00</td>
+</tr>
+<tr>
+<td>Pasos</td>
+<td>1. Ir a Reservas 2. Llenar LAB-002, 25/09/2026, 09:00–11:00 3. Clic en Reservar</td>
+</tr>
+<tr>
+<td>Datos</td>
+<td>docente "Ing. Ruiz"</td>
+</tr>
+<tr>
+<td>Resultado esperado</td>
+<td>Mensaje "Horario ocupado", la reserva no se guarda, HTTP 400</td>
+</tr>
+<tr>
+<td>Resultado obtenido</td>
+<td>(se llena al ejecutar)</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprobado / Fallido</td>
+</tr>
+<tr>
+<td>Severidad / Prioridad</td>
+<td>Alta / Alta</td>
+</tr>
+</tbody>
+</table>
+<h3 id="reporte-de-bug-defecto">Reporte de bug (defecto)</h3>
+<p><strong>Título:</strong> "Se permite reservar un laboratorio en mantenimiento" · <strong>Pasos para reproducir</strong> · <strong>Resultado esperado vs obtenido</strong> · <strong>Entorno</strong> (Windows 11, Chrome 129, versión 1.2) · <strong>Evidencia</strong> (captura) · <strong>Severidad</strong> (Crítica / Mayor / Menor / Trivial) · <strong>Prioridad</strong>.</p>
+<h3 id="e2e-con-playwright-ejemplo">E2E con Playwright (ejemplo)</h3>
+<div class="codehilite"><pre><span></span><code>npm<span class="w"> </span>init<span class="w"> </span>playwright@latest
+npx<span class="w"> </span>playwright<span class="w"> </span><span class="nb">test</span><span class="w">          </span>npx<span class="w"> </span>playwright<span class="w"> </span>codegen<span class="w"> </span>http://localhost:3000<span class="w">   </span><span class="c1"># graba tus clics y genera el código</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">test</span><span class="p">,</span><span class="w"> </span><span class="nx">expect</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">&quot;@playwright/test&quot;</span><span class="p">;</span>
+<span class="nx">test</span><span class="p">(</span><span class="s2">&quot;crear reserva y detectar choque&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">({</span><span class="w"> </span><span class="nx">page</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">await</span><span class="w"> </span><span class="nx">page</span><span class="p">.</span><span class="kr">goto</span><span class="p">(</span><span class="s2">&quot;http://localhost:3000/reservas&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="k">await</span><span class="w"> </span><span class="nx">page</span><span class="p">.</span><span class="nx">fill</span><span class="p">(</span><span class="s2">&quot;[name=docente]&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Ing. Ruiz&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="k">await</span><span class="w"> </span><span class="nx">page</span><span class="p">.</span><span class="nx">selectOption</span><span class="p">(</span><span class="s2">&quot;[name=laboratorio_id]&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;2&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="k">await</span><span class="w"> </span><span class="nx">page</span><span class="p">.</span><span class="nx">fill</span><span class="p">(</span><span class="s2">&quot;[name=fecha]&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;2026-09-25&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="k">await</span><span class="w"> </span><span class="nx">page</span><span class="p">.</span><span class="nx">fill</span><span class="p">(</span><span class="s2">&quot;[name=hora_inicio]&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;08:00&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="k">await</span><span class="w"> </span><span class="nx">page</span><span class="p">.</span><span class="nx">fill</span><span class="p">(</span><span class="s2">&quot;[name=hora_fin]&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;10:00&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="k">await</span><span class="w"> </span><span class="nx">page</span><span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="s2">&quot;text=Reservar&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="k">await</span><span class="w"> </span><span class="nx">expect</span><span class="p">(</span><span class="nx">page</span><span class="p">.</span><span class="nx">locator</span><span class="p">(</span><span class="s2">&quot;.alerta.ok&quot;</span><span class="p">)).</span><span class="nx">toContainText</span><span class="p">(</span><span class="s2">&quot;Reserva registrada&quot;</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div>
+
+<h3 id="otros-terminos-de-qa">Otros términos de QA</h3>
+<ul>
+<li><strong>Smoke test:</strong> prueba rápida de que lo principal funciona tras un despliegue.</li>
+<li><strong>Sanity test:</strong> prueba enfocada de un arreglo puntual.</li>
+<li><strong>Regresión:</strong> volver a probar para confirmar que nada se rompió.</li>
+<li><strong>UAT:</strong> prueba de aceptación por parte del usuario final.</li>
+<li><strong>Cobertura:</strong> % de código ejecutado por las pruebas (<code>coverage run -m unittest</code>, <code>npx jest --coverage</code>).</li>
+<li><strong>Mock / stub:</strong> objeto falso que reemplaza una dependencia (BD, API externa).</li>
+<li><strong>Pruebas de carga:</strong> JMeter, k6. <strong>Seguridad:</strong> OWASP ZAP.</li>
+<li><strong>Verificación vs validación:</strong> ¿lo construimos bien? (según la especificación) vs ¿construimos lo correcto? (lo que necesita el usuario).</li>
+</ul></main></div>
+<script>
+document.querySelectorAll('.codehilite').forEach(b => {
+  const btn = document.createElement('button'); btn.className = 'copiar'; btn.textContent = 'Copiar';
+  btn.onclick = () => { const t = b.querySelector('pre').innerText;
+    navigator.clipboard.writeText(t).then(() => { btn.textContent = '¡Copiado!'; setTimeout(() => btn.textContent = 'Copiar', 1500); }); };
+  b.prepend(btn);
+});
+</script></body></html>

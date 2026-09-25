@@ -1,0 +1,331 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Cheatsheet: WordPress, Java/C#/.NET, PHP, Azure/Vercel, Testing/QA y preguntas de entrevista</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,Segoe UI,sans-serif;line-height:1.6;color:#1f2937;background:#f8fafc}
+.layout{display:grid;grid-template-columns:270px 1fr;max-width:1400px;margin:auto}
+nav{position:sticky;top:0;height:100vh;overflow:auto;padding:18px;border-right:1px solid #e5e7eb;background:#fff;font-size:13.5px}
+nav ul{list-style:none;padding-left:10px;margin:3px 0} nav>div>ul{padding-left:0} nav a{color:#334155;text-decoration:none} nav a:hover{color:#0a5bd6}
+.volver{display:inline-block;margin-bottom:10px;font-weight:600;color:#0a5bd6!important}
+main{padding:24px 40px;min-width:0} h1{color:#0a5bd6} h2{border-top:2px solid #e5e7eb;padding-top:22px;margin-top:36px}
+table{border-collapse:collapse;width:100%;margin:12px 0;font-size:14px;display:block;overflow-x:auto}
+th,td{border:1px solid #e5e7eb;padding:6px 10px;text-align:left;vertical-align:top} th{background:#f1f5f9}
+code{background:#eef2f7;padding:1px 5px;border-radius:4px;font-size:.9em}
+.codehilite{border-radius:8px;margin:12px 0;overflow:auto;position:relative} .codehilite pre{padding:14px;margin:0;font-size:13px;line-height:1.5}
+.codehilite code{background:none;padding:0;color:inherit}
+blockquote{margin:12px 0;padding:8px 16px;background:#fff7ed;border-left:4px solid #f59e0b;border-radius:4px}
+.copiar{position:absolute;right:6px;top:6px;padding:3px 10px;font-size:12px;border:0;border-radius:4px;cursor:pointer;background:#334155;color:#fff}
+@media (max-width:900px){.layout{grid-template-columns:1fr} nav{position:static;height:auto;border-right:0} main{padding:16px}}
+pre { line-height: 125%; }
+td.linenos .normal { color: #6e7681; background-color: #0d1117; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #6e7681; background-color: #0d1117; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #e6edf3; background-color: #6e7681; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #e6edf3; background-color: #6e7681; padding-left: 5px; padding-right: 5px; }
+.codehilite .hll { background-color: #6e7681 }
+.codehilite { background: #0d1117; color: #E6EDF3 }
+.codehilite .c { color: #8B949E; font-style: italic } /* Comment */
+.codehilite .err { color: #F85149 } /* Error */
+.codehilite .esc { color: #E6EDF3 } /* Escape */
+.codehilite .g { color: #E6EDF3 } /* Generic */
+.codehilite .k { color: #FF7B72 } /* Keyword */
+.codehilite .l { color: #A5D6FF } /* Literal */
+.codehilite .n { color: #E6EDF3 } /* Name */
+.codehilite .o { color: #FF7B72; font-weight: bold } /* Operator */
+.codehilite .x { color: #E6EDF3 } /* Other */
+.codehilite .p { color: #E6EDF3 } /* Punctuation */
+.codehilite .ch { color: #8B949E; font-style: italic } /* Comment.Hashbang */
+.codehilite .cm { color: #8B949E; font-style: italic } /* Comment.Multiline */
+.codehilite .cp { color: #8B949E; font-weight: bold; font-style: italic } /* Comment.Preproc */
+.codehilite .cpf { color: #8B949E; font-style: italic } /* Comment.PreprocFile */
+.codehilite .c1 { color: #8B949E; font-style: italic } /* Comment.Single */
+.codehilite .cs { color: #8B949E; font-weight: bold; font-style: italic } /* Comment.Special */
+.codehilite .gd { color: #FFA198; background-color: #490202 } /* Generic.Deleted */
+.codehilite .ge { color: #E6EDF3; font-style: italic } /* Generic.Emph */
+.codehilite .ges { color: #E6EDF3; font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.codehilite .gr { color: #FFA198 } /* Generic.Error */
+.codehilite .gh { color: #79C0FF; font-weight: bold } /* Generic.Heading */
+.codehilite .gi { color: #56D364; background-color: #0F5323 } /* Generic.Inserted */
+.codehilite .go { color: #8B949E } /* Generic.Output */
+.codehilite .gp { color: #8B949E } /* Generic.Prompt */
+.codehilite .gs { color: #E6EDF3; font-weight: bold } /* Generic.Strong */
+.codehilite .gu { color: #79C0FF } /* Generic.Subheading */
+.codehilite .gt { color: #FF7B72 } /* Generic.Traceback */
+.codehilite .g-Underline { color: #E6EDF3; text-decoration: underline } /* Generic.Underline */
+.codehilite .kc { color: #79C0FF } /* Keyword.Constant */
+.codehilite .kd { color: #FF7B72 } /* Keyword.Declaration */
+.codehilite .kn { color: #FF7B72 } /* Keyword.Namespace */
+.codehilite .kp { color: #79C0FF } /* Keyword.Pseudo */
+.codehilite .kr { color: #FF7B72 } /* Keyword.Reserved */
+.codehilite .kt { color: #FF7B72 } /* Keyword.Type */
+.codehilite .ld { color: #79C0FF } /* Literal.Date */
+.codehilite .m { color: #A5D6FF } /* Literal.Number */
+.codehilite .s { color: #A5D6FF } /* Literal.String */
+.codehilite .na { color: #E6EDF3 } /* Name.Attribute */
+.codehilite .nb { color: #E6EDF3 } /* Name.Builtin */
+.codehilite .nc { color: #F0883E; font-weight: bold } /* Name.Class */
+.codehilite .no { color: #79C0FF; font-weight: bold } /* Name.Constant */
+.codehilite .nd { color: #D2A8FF; font-weight: bold } /* Name.Decorator */
+.codehilite .ni { color: #FFA657 } /* Name.Entity */
+.codehilite .ne { color: #F0883E; font-weight: bold } /* Name.Exception */
+.codehilite .nf { color: #D2A8FF; font-weight: bold } /* Name.Function */
+.codehilite .nl { color: #79C0FF; font-weight: bold } /* Name.Label */
+.codehilite .nn { color: #FF7B72 } /* Name.Namespace */
+.codehilite .nx { color: #E6EDF3 } /* Name.Other */
+.codehilite .py { color: #79C0FF } /* Name.Property */
+.codehilite .nt { color: #7EE787 } /* Name.Tag */
+.codehilite .nv { color: #79C0FF } /* Name.Variable */
+.codehilite .ow { color: #FF7B72; font-weight: bold } /* Operator.Word */
+.codehilite .pm { color: #E6EDF3 } /* Punctuation.Marker */
+.codehilite .w { color: #6E7681 } /* Text.Whitespace */
+.codehilite .mb { color: #A5D6FF } /* Literal.Number.Bin */
+.codehilite .mf { color: #A5D6FF } /* Literal.Number.Float */
+.codehilite .mh { color: #A5D6FF } /* Literal.Number.Hex */
+.codehilite .mi { color: #A5D6FF } /* Literal.Number.Integer */
+.codehilite .mo { color: #A5D6FF } /* Literal.Number.Oct */
+.codehilite .sa { color: #79C0FF } /* Literal.String.Affix */
+.codehilite .sb { color: #A5D6FF } /* Literal.String.Backtick */
+.codehilite .sc { color: #A5D6FF } /* Literal.String.Char */
+.codehilite .dl { color: #79C0FF } /* Literal.String.Delimiter */
+.codehilite .sd { color: #A5D6FF } /* Literal.String.Doc */
+.codehilite .s2 { color: #A5D6FF } /* Literal.String.Double */
+.codehilite .se { color: #79C0FF } /* Literal.String.Escape */
+.codehilite .sh { color: #79C0FF } /* Literal.String.Heredoc */
+.codehilite .si { color: #A5D6FF } /* Literal.String.Interpol */
+.codehilite .sx { color: #A5D6FF } /* Literal.String.Other */
+.codehilite .sr { color: #79C0FF } /* Literal.String.Regex */
+.codehilite .s1 { color: #A5D6FF } /* Literal.String.Single */
+.codehilite .ss { color: #A5D6FF } /* Literal.String.Symbol */
+.codehilite .bp { color: #E6EDF3 } /* Name.Builtin.Pseudo */
+.codehilite .fm { color: #D2A8FF; font-weight: bold } /* Name.Function.Magic */
+.codehilite .vc { color: #79C0FF } /* Name.Variable.Class */
+.codehilite .vg { color: #79C0FF } /* Name.Variable.Global */
+.codehilite .vi { color: #79C0FF } /* Name.Variable.Instance */
+.codehilite .vm { color: #79C0FF } /* Name.Variable.Magic */
+.codehilite .il { color: #A5D6FF } /* Literal.Number.Integer.Long */
+</style></head><body><div class="layout">
+<nav><a class="volver" href="../LEEME-PRIMERO.html">← Índice del kit</a><br><strong>En esta página</strong><div class="toc">
+<ul>
+<li><a href="#1-wordpress-esta-en-los-requisitos">1. WordPress (está en los requisitos)</a></li>
+<li><a href="#2-php-el-iste-probablemente-usa-mucho-php">2. PHP (el ISTE probablemente usa mucho PHP)</a></li>
+<li><a href="#3-java-sintaxis-rapida">3. Java (sintaxis rápida)</a></li>
+<li><a href="#4-c-net-familiaridad">4. C# / .NET (familiaridad)</a></li>
+<li><a href="#5-azure-y-vercel-nociones">5. Azure y Vercel (nociones)</a></li>
+<li><a href="#6-testing-qa">6. Testing / QA</a></li>
+<li><a href="#7-preguntas-de-entrevista-tecnica-respuestas-cortas">7. Preguntas de entrevista técnica (respuestas cortas)</a></li>
+</ul>
+</div>
+</nav>
+<main><h1 id="cheatsheet-wordpress-javacnet-php-azurevercel-testingqa-y-preguntas-de-entrevista">Cheatsheet: WordPress, Java/C#/.NET, PHP, Azure/Vercel, Testing/QA y preguntas de entrevista</h1>
+<h2 id="1-wordpress-esta-en-los-requisitos">1. WordPress (está en los requisitos)</h2>
+<p><strong>Instalar localmente con XAMPP:</strong>
+1. Iniciar Apache y MySQL en XAMPP.
+2. phpMyAdmin (http://localhost/phpmyadmin) → crear base <code>wordpress</code>.
+3. Descomprimir WordPress en <code>C:\xampp\htdocs\wordpress</code>.
+4. Ir a http://localhost/wordpress → idioma → BD: <code>wordpress</code>, usuario <code>root</code>, contraseña vacía, host <code>localhost</code>.
+5. Título del sitio, usuario admin → Instalar.</p>
+<p><strong>Tareas típicas que pueden pedir:</strong>
+- Crear páginas (Páginas → Añadir) vs entradas (Entradas → Añadir; son del blog, con fecha y categoría).
+- Menú: Apariencia → Menús (o Editor del sitio en temas de bloques).
+- Instalar tema: Apariencia → Temas → Añadir.
+- Plugins comunes: <strong>Contact Form 7 / WPForms</strong> (formularios), <strong>Yoast SEO</strong>, <strong>Elementor</strong> (maquetador), <strong>WooCommerce</strong> (tienda), <strong>UpdraftPlus</strong> (respaldos), <strong>Wordfence</strong> (seguridad).
+- Ajustes → Enlaces permanentes → "Nombre de la entrada" (URLs amigables).
+- Usuarios y roles: Administrador, Editor, Autor, Colaborador, Suscriptor.</p>
+<p><strong>Código básico (functions.php del tema hijo):</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="cp">&lt;?php</span>
+<span class="c1">// Shortcode: [saludo nombre=&quot;Ana&quot;]</span>
+<span class="k">function</span> <span class="nf">mi_saludo</span><span class="p">(</span><span class="nv">$atts</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nv">$a</span> <span class="o">=</span> <span class="nx">shortcode_atts</span><span class="p">([</span><span class="s1">&#39;nombre&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;visitante&#39;</span><span class="p">],</span> <span class="nv">$atts</span><span class="p">);</span>
+  <span class="k">return</span> <span class="s2">&quot;&lt;p&gt;Hola &quot;</span> <span class="o">.</span> <span class="nx">esc_html</span><span class="p">(</span><span class="nv">$a</span><span class="p">[</span><span class="s1">&#39;nombre&#39;</span><span class="p">])</span> <span class="o">.</span> <span class="s2">&quot;&lt;/p&gt;&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nx">add_shortcode</span><span class="p">(</span><span class="s1">&#39;saludo&#39;</span><span class="p">,</span> <span class="s1">&#39;mi_saludo&#39;</span><span class="p">);</span>
+
+<span class="c1">// Cargar CSS</span>
+<span class="nx">add_action</span><span class="p">(</span><span class="s1">&#39;wp_enqueue_scripts&#39;</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="nx">wp_enqueue_style</span><span class="p">(</span><span class="s1">&#39;mi-estilo&#39;</span><span class="p">,</span> <span class="nx">get_stylesheet_directory_uri</span><span class="p">()</span> <span class="o">.</span> <span class="s1">&#39;/mi.css&#39;</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div>
+
+<p>Conceptos: <strong>hooks</strong> (actions = hacer algo en un momento; filters = modificar un valor), <strong>tema hijo</strong> (para no perder cambios al actualizar), <strong>The Loop</strong> (<code>while (have_posts()) : the_post(); the_title(); endwhile;</code>).</p>
+<h2 id="2-php-el-iste-probablemente-usa-mucho-php">2. PHP (el ISTE probablemente usa mucho PHP)</h2>
+<div class="codehilite"><pre><span></span><code><span class="cp">&lt;?php</span>
+<span class="nv">$nombre</span> <span class="o">=</span> <span class="s2">&quot;Ana&quot;</span><span class="p">;</span> <span class="nv">$edad</span> <span class="o">=</span> <span class="mi">25</span><span class="p">;</span>
+<span class="k">echo</span> <span class="s2">&quot;Hola </span><span class="si">$nombre</span><span class="s2">, tienes </span><span class="si">{</span><span class="nv">$edad</span><span class="si">}</span><span class="s2"> años&quot;</span><span class="p">;</span>
+<span class="nv">$nums</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">];</span>  <span class="nv">$persona</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;nombre&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Ana&quot;</span><span class="p">,</span> <span class="s2">&quot;edad&quot;</span> <span class="o">=&gt;</span> <span class="mi">25</span><span class="p">];</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$persona</span> <span class="k">as</span> <span class="nv">$k</span> <span class="o">=&gt;</span> <span class="nv">$v</span><span class="p">)</span> <span class="p">{</span> <span class="k">echo</span> <span class="s2">&quot;</span><span class="si">$k</span><span class="s2">: </span><span class="si">$v</span><span class="s2">&lt;br&gt;&quot;</span><span class="p">;</span> <span class="p">}</span>
+<span class="nb">count</span><span class="p">(</span><span class="nv">$nums</span><span class="p">);</span> <span class="nb">array_push</span><span class="p">(</span><span class="nv">$nums</span><span class="p">,</span> <span class="mi">9</span><span class="p">);</span> <span class="nb">in_array</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="nv">$nums</span><span class="p">);</span> <span class="nb">sort</span><span class="p">(</span><span class="nv">$nums</span><span class="p">);</span>
+<span class="nv">$pares</span> <span class="o">=</span> <span class="nb">array_filter</span><span class="p">(</span><span class="nv">$nums</span><span class="p">,</span> <span class="nx">fn</span><span class="p">(</span><span class="nv">$n</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nv">$n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">);</span>
+<span class="nv">$dobles</span> <span class="o">=</span> <span class="nb">array_map</span><span class="p">(</span><span class="nx">fn</span><span class="p">(</span><span class="nv">$n</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nv">$n</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="nv">$nums</span><span class="p">);</span>
+<span class="k">function</span> <span class="nf">sumar</span><span class="p">(</span><span class="nx">int</span> <span class="nv">$a</span><span class="p">,</span> <span class="nx">int</span> <span class="nv">$b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span><span class="o">:</span> <span class="nx">int</span> <span class="p">{</span> <span class="k">return</span> <span class="nv">$a</span> <span class="o">+</span> <span class="nv">$b</span><span class="p">;</span> <span class="p">}</span>
+
+<span class="c1">// Formulario</span>
+<span class="k">if</span> <span class="p">(</span><span class="nv">$_SERVER</span><span class="p">[</span><span class="s2">&quot;REQUEST_METHOD&quot;</span><span class="p">]</span> <span class="o">===</span> <span class="s2">&quot;POST&quot;</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nv">$nombre</span> <span class="o">=</span> <span class="nb">trim</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s2">&quot;nombre&quot;</span><span class="p">]</span> <span class="o">??</span> <span class="s2">&quot;&quot;</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nv">$nombre</span> <span class="o">===</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="nv">$error</span> <span class="o">=</span> <span class="s2">&quot;Nombre obligatorio&quot;</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">}</span>
+<span class="k">echo</span> <span class="nb">htmlspecialchars</span><span class="p">(</span><span class="nv">$nombre</span><span class="p">);</span>   <span class="c1">// evita XSS al imprimir</span>
+
+<span class="c1">// PDO + MySQL (consultas preparadas)</span>
+<span class="nv">$pdo</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PDO</span><span class="p">(</span><span class="s2">&quot;mysql:host=localhost;dbname=tienda;charset=utf8mb4&quot;</span><span class="p">,</span> <span class="s2">&quot;root&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+               <span class="p">[</span><span class="nx">PDO</span><span class="o">::</span><span class="na">ATTR_ERRMODE</span> <span class="o">=&gt;</span> <span class="nx">PDO</span><span class="o">::</span><span class="na">ERRMODE_EXCEPTION</span><span class="p">]);</span>
+<span class="nv">$st</span> <span class="o">=</span> <span class="nv">$pdo</span><span class="o">-&gt;</span><span class="na">prepare</span><span class="p">(</span><span class="s2">&quot;INSERT INTO productos (nombre, precio) VALUES (?, ?)&quot;</span><span class="p">);</span>
+<span class="nv">$st</span><span class="o">-&gt;</span><span class="na">execute</span><span class="p">([</span><span class="nv">$nombre</span><span class="p">,</span> <span class="nv">$precio</span><span class="p">]);</span>
+<span class="nv">$id</span> <span class="o">=</span> <span class="nv">$pdo</span><span class="o">-&gt;</span><span class="na">lastInsertId</span><span class="p">();</span>
+<span class="nv">$productos</span> <span class="o">=</span> <span class="nv">$pdo</span><span class="o">-&gt;</span><span class="na">query</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM productos&quot;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">fetchAll</span><span class="p">(</span><span class="nx">PDO</span><span class="o">::</span><span class="na">FETCH_ASSOC</span><span class="p">);</span>
+<span class="nv">$st</span> <span class="o">=</span> <span class="nv">$pdo</span><span class="o">-&gt;</span><span class="na">prepare</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM productos WHERE id = ?&quot;</span><span class="p">);</span> <span class="nv">$st</span><span class="o">-&gt;</span><span class="na">execute</span><span class="p">([</span><span class="nv">$id</span><span class="p">]);</span> <span class="nv">$p</span> <span class="o">=</span> <span class="nv">$st</span><span class="o">-&gt;</span><span class="na">fetch</span><span class="p">();</span>
+
+<span class="c1">// Clases</span>
+<span class="k">class</span> <span class="nc">Producto</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="fm">__construct</span><span class="p">(</span><span class="k">public</span> <span class="nx">string</span> <span class="nv">$nombre</span><span class="p">,</span> <span class="k">private</span> <span class="nx">float</span> <span class="nv">$precio</span><span class="p">)</span> <span class="p">{}</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">getPrecio</span><span class="p">()</span><span class="o">:</span> <span class="nx">float</span> <span class="p">{</span> <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">precio</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">}</span>
+<span class="nb">header</span><span class="p">(</span><span class="s2">&quot;Location: index.php&quot;</span><span class="p">);</span> <span class="k">exit</span><span class="p">;</span>   <span class="c1">// redirigir</span>
+<span class="nb">session_start</span><span class="p">();</span> <span class="nv">$_SESSION</span><span class="p">[</span><span class="s2">&quot;usuario&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ana&quot;</span><span class="p">;</span>
+</code></pre></div>
+
+<h2 id="3-java-sintaxis-rapida">3. Java (sintaxis rápida)</h2>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.*</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.stream.*</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Main</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Scanner</span><span class="w"> </span><span class="n">sc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Scanner</span><span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="na">in</span><span class="p">);</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sc</span><span class="p">.</span><span class="na">nextInt</span><span class="p">();</span><span class="w"> </span><span class="n">sc</span><span class="p">.</span><span class="na">nextLine</span><span class="p">();</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">nombre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sc</span><span class="p">.</span><span class="na">nextLine</span><span class="p">();</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">printf</span><span class="p">(</span><span class="s">&quot;Hola %s, número %d%n&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">nombre</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">nums</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="n">List</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">));</span>
+<span class="w">    </span><span class="n">Collections</span><span class="p">.</span><span class="na">sort</span><span class="p">(</span><span class="n">nums</span><span class="p">);</span>
+<span class="w">    </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">pares</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nums</span><span class="p">.</span><span class="na">stream</span><span class="p">().</span><span class="na">filter</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">).</span><span class="na">collect</span><span class="p">(</span><span class="n">Collectors</span><span class="p">.</span><span class="na">toList</span><span class="p">());</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">suma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nums</span><span class="p">.</span><span class="na">stream</span><span class="p">().</span><span class="na">mapToInt</span><span class="p">(</span><span class="n">Integer</span><span class="p">::</span><span class="n">intValue</span><span class="p">).</span><span class="na">sum</span><span class="p">();</span>
+
+<span class="w">    </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">mapa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HashMap</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="w">    </span><span class="n">mapa</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="s">&quot;Ana&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p">);</span><span class="w">  </span><span class="n">mapa</span><span class="p">.</span><span class="na">getOrDefault</span><span class="p">(</span><span class="s">&quot;Luis&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">Map</span><span class="p">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">mapa</span><span class="p">.</span><span class="na">entrySet</span><span class="p">())</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="na">getKey</span><span class="p">());</span>
+
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Hola&quot;</span><span class="p">;</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="na">length</span><span class="p">();</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="na">charAt</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="na">toUpperCase</span><span class="p">();</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="s">&quot;Hola&quot;</span><span class="p">);</span><span class="w"> </span><span class="c1">// ¡equals, no ==!</span>
+<span class="w">    </span><span class="k">new</span><span class="w"> </span><span class="n">StringBuilder</span><span class="p">(</span><span class="n">s</span><span class="p">).</span><span class="na">reverse</span><span class="p">().</span><span class="na">toString</span><span class="p">();</span>
+<span class="w">    </span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">arr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">};</span><span class="w"> </span><span class="n">Arrays</span><span class="p">.</span><span class="na">sort</span><span class="p">(</span><span class="n">arr</span><span class="p">);</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">Arrays</span><span class="p">.</span><span class="na">toString</span><span class="p">(</span><span class="n">arr</span><span class="p">));</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+<span class="c1">// Compilar y ejecutar: javac Main.java &amp;&amp; java Main</span>
+</code></pre></div>
+
+<h2 id="4-c-net-familiaridad">4. C# / .NET (familiaridad)</h2>
+<div class="codehilite"><pre><span></span><code><span class="kt">var</span><span class="w"> </span><span class="n">nombre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Ana&quot;</span><span class="p">;</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">edad</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">25</span><span class="p">;</span>
+<span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">$&quot;Hola {nombre}, {edad} años&quot;</span><span class="p">);</span>
+<span class="kt">var</span><span class="w"> </span><span class="n">nums</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="p">};</span>
+<span class="kt">var</span><span class="w"> </span><span class="n">pares</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nums</span><span class="p">.</span><span class="n">Where</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">).</span><span class="n">ToList</span><span class="p">();</span><span class="w">          </span><span class="c1">// LINQ</span>
+<span class="kt">var</span><span class="w"> </span><span class="n">total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nums</span><span class="p">.</span><span class="n">Sum</span><span class="p">();</span><span class="w"> </span><span class="kt">var</span><span class="w"> </span><span class="n">max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nums</span><span class="p">.</span><span class="n">Max</span><span class="p">();</span>
+<span class="kt">var</span><span class="w"> </span><span class="n">ordenados</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nums</span><span class="p">.</span><span class="n">OrderByDescending</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">n</span><span class="p">).</span><span class="n">ToList</span><span class="p">();</span>
+
+<span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Producto</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">Id</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">set</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">Nombre</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">set</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">decimal</span><span class="w"> </span><span class="n">Precio</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">set</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Comandos .NET:</p>
+<div class="codehilite"><pre><span></span><code>dotnet<span class="w"> </span>new<span class="w"> </span>console<span class="w"> </span>-n<span class="w"> </span>MiApp<span class="w">       </span><span class="c1"># app de consola</span>
+dotnet<span class="w"> </span>new<span class="w"> </span>webapi<span class="w"> </span>-n<span class="w"> </span>MiApi<span class="w">        </span><span class="c1"># API REST</span>
+dotnet<span class="w"> </span>new<span class="w"> </span>mvc<span class="w"> </span>-n<span class="w"> </span>MiWeb<span class="w">           </span><span class="c1"># MVC con vistas</span>
+dotnet<span class="w"> </span>run
+dotnet<span class="w"> </span>add<span class="w"> </span>package<span class="w"> </span>Microsoft.EntityFrameworkCore.SqlServer
+</code></pre></div>
+
+<p>Minimal API (.NET 8):</p>
+<div class="codehilite"><pre><span></span><code><span class="kt">var</span><span class="w"> </span><span class="n">app</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">WebApplication</span><span class="p">.</span><span class="n">CreateBuilder</span><span class="p">(</span><span class="n">args</span><span class="p">).</span><span class="n">Build</span><span class="p">();</span>
+<span class="kt">var</span><span class="w"> </span><span class="n">productos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Producto</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="n">app</span><span class="p">.</span><span class="n">MapGet</span><span class="p">(</span><span class="s">&quot;/api/productos&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">productos</span><span class="p">);</span>
+<span class="n">app</span><span class="p">.</span><span class="n">MapPost</span><span class="p">(</span><span class="s">&quot;/api/productos&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">Producto</span><span class="w"> </span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">productos</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">p</span><span class="p">);</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">Results</span><span class="p">.</span><span class="n">Created</span><span class="p">(</span><span class="s">$&quot;/api/productos/{p.Id}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">);</span><span class="w"> </span><span class="p">});</span>
+<span class="n">app</span><span class="p">.</span><span class="n">Run</span><span class="p">();</span>
+</code></pre></div>
+
+<p><strong>Entity Framework Core</strong>: ORM de .NET. <code>DbContext</code> con <code>DbSet&lt;Producto&gt;</code>; migraciones con <code>dotnet ef migrations add Inicial</code> y <code>dotnet ef database update</code>.</p>
+<h2 id="5-azure-y-vercel-nociones">5. Azure y Vercel (nociones)</h2>
+<p><strong>Vercel</strong>: hosting para frontend y Next.js. Conectas el repo de GitHub, cada push a <code>main</code> despliega a producción y cada rama/PR genera una URL de preview. Soporta funciones serverless (<code>/api</code>). Variables de entorno en el panel.</p>
+<p><strong>Azure</strong> (nube de Microsoft):
+- <strong>App Service</strong>: hosting de apps web (.NET, Node, Python, PHP).
+- <strong>Azure SQL Database</strong>: SQL Server administrado.
+- <strong>Storage Account (Blob)</strong>: archivos/imagenes.
+- <strong>Azure Functions</strong>: serverless.
+- <strong>Static Web Apps</strong>: frontends estáticos (React) con API.
+- <strong>Azure DevOps / GitHub Actions</strong>: CI/CD.
+- <strong>Resource Group</strong>: contenedor lógico de recursos.</p>
+<p>Conceptos cloud: <strong>IaaS</strong> (máquinas virtuales), <strong>PaaS</strong> (App Service, sin gestionar servidor), <strong>SaaS</strong> (Office 365), <strong>serverless</strong> (pagas por ejecución), <strong>CI/CD</strong> (integración y despliegue continuo automatizado).</p>
+<h2 id="6-testing-qa">6. Testing / QA</h2>
+<ul>
+<li><strong>Unitarias</strong>: prueban una función aislada (unittest, pytest, Jest, JUnit, xUnit).</li>
+<li><strong>Integración</strong>: prueban varias piezas juntas (API + BD).</li>
+<li><strong>End-to-end (E2E)</strong>: simulan al usuario en el navegador (Cypress, Playwright, Selenium).</li>
+<li><strong>Funcionales / aceptación</strong>: verifican requisitos del negocio.</li>
+<li><strong>Regresión</strong>: re-ejecutar pruebas para confirmar que nada se rompió.</li>
+<li><strong>Caja negra</strong> (sin ver el código, entradas/salidas) vs <strong>caja blanca</strong> (conociendo el código).</li>
+<li><strong>TDD</strong>: escribir la prueba primero, luego el código (Red → Green → Refactor).</li>
+<li><strong>Casos de prueba</strong>: ID, descripción, precondiciones, pasos, datos, resultado esperado, resultado obtenido, estado.</li>
+<li>Probar siempre: caso normal, <strong>valores límite</strong> (0, vacío, máximo), datos inválidos, duplicados.</li>
+<li>Probar APIs: Postman / Thunder Client / <code>curl</code>:
+  <code>bash
+  curl http://localhost:3000/api/productos
+  curl -X POST http://localhost:3000/api/productos -H "Content-Type: application/json" -d "{\"nombre\":\"Mouse\",\"precio\":10}"</code></li>
+</ul>
+<p>Ejemplo de caso de prueba:</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Caso</th>
+<th>Datos</th>
+<th>Esperado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CP-01</td>
+<td>Crear producto válido</td>
+<td>nombre=Mouse, precio=10</td>
+<td>201, aparece en la lista</td>
+</tr>
+<tr>
+<td>CP-02</td>
+<td>Nombre vacío</td>
+<td>nombre="", precio=10</td>
+<td>400, mensaje "nombre obligatorio"</td>
+</tr>
+<tr>
+<td>CP-03</td>
+<td>Precio negativo</td>
+<td>precio=-5</td>
+<td>400</td>
+</tr>
+<tr>
+<td>CP-04</td>
+<td>Eliminar inexistente</td>
+<td>id=999</td>
+<td>404</td>
+</tr>
+</tbody>
+</table>
+<h2 id="7-preguntas-de-entrevista-tecnica-respuestas-cortas">7. Preguntas de entrevista técnica (respuestas cortas)</h2>
+<ul>
+<li><strong>¿Qué es una API REST?</strong> Interfaz que expone recursos por HTTP usando verbos: GET (leer), POST (crear), PUT/PATCH (actualizar total/parcial), DELETE (eliminar). Sin estado, normalmente en JSON.</li>
+<li><strong>MVC</strong>: Modelo (datos y lógica), Vista (interfaz), Controlador (recibe peticiones y coordina).</li>
+<li><strong>Frontend vs Backend</strong>: lo que corre en el navegador vs lo que corre en el servidor.</li>
+<li><strong>Cookies vs sesión vs JWT</strong>: cookie se guarda en el navegador; la sesión guarda datos en el servidor identificados por una cookie; JWT es un token firmado que el cliente envía en cada petición.</li>
+<li><strong>Autenticación vs autorización</strong>: quién eres vs qué puedes hacer.</li>
+<li><strong>Hash de contraseñas</strong>: nunca guardar en texto plano; usar bcrypt/argon2 (<code>password_hash</code> en PHP).</li>
+<li><strong>OWASP top</strong>: SQL Injection, XSS, CSRF, autenticación rota, datos sensibles expuestos.</li>
+<li><strong>SOLID</strong>: Responsabilidad única, Abierto/cerrado, Sustitución de Liskov, Segregación de interfaces, Inversión de dependencias.</li>
+<li><strong>Big O</strong>: O(1) constante, O(log n) búsqueda binaria, O(n) recorrer, O(n log n) buen ordenamiento, O(n²) doble bucle.</li>
+<li><strong>Pila vs cola</strong>: LIFO vs FIFO.</li>
+<li><strong>Scrum</strong>: sprints de 1–4 semanas, daily, sprint planning, review, retrospectiva; roles: Product Owner, Scrum Master, equipo.</li>
+<li><strong>¿Por qué quieres trabajar aquí?</strong> Menciona crecer en un entorno educativo, contribuir a sistemas que usan estudiantes y docentes, y que el stack del puesto coincide con lo que dominas.</li>
+<li><strong>¿Un error que cometiste?</strong> Uno real y pequeño, cómo lo detectaste y qué cambiaste (p. ej., ahora haces commits y pruebas antes de desplegar).</li>
+</ul></main></div>
+<script>
+document.querySelectorAll('.codehilite').forEach(b => {
+  const btn = document.createElement('button'); btn.className = 'copiar'; btn.textContent = 'Copiar';
+  btn.onclick = () => { const t = b.querySelector('pre').innerText;
+    navigator.clipboard.writeText(t).then(() => { btn.textContent = '¡Copiado!'; setTimeout(() => btn.textContent = 'Copiar', 1500); }); };
+  b.prepend(btn);
+});
+</script></body></html>

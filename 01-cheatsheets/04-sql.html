@@ -1,0 +1,613 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Cheatsheet SQL (MySQL / SQLite / SQL Server)</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,Segoe UI,sans-serif;line-height:1.6;color:#1f2937;background:#f8fafc}
+.layout{display:grid;grid-template-columns:270px 1fr;max-width:1400px;margin:auto}
+nav{position:sticky;top:0;height:100vh;overflow:auto;padding:18px;border-right:1px solid #e5e7eb;background:#fff;font-size:13.5px}
+nav ul{list-style:none;padding-left:10px;margin:3px 0} nav>div>ul{padding-left:0} nav a{color:#334155;text-decoration:none} nav a:hover{color:#0a5bd6}
+.volver{display:inline-block;margin-bottom:10px;font-weight:600;color:#0a5bd6!important}
+main{padding:24px 40px;min-width:0} h1{color:#0a5bd6} h2{border-top:2px solid #e5e7eb;padding-top:22px;margin-top:36px}
+table{border-collapse:collapse;width:100%;margin:12px 0;font-size:14px;display:block;overflow-x:auto}
+th,td{border:1px solid #e5e7eb;padding:6px 10px;text-align:left;vertical-align:top} th{background:#f1f5f9}
+code{background:#eef2f7;padding:1px 5px;border-radius:4px;font-size:.9em}
+.codehilite{border-radius:8px;margin:12px 0;overflow:auto;position:relative} .codehilite pre{padding:14px;margin:0;font-size:13px;line-height:1.5}
+.codehilite code{background:none;padding:0;color:inherit}
+blockquote{margin:12px 0;padding:8px 16px;background:#fff7ed;border-left:4px solid #f59e0b;border-radius:4px}
+.copiar{position:absolute;right:6px;top:6px;padding:3px 10px;font-size:12px;border:0;border-radius:4px;cursor:pointer;background:#334155;color:#fff}
+@media (max-width:900px){.layout{grid-template-columns:1fr} nav{position:static;height:auto;border-right:0} main{padding:16px}}
+pre { line-height: 125%; }
+td.linenos .normal { color: #6e7681; background-color: #0d1117; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #6e7681; background-color: #0d1117; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #e6edf3; background-color: #6e7681; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #e6edf3; background-color: #6e7681; padding-left: 5px; padding-right: 5px; }
+.codehilite .hll { background-color: #6e7681 }
+.codehilite { background: #0d1117; color: #E6EDF3 }
+.codehilite .c { color: #8B949E; font-style: italic } /* Comment */
+.codehilite .err { color: #F85149 } /* Error */
+.codehilite .esc { color: #E6EDF3 } /* Escape */
+.codehilite .g { color: #E6EDF3 } /* Generic */
+.codehilite .k { color: #FF7B72 } /* Keyword */
+.codehilite .l { color: #A5D6FF } /* Literal */
+.codehilite .n { color: #E6EDF3 } /* Name */
+.codehilite .o { color: #FF7B72; font-weight: bold } /* Operator */
+.codehilite .x { color: #E6EDF3 } /* Other */
+.codehilite .p { color: #E6EDF3 } /* Punctuation */
+.codehilite .ch { color: #8B949E; font-style: italic } /* Comment.Hashbang */
+.codehilite .cm { color: #8B949E; font-style: italic } /* Comment.Multiline */
+.codehilite .cp { color: #8B949E; font-weight: bold; font-style: italic } /* Comment.Preproc */
+.codehilite .cpf { color: #8B949E; font-style: italic } /* Comment.PreprocFile */
+.codehilite .c1 { color: #8B949E; font-style: italic } /* Comment.Single */
+.codehilite .cs { color: #8B949E; font-weight: bold; font-style: italic } /* Comment.Special */
+.codehilite .gd { color: #FFA198; background-color: #490202 } /* Generic.Deleted */
+.codehilite .ge { color: #E6EDF3; font-style: italic } /* Generic.Emph */
+.codehilite .ges { color: #E6EDF3; font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.codehilite .gr { color: #FFA198 } /* Generic.Error */
+.codehilite .gh { color: #79C0FF; font-weight: bold } /* Generic.Heading */
+.codehilite .gi { color: #56D364; background-color: #0F5323 } /* Generic.Inserted */
+.codehilite .go { color: #8B949E } /* Generic.Output */
+.codehilite .gp { color: #8B949E } /* Generic.Prompt */
+.codehilite .gs { color: #E6EDF3; font-weight: bold } /* Generic.Strong */
+.codehilite .gu { color: #79C0FF } /* Generic.Subheading */
+.codehilite .gt { color: #FF7B72 } /* Generic.Traceback */
+.codehilite .g-Underline { color: #E6EDF3; text-decoration: underline } /* Generic.Underline */
+.codehilite .kc { color: #79C0FF } /* Keyword.Constant */
+.codehilite .kd { color: #FF7B72 } /* Keyword.Declaration */
+.codehilite .kn { color: #FF7B72 } /* Keyword.Namespace */
+.codehilite .kp { color: #79C0FF } /* Keyword.Pseudo */
+.codehilite .kr { color: #FF7B72 } /* Keyword.Reserved */
+.codehilite .kt { color: #FF7B72 } /* Keyword.Type */
+.codehilite .ld { color: #79C0FF } /* Literal.Date */
+.codehilite .m { color: #A5D6FF } /* Literal.Number */
+.codehilite .s { color: #A5D6FF } /* Literal.String */
+.codehilite .na { color: #E6EDF3 } /* Name.Attribute */
+.codehilite .nb { color: #E6EDF3 } /* Name.Builtin */
+.codehilite .nc { color: #F0883E; font-weight: bold } /* Name.Class */
+.codehilite .no { color: #79C0FF; font-weight: bold } /* Name.Constant */
+.codehilite .nd { color: #D2A8FF; font-weight: bold } /* Name.Decorator */
+.codehilite .ni { color: #FFA657 } /* Name.Entity */
+.codehilite .ne { color: #F0883E; font-weight: bold } /* Name.Exception */
+.codehilite .nf { color: #D2A8FF; font-weight: bold } /* Name.Function */
+.codehilite .nl { color: #79C0FF; font-weight: bold } /* Name.Label */
+.codehilite .nn { color: #FF7B72 } /* Name.Namespace */
+.codehilite .nx { color: #E6EDF3 } /* Name.Other */
+.codehilite .py { color: #79C0FF } /* Name.Property */
+.codehilite .nt { color: #7EE787 } /* Name.Tag */
+.codehilite .nv { color: #79C0FF } /* Name.Variable */
+.codehilite .ow { color: #FF7B72; font-weight: bold } /* Operator.Word */
+.codehilite .pm { color: #E6EDF3 } /* Punctuation.Marker */
+.codehilite .w { color: #6E7681 } /* Text.Whitespace */
+.codehilite .mb { color: #A5D6FF } /* Literal.Number.Bin */
+.codehilite .mf { color: #A5D6FF } /* Literal.Number.Float */
+.codehilite .mh { color: #A5D6FF } /* Literal.Number.Hex */
+.codehilite .mi { color: #A5D6FF } /* Literal.Number.Integer */
+.codehilite .mo { color: #A5D6FF } /* Literal.Number.Oct */
+.codehilite .sa { color: #79C0FF } /* Literal.String.Affix */
+.codehilite .sb { color: #A5D6FF } /* Literal.String.Backtick */
+.codehilite .sc { color: #A5D6FF } /* Literal.String.Char */
+.codehilite .dl { color: #79C0FF } /* Literal.String.Delimiter */
+.codehilite .sd { color: #A5D6FF } /* Literal.String.Doc */
+.codehilite .s2 { color: #A5D6FF } /* Literal.String.Double */
+.codehilite .se { color: #79C0FF } /* Literal.String.Escape */
+.codehilite .sh { color: #79C0FF } /* Literal.String.Heredoc */
+.codehilite .si { color: #A5D6FF } /* Literal.String.Interpol */
+.codehilite .sx { color: #A5D6FF } /* Literal.String.Other */
+.codehilite .sr { color: #79C0FF } /* Literal.String.Regex */
+.codehilite .s1 { color: #A5D6FF } /* Literal.String.Single */
+.codehilite .ss { color: #A5D6FF } /* Literal.String.Symbol */
+.codehilite .bp { color: #E6EDF3 } /* Name.Builtin.Pseudo */
+.codehilite .fm { color: #D2A8FF; font-weight: bold } /* Name.Function.Magic */
+.codehilite .vc { color: #79C0FF } /* Name.Variable.Class */
+.codehilite .vg { color: #79C0FF } /* Name.Variable.Global */
+.codehilite .vi { color: #79C0FF } /* Name.Variable.Instance */
+.codehilite .vm { color: #79C0FF } /* Name.Variable.Magic */
+.codehilite .il { color: #A5D6FF } /* Literal.Number.Integer.Long */
+</style></head><body><div class="layout">
+<nav><a class="volver" href="../LEEME-PRIMERO.html">← Índice del kit</a><br><strong>En esta página</strong><div class="toc">
+<ul>
+<li><a href="#1-crear-base-y-tablas-ddl">1. Crear base y tablas (DDL)</a></li>
+<li><a href="#2-crud-dml">2. CRUD (DML)</a></li>
+<li><a href="#3-filtros">3. Filtros</a></li>
+<li><a href="#4-funciones-de-agregacion-group-by-having">4. Funciones de agregación + GROUP BY + HAVING</a></li>
+<li><a href="#5-joins-seguro-preguntan">5. JOINs (seguro preguntan)</a></li>
+<li><a href="#6-subconsultas">6. Subconsultas</a></li>
+<li><a href="#7-otras-cosas-utiles">7. Otras cosas útiles</a></li>
+<li><a href="#8-teoria-rapida">8. Teoría rápida</a></li>
+<li><a href="#9-como-ejecutar-sql-entornos">9. Cómo ejecutar SQL (entornos)</a></li>
+<li><a href="#10-diferencias-entre-motores-lo-que-cambia">10. Diferencias entre motores (lo que cambia)</a></li>
+<li><a href="#11-funciones-de-ventana-window-functions-nivel-pro">11. Funciones de ventana (window functions): nivel pro</a></li>
+<li><a href="#12-cte-with-consultas-legibles-por-pasos">12. CTE (WITH): consultas legibles por pasos</a></li>
+<li><a href="#13-mas-joins-y-operaciones-de-conjuntos">13. Más JOINs y operaciones de conjuntos</a></li>
+<li><a href="#14-indices-restricciones-y-rendimiento">14. Índices, restricciones y rendimiento</a></li>
+<li><a href="#15-triggers-y-procedimientos-mysql">15. Triggers y procedimientos (MySQL)</a></li>
+<li><a href="#16-usuarios-y-permisos-dcl">16. Usuarios y permisos (DCL)</a></li>
+<li><a href="#17-normalizacion-con-ejemplo">17. Normalización con ejemplo</a></li>
+<li><a href="#18-modelos-tipicos-que-te-pueden-pedir-dibujalos">18. Modelos típicos que te pueden pedir (dibújalos)</a></li>
+<li><a href="#19-consultas-tipicas-de-entrevista-con-solucion">19. Consultas típicas de entrevista (con solución)</a></li>
+</ul>
+</div>
+</nav>
+<main><h1 id="cheatsheet-sql-mysql-sqlite-sql-server">Cheatsheet SQL (MySQL / SQLite / SQL Server)</h1>
+<p>Practica con: <code>sqlite3 practica.db</code> (o en https://sqliteonline.com / phpMyAdmin de XAMPP).
+Hay un script listo en <code>03-logica/sql/practica.sql</code> con tablas y datos para probar todo esto.</p>
+<h2 id="1-crear-base-y-tablas-ddl">1. Crear base y tablas (DDL)</h2>
+<div class="codehilite"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"> </span><span class="n">instituto</span><span class="p">;</span><span class="w">          </span><span class="c1">-- MySQL</span>
+<span class="n">USE</span><span class="w"> </span><span class="n">instituto</span><span class="p">;</span>
+
+<span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">carreras</span><span class="w"> </span><span class="p">(</span>
+<span class="w">  </span><span class="n">id</span><span class="w"> </span><span class="nb">INT</span><span class="w"> </span><span class="n">AUTO_INCREMENT</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span><span class="w">         </span><span class="c1">-- SQLite: INTEGER PRIMARY KEY AUTOINCREMENT</span>
+<span class="w">  </span><span class="n">nombre</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">UNIQUE</span><span class="w">        </span><span class="c1">-- SQL Server: id INT IDENTITY(1,1) PRIMARY KEY</span>
+<span class="p">);</span>
+
+<span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">estudiantes</span><span class="w"> </span><span class="p">(</span>
+<span class="w">  </span><span class="n">id</span><span class="w"> </span><span class="nb">INT</span><span class="w"> </span><span class="n">AUTO_INCREMENT</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<span class="w">  </span><span class="n">cedula</span><span class="w"> </span><span class="nb">CHAR</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">UNIQUE</span><span class="p">,</span>
+<span class="w">  </span><span class="n">nombre</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">  </span><span class="n">email</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">120</span><span class="p">),</span>
+<span class="w">  </span><span class="n">fecha_nacimiento</span><span class="w"> </span><span class="nb">DATE</span><span class="p">,</span>
+<span class="w">  </span><span class="n">carrera_id</span><span class="w"> </span><span class="nb">INT</span><span class="p">,</span>
+<span class="w">  </span><span class="n">activo</span><span class="w"> </span><span class="nb">BOOLEAN</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">TRUE</span><span class="p">,</span>
+<span class="w">  </span><span class="n">creado_en</span><span class="w"> </span><span class="k">TIMESTAMP</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">CURRENT_TIMESTAMP</span><span class="p">,</span>
+<span class="w">  </span><span class="k">FOREIGN</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="n">carrera_id</span><span class="p">)</span><span class="w"> </span><span class="k">REFERENCES</span><span class="w"> </span><span class="n">carreras</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+<span class="p">);</span>
+
+<span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">notas</span><span class="w"> </span><span class="p">(</span>
+<span class="w">  </span><span class="n">id</span><span class="w"> </span><span class="nb">INT</span><span class="w"> </span><span class="n">AUTO_INCREMENT</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<span class="w">  </span><span class="n">estudiante_id</span><span class="w"> </span><span class="nb">INT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">  </span><span class="n">materia</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">80</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">  </span><span class="n">nota</span><span class="w"> </span><span class="nb">DECIMAL</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">CHECK</span><span class="w"> </span><span class="p">(</span><span class="n">nota</span><span class="w"> </span><span class="k">BETWEEN</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="mi">10</span><span class="p">),</span>
+<span class="w">  </span><span class="k">FOREIGN</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="n">estudiante_id</span><span class="p">)</span><span class="w"> </span><span class="k">REFERENCES</span><span class="w"> </span><span class="n">estudiantes</span><span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">DELETE</span><span class="w"> </span><span class="k">CASCADE</span>
+<span class="p">);</span>
+
+<span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">estudiantes</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="n">telefono</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">15</span><span class="p">);</span>
+<span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">estudiantes</span><span class="w"> </span><span class="k">DROP</span><span class="w"> </span><span class="k">COLUMN</span><span class="w"> </span><span class="n">telefono</span><span class="p">;</span>
+<span class="k">DROP</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">tabla_vieja</span><span class="p">;</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_nombre</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">estudiantes</span><span class="p">(</span><span class="n">nombre</span><span class="p">);</span>
+</code></pre></div>
+
+<p>Tipos comunes: <code>INT</code>, <code>DECIMAL(10,2)</code> (dinero), <code>VARCHAR(n)</code>, <code>TEXT</code>, <code>DATE</code>, <code>DATETIME</code>, <code>BOOLEAN</code>.</p>
+<h2 id="2-crud-dml">2. CRUD (DML)</h2>
+<div class="codehilite"><pre><span></span><code><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">carreras</span><span class="w"> </span><span class="p">(</span><span class="n">nombre</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;Software&#39;</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;Enfermería&#39;</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;Marketing&#39;</span><span class="p">);</span>
+
+<span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">estudiantes</span><span class="w"> </span><span class="p">(</span><span class="n">cedula</span><span class="p">,</span><span class="w"> </span><span class="n">nombre</span><span class="p">,</span><span class="w"> </span><span class="n">email</span><span class="p">,</span><span class="w"> </span><span class="n">carrera_id</span><span class="p">)</span>
+<span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;1804567890&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Ana Pérez&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;ana@mail.com&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+
+<span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">estudiantes</span><span class="p">;</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="n">nombre</span><span class="p">,</span><span class="w"> </span><span class="n">email</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">estudiantes</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">carrera_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+
+<span class="k">UPDATE</span><span class="w"> </span><span class="n">estudiantes</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">email</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;nuevo@mail.com&#39;</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">   </span><span class="c1">-- ¡SIEMPRE con WHERE!</span>
+<span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">estudiantes</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">                           </span><span class="c1">-- ¡SIEMPRE con WHERE!</span>
+</code></pre></div>
+
+<h2 id="3-filtros">3. Filtros</h2>
+<div class="codehilite"><pre><span></span><code><span class="k">WHERE</span><span class="w"> </span><span class="n">nota</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">materia</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Programación&#39;</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">carrera_id</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">nota</span><span class="w"> </span><span class="k">BETWEEN</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="mi">10</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">nombre</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;A%&#39;</span><span class="w">        </span><span class="c1">-- empieza con A</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">nombre</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;%ez&#39;</span><span class="w">       </span><span class="c1">-- termina en ez</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">nombre</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;%an%&#39;</span><span class="w">      </span><span class="c1">-- contiene &quot;an&quot;</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">email</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">nota</span><span class="w"> </span><span class="k">DESC</span><span class="p">,</span><span class="w"> </span><span class="n">nombre</span><span class="w"> </span><span class="k">ASC</span>
+<span class="k">LIMIT</span><span class="w"> </span><span class="mi">5</span><span class="w">                        </span><span class="c1">-- SQL Server: SELECT TOP 5 ...</span>
+<span class="k">LIMIT</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="k">OFFSET</span><span class="w"> </span><span class="mi">20</span><span class="w">             </span><span class="c1">-- paginación (página 3 de 10)</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="k">DISTINCT</span><span class="w"> </span><span class="n">materia</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">notas</span><span class="p">;</span>
+</code></pre></div>
+
+<h2 id="4-funciones-de-agregacion-group-by-having">4. Funciones de agregación + GROUP BY + HAVING</h2>
+<div class="codehilite"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">estudiantes</span><span class="p">;</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="k">AVG</span><span class="p">(</span><span class="n">nota</span><span class="p">),</span><span class="w"> </span><span class="k">MAX</span><span class="p">(</span><span class="n">nota</span><span class="p">),</span><span class="w"> </span><span class="k">MIN</span><span class="p">(</span><span class="n">nota</span><span class="p">),</span><span class="w"> </span><span class="k">SUM</span><span class="p">(</span><span class="n">nota</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">notas</span><span class="p">;</span>
+
+<span class="c1">-- Promedio por estudiante</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="n">estudiante_id</span><span class="p">,</span><span class="w"> </span><span class="n">ROUND</span><span class="p">(</span><span class="k">AVG</span><span class="p">(</span><span class="n">nota</span><span class="p">),</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">promedio</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">notas</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">estudiante_id</span><span class="p">;</span>
+
+<span class="c1">-- Solo los que tienen promedio &gt;= 8  (HAVING filtra grupos, WHERE filtra filas)</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="n">estudiante_id</span><span class="p">,</span><span class="w"> </span><span class="k">AVG</span><span class="p">(</span><span class="n">nota</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">promedio</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">notas</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">estudiante_id</span>
+<span class="k">HAVING</span><span class="w"> </span><span class="k">AVG</span><span class="p">(</span><span class="n">nota</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">8</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">promedio</span><span class="w"> </span><span class="k">DESC</span><span class="p">;</span>
+</code></pre></div>
+
+<p>Orden de ejecución: <code>FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT</code>.</p>
+<h2 id="5-joins-seguro-preguntan">5. JOINs (seguro preguntan)</h2>
+<div class="codehilite"><pre><span></span><code><span class="c1">-- INNER JOIN: solo filas que coinciden en ambas tablas</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">nombre</span><span class="p">,</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">nombre</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">carrera</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">estudiantes</span><span class="w"> </span><span class="n">e</span>
+<span class="k">INNER</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">carreras</span><span class="w"> </span><span class="k">c</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">carrera_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">id</span><span class="p">;</span>
+
+<span class="c1">-- LEFT JOIN: todos los de la izquierda, aunque no tengan match (salen NULL)</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">nombre</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">total_estudiantes</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">carreras</span><span class="w"> </span><span class="k">c</span>
+<span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">estudiantes</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">carrera_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">id</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">nombre</span><span class="p">;</span>
+
+<span class="c1">-- Estudiantes SIN notas</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">nombre</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">estudiantes</span><span class="w"> </span><span class="n">e</span>
+<span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">notas</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">n</span><span class="p">.</span><span class="n">estudiante_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">id</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">n</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NULL</span><span class="p">;</span>
+
+<span class="c1">-- 3 tablas: promedio por carrera</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">nombre</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">carrera</span><span class="p">,</span><span class="w"> </span><span class="n">ROUND</span><span class="p">(</span><span class="k">AVG</span><span class="p">(</span><span class="n">n</span><span class="p">.</span><span class="n">nota</span><span class="p">),</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">promedio</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">carreras</span><span class="w"> </span><span class="k">c</span>
+<span class="k">JOIN</span><span class="w"> </span><span class="n">estudiantes</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">carrera_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">id</span>
+<span class="k">JOIN</span><span class="w"> </span><span class="n">notas</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">n</span><span class="p">.</span><span class="n">estudiante_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">id</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">nombre</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">promedio</span><span class="w"> </span><span class="k">DESC</span><span class="p">;</span>
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th>JOIN</th>
+<th>Devuelve</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>INNER</td>
+<td>Solo coincidencias</td>
+</tr>
+<tr>
+<td>LEFT</td>
+<td>Todo de la izquierda + coincidencias</td>
+</tr>
+<tr>
+<td>RIGHT</td>
+<td>Todo de la derecha + coincidencias</td>
+</tr>
+<tr>
+<td>FULL OUTER</td>
+<td>Todo de ambas (MySQL no lo tiene: usar UNION de LEFT y RIGHT)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="6-subconsultas">6. Subconsultas</h2>
+<div class="codehilite"><pre><span></span><code><span class="c1">-- Estudiantes con nota mayor al promedio general</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="k">DISTINCT</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">nombre</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">estudiantes</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">notas</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">n</span><span class="p">.</span><span class="n">estudiante_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">id</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">n</span><span class="p">.</span><span class="n">nota</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="k">AVG</span><span class="p">(</span><span class="n">nota</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">notas</span><span class="p">);</span>
+
+<span class="c1">-- Carreras que tienen al menos un estudiante</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="n">nombre</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">carreras</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="k">DISTINCT</span><span class="w"> </span><span class="n">carrera_id</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">estudiantes</span><span class="p">);</span>
+
+<span class="c1">-- El estudiante con la nota más alta</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">nombre</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">.</span><span class="n">nota</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">notas</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">estudiantes</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">.</span><span class="n">estudiante_id</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">n</span><span class="p">.</span><span class="n">nota</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="k">MAX</span><span class="p">(</span><span class="n">nota</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">notas</span><span class="p">);</span>
+</code></pre></div>
+
+<h2 id="7-otras-cosas-utiles">7. Otras cosas útiles</h2>
+<div class="codehilite"><pre><span></span><code><span class="c1">-- CASE (if dentro de SQL)</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="n">nombre</span><span class="p">,</span><span class="w"> </span><span class="n">nota</span><span class="p">,</span>
+<span class="w">  </span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">nota</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">9</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Excelente&#39;</span>
+<span class="w">       </span><span class="k">WHEN</span><span class="w"> </span><span class="n">nota</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Aprobado&#39;</span>
+<span class="w">       </span><span class="k">ELSE</span><span class="w"> </span><span class="s1">&#39;Reprobado&#39;</span><span class="w"> </span><span class="k">END</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">estado</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">notas</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">estudiantes</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">.</span><span class="n">estudiante_id</span><span class="p">;</span>
+
+<span class="c1">-- Texto y fechas (MySQL)</span>
+<span class="n">CONCAT</span><span class="p">(</span><span class="n">nombre</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39; - &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">email</span><span class="p">),</span><span class="w"> </span><span class="k">UPPER</span><span class="p">(</span><span class="n">nombre</span><span class="p">),</span><span class="w"> </span><span class="k">LENGTH</span><span class="p">(</span><span class="n">nombre</span><span class="p">),</span><span class="w"> </span><span class="k">SUBSTRING</span><span class="p">(</span><span class="n">cedula</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
+<span class="n">NOW</span><span class="p">(),</span><span class="w"> </span><span class="n">CURDATE</span><span class="p">(),</span><span class="w"> </span><span class="k">YEAR</span><span class="p">(</span><span class="n">fecha_nacimiento</span><span class="p">),</span><span class="w"> </span><span class="n">TIMESTAMPDIFF</span><span class="p">(</span><span class="k">YEAR</span><span class="p">,</span><span class="w"> </span><span class="n">fecha_nacimiento</span><span class="p">,</span><span class="w"> </span><span class="n">CURDATE</span><span class="p">())</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">edad</span>
+<span class="k">COALESCE</span><span class="p">(</span><span class="n">email</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;sin email&#39;</span><span class="p">)</span><span class="w">          </span><span class="c1">-- reemplaza NULL</span>
+
+<span class="c1">-- Vista</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">VIEW</span><span class="w"> </span><span class="n">v_promedios</span><span class="w"> </span><span class="k">AS</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">nombre</span><span class="p">,</span><span class="w"> </span><span class="k">AVG</span><span class="p">(</span><span class="n">n</span><span class="p">.</span><span class="n">nota</span><span class="p">)</span><span class="w"> </span><span class="n">promedio</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">estudiantes</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">notas</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">n</span><span class="p">.</span><span class="n">estudiante_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">nombre</span><span class="p">;</span>
+
+<span class="c1">-- Transacción</span>
+<span class="k">START</span><span class="w"> </span><span class="k">TRANSACTION</span><span class="p">;</span>
+<span class="k">UPDATE</span><span class="w"> </span><span class="n">cuentas</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">saldo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">saldo</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="k">UPDATE</span><span class="w"> </span><span class="n">cuentas</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">saldo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">saldo</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="k">COMMIT</span><span class="p">;</span><span class="w">      </span><span class="c1">-- o ROLLBACK;</span>
+
+<span class="c1">-- Procedimiento almacenado (MySQL)</span>
+<span class="k">DELIMITER</span><span class="w"> </span><span class="o">//</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">PROCEDURE</span><span class="w"> </span><span class="n">notas_de</span><span class="p">(</span><span class="k">IN</span><span class="w"> </span><span class="n">p_id</span><span class="w"> </span><span class="nb">INT</span><span class="p">)</span>
+<span class="k">BEGIN</span>
+<span class="w">  </span><span class="k">SELECT</span><span class="w"> </span><span class="n">materia</span><span class="p">,</span><span class="w"> </span><span class="n">nota</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">notas</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">estudiante_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p_id</span><span class="p">;</span>
+<span class="k">END</span><span class="w"> </span><span class="o">//</span>
+<span class="k">DELIMITER</span><span class="w"> </span><span class="p">;</span>
+<span class="k">CALL</span><span class="w"> </span><span class="n">notas_de</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+</code></pre></div>
+
+<h2 id="8-teoria-rapida">8. Teoría rápida</h2>
+<ul>
+<li><strong>PK (Primary Key)</strong>: identifica cada fila, única y no nula. <strong>FK (Foreign Key)</strong>: referencia la PK de otra tabla.</li>
+<li><strong>Normalización</strong>: 1FN = valores atómicos, sin grupos repetidos; 2FN = 1FN + todo depende de la PK completa; 3FN = 2FN + sin dependencias transitivas (un campo no clave no depende de otro no clave).</li>
+<li><strong>Relaciones</strong>: 1:1, 1:N (FK en la tabla "muchos"), N:M (tabla intermedia, ej. <code>estudiante_materia</code>).</li>
+<li><strong>ACID</strong>: Atomicidad, Consistencia, Aislamiento, Durabilidad.</li>
+<li><strong>SQL Injection</strong>: nunca concatenar input del usuario en SQL; usar consultas parametrizadas (<code>?</code> o <code>%s</code>).</li>
+<li><strong>DDL</strong> (CREATE, ALTER, DROP) vs <strong>DML</strong> (INSERT, UPDATE, DELETE, SELECT) vs <strong>DCL</strong> (GRANT, REVOKE).</li>
+<li><strong>DELETE vs TRUNCATE vs DROP</strong>: borra filas (con WHERE) / vacía la tabla / elimina la tabla.</li>
+</ul>
+<hr />
+<h1 id="parte-2-ampliacion">PARTE 2 — AMPLIACIÓN</h1>
+<blockquote>
+<p>Practica todo con <code>03-logica/sql/</code>: <code>practica.sql</code> (15 ejercicios), <code>ejercicios_extra.sql</code> (25 más) y <code>ejecutar_sql.py</code> para correrlos sin instalar nada.</p>
+</blockquote>
+<h2 id="9-como-ejecutar-sql-entornos">9. Cómo ejecutar SQL (entornos)</h2>
+<table>
+<thead>
+<tr>
+<th>Herramienta</th>
+<th>Cómo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>SQLite + Python</strong></td>
+<td><code>python ejecutar_sql.py archivo.sql</code> (incluido en el kit)</td>
+</tr>
+<tr>
+<td><strong>sqlite3 CLI</strong></td>
+<td><code>sqlite3 base.db</code> → <code>.tables</code>, <code>.schema tabla</code>, <code>.headers on</code>, <code>.mode column</code>, <code>.read archivo.sql</code>, <code>.quit</code></td>
+</tr>
+<tr>
+<td><strong>phpMyAdmin (XAMPP)</strong></td>
+<td>http://localhost/phpmyadmin → base → pestaña SQL</td>
+</tr>
+<tr>
+<td><strong>MySQL CLI</strong></td>
+<td><code>C:\xampp\mysql\bin\mysql -u root</code> → <code>SHOW DATABASES; USE tienda; SHOW TABLES; DESCRIBE productos;</code></td>
+</tr>
+<tr>
+<td><strong>MySQL Workbench / DBeaver / HeidiSQL</strong></td>
+<td>Conexión a localhost:3306, usuario root</td>
+</tr>
+<tr>
+<td><strong>SQL Server</strong></td>
+<td>SSMS o Azure Data Studio; <code>sqlcmd -S localhost -E</code></td>
+</tr>
+<tr>
+<td><strong>VS Code</strong></td>
+<td>Extensión SQLite Viewer (ver .db) o "SQLTools"</td>
+</tr>
+<tr>
+<td><strong>Online</strong></td>
+<td>sqliteonline.com, db-fiddle.com (MySQL/PostgreSQL)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="10-diferencias-entre-motores-lo-que-cambia">10. Diferencias entre motores (lo que cambia)</h2>
+<table>
+<thead>
+<tr>
+<th>Concepto</th>
+<th>MySQL</th>
+<th>SQLite</th>
+<th>SQL Server</th>
+<th>PostgreSQL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Autoincremento</td>
+<td><code>INT AUTO_INCREMENT</code></td>
+<td><code>INTEGER PRIMARY KEY AUTOINCREMENT</code></td>
+<td><code>INT IDENTITY(1,1)</code></td>
+<td><code>SERIAL</code> / <code>GENERATED ALWAYS AS IDENTITY</code></td>
+</tr>
+<tr>
+<td>Limitar</td>
+<td><code>LIMIT 10 OFFSET 20</code></td>
+<td>igual</td>
+<td><code>OFFSET 20 ROWS FETCH NEXT 10 ROWS ONLY</code> / <code>TOP 10</code></td>
+<td><code>LIMIT 10 OFFSET 20</code></td>
+</tr>
+<tr>
+<td>Concatenar</td>
+<td><code>CONCAT(a, b)</code></td>
+<td><code>a \|\| b</code></td>
+<td><code>a + b</code> / <code>CONCAT</code></td>
+<td><code>a \|\| b</code></td>
+</tr>
+<tr>
+<td>Fecha actual</td>
+<td><code>NOW()</code>, <code>CURDATE()</code></td>
+<td><code>datetime('now')</code>, <code>date('now')</code></td>
+<td><code>GETDATE()</code></td>
+<td><code>NOW()</code></td>
+</tr>
+<tr>
+<td>Booleano</td>
+<td><code>BOOLEAN</code> (= TINYINT)</td>
+<td>INTEGER 0/1</td>
+<td><code>BIT</code></td>
+<td><code>BOOLEAN</code></td>
+</tr>
+<tr>
+<td>Texto</td>
+<td><code>VARCHAR(n)</code>, <code>TEXT</code></td>
+<td><code>TEXT</code></td>
+<td><code>NVARCHAR(n)</code></td>
+<td><code>VARCHAR</code>, <code>TEXT</code></td>
+</tr>
+<tr>
+<td>Parámetro en código</td>
+<td><code>%s</code> (Python), <code>?</code> (Node)</td>
+<td><code>?</code></td>
+<td><code>?</code> / <code>@p</code></td>
+<td><code>%s</code> / <code>$1</code></td>
+</tr>
+<tr>
+<td>Si nulo</td>
+<td><code>IFNULL(x, 0)</code> / <code>COALESCE</code></td>
+<td><code>IFNULL</code> / <code>COALESCE</code></td>
+<td><code>ISNULL(x, 0)</code> / <code>COALESCE</code></td>
+<td><code>COALESCE</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="11-funciones-de-ventana-window-functions-nivel-pro">11. Funciones de ventana (window functions): nivel pro</h2>
+<div class="codehilite"><pre><span></span><code><span class="c1">-- Ranking de estudiantes por promedio dentro de cada carrera</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="n">carrera</span><span class="p">,</span><span class="w"> </span><span class="n">nombre</span><span class="p">,</span><span class="w"> </span><span class="n">promedio</span><span class="p">,</span>
+<span class="w">       </span><span class="n">RANK</span><span class="p">()</span><span class="w">       </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">carrera</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">promedio</span><span class="w"> </span><span class="k">DESC</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">puesto</span><span class="p">,</span>
+<span class="w">       </span><span class="n">ROW_NUMBER</span><span class="p">()</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">promedio</span><span class="w"> </span><span class="k">DESC</span><span class="p">)</span><span class="w">                      </span><span class="k">AS</span><span class="w"> </span><span class="n">fila_global</span><span class="p">,</span>
+<span class="w">       </span><span class="k">AVG</span><span class="p">(</span><span class="n">promedio</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">carrera</span><span class="p">)</span><span class="w">                       </span><span class="k">AS</span><span class="w"> </span><span class="n">prom_carrera</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">v_promedios</span><span class="p">;</span>
+
+<span class="c1">-- Total acumulado de ventas por fecha</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="n">fecha</span><span class="p">,</span><span class="w"> </span><span class="n">monto</span><span class="p">,</span><span class="w"> </span><span class="k">SUM</span><span class="p">(</span><span class="n">monto</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">fecha</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">acumulado</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">ventas</span><span class="p">;</span>
+
+<span class="c1">-- Diferencia con la fila anterior</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="n">fecha</span><span class="p">,</span><span class="w"> </span><span class="n">monto</span><span class="p">,</span><span class="w"> </span><span class="n">monto</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">LAG</span><span class="p">(</span><span class="n">monto</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">fecha</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">variacion</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">ventas</span><span class="p">;</span>
+</code></pre></div>
+
+<p>Soportado en MySQL 8+, SQLite 3.25+, SQL Server, PostgreSQL. <strong>RANK</strong> deja huecos tras empates (1,1,3), <strong>DENSE_RANK</strong> no (1,1,2), <strong>ROW_NUMBER</strong> nunca repite.</p>
+<h2 id="12-cte-with-consultas-legibles-por-pasos">12. CTE (WITH): consultas legibles por pasos</h2>
+<div class="codehilite"><pre><span></span><code><span class="k">WITH</span><span class="w"> </span><span class="n">promedios</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span>
+<span class="w">  </span><span class="k">SELECT</span><span class="w"> </span><span class="n">estudiante_id</span><span class="p">,</span><span class="w"> </span><span class="k">AVG</span><span class="p">(</span><span class="n">nota</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">promedio</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">notas</span><span class="w"> </span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">estudiante_id</span>
+<span class="p">),</span>
+<span class="n">mejores</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span>
+<span class="w">  </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">promedios</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">promedio</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">8</span>
+<span class="p">)</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">nombre</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="n">promedio</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">mejores</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">estudiantes</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="n">estudiante_id</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="n">promedio</span><span class="w"> </span><span class="k">DESC</span><span class="p">;</span>
+</code></pre></div>
+
+<h2 id="13-mas-joins-y-operaciones-de-conjuntos">13. Más JOINs y operaciones de conjuntos</h2>
+<div class="codehilite"><pre><span></span><code><span class="c1">-- Self join: empleados con su jefe (la tabla se une consigo misma)</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">nombre</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">empleado</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">.</span><span class="n">nombre</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">jefe</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">empleados</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">empleados</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">j</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">jefe_id</span><span class="p">;</span>
+
+<span class="c1">-- CROSS JOIN: todas las combinaciones (ej. todos los estudiantes × todas las materias)</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">nombre</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="n">nombre</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">estudiantes</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="k">CROSS</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">materias</span><span class="w"> </span><span class="n">m</span><span class="p">;</span>
+
+<span class="c1">-- Tabla intermedia N:M</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">nombre</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="n">nombre</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">matriculas</span><span class="w"> </span><span class="n">mt</span>
+<span class="k">JOIN</span><span class="w"> </span><span class="n">estudiantes</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mt</span><span class="p">.</span><span class="n">estudiante_id</span>
+<span class="k">JOIN</span><span class="w"> </span><span class="n">materias</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mt</span><span class="p">.</span><span class="n">materia_id</span><span class="p">;</span>
+
+<span class="c1">-- UNION (sin repetidos) / UNION ALL (con repetidos) / INTERSECT / EXCEPT</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="n">ciudad</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">estudiantes</span><span class="w"> </span><span class="k">UNION</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="n">ciudad</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">docentes</span><span class="p">;</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">estudiantes</span><span class="w"> </span><span class="k">EXCEPT</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="n">estudiante_id</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">notas</span><span class="p">;</span><span class="w">     </span><span class="c1">-- sin notas (MySQL 8.0.31+)</span>
+
+<span class="c1">-- EXISTS (suele ser más eficiente que IN con subconsultas grandes)</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">nombre</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">carreras</span><span class="w"> </span><span class="k">c</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">estudiantes</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">carrera_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">id</span><span class="p">);</span>
+</code></pre></div>
+
+<h2 id="14-indices-restricciones-y-rendimiento">14. Índices, restricciones y rendimiento</h2>
+<div class="codehilite"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_reservas_lab_fecha</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">reservas</span><span class="w"> </span><span class="p">(</span><span class="n">laboratorio_id</span><span class="p">,</span><span class="w"> </span><span class="n">fecha</span><span class="p">);</span><span class="w">   </span><span class="c1">-- acelera WHERE lab = ? AND fecha = ?</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">UNIQUE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_email</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">usuarios</span><span class="w"> </span><span class="p">(</span><span class="n">email</span><span class="p">);</span>
+<span class="k">EXPLAIN</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="p">...;</span><span class="w">                         </span><span class="c1">-- MySQL: ver si usa índice.  SQLite: EXPLAIN QUERY PLAN SELECT ...</span>
+<span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">productos</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="k">CONSTRAINT</span><span class="w"> </span><span class="n">chk_precio</span><span class="w"> </span><span class="k">CHECK</span><span class="w"> </span><span class="p">(</span><span class="n">precio</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">notas</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="k">CONSTRAINT</span><span class="w"> </span><span class="n">fk_est</span><span class="w"> </span><span class="k">FOREIGN</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="n">estudiante_id</span><span class="p">)</span><span class="w"> </span><span class="k">REFERENCES</span><span class="w"> </span><span class="n">estudiantes</span><span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">DELETE</span><span class="w"> </span><span class="k">CASCADE</span><span class="p">;</span>
+</code></pre></div>
+
+<ul>
+<li>Un índice acelera búsquedas y JOIN, pero hace más lentos los INSERT/UPDATE y ocupa espacio.</li>
+<li>Indexa las columnas que usas en WHERE, JOIN y ORDER BY. Las PK ya tienen índice.</li>
+<li><code>ON DELETE CASCADE</code> borra los hijos. <code>ON DELETE SET NULL</code> los deja huérfanos con NULL. <code>RESTRICT</code> (por defecto) impide borrar el padre.</li>
+<li>Evita <code>SELECT *</code> en producción, y evita <code>LIKE '%texto'</code> (no usa índice).</li>
+</ul>
+<h2 id="15-triggers-y-procedimientos-mysql">15. Triggers y procedimientos (MySQL)</h2>
+<div class="codehilite"><pre><span></span><code><span class="c1">-- Trigger: descontar stock automáticamente al registrar una venta</span>
+<span class="k">DELIMITER</span><span class="w"> </span><span class="o">//</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">TRIGGER</span><span class="w"> </span><span class="n">tr_descontar_stock</span><span class="w"> </span><span class="k">AFTER</span><span class="w"> </span><span class="k">INSERT</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">detalle_ventas</span>
+<span class="k">FOR</span><span class="w"> </span><span class="k">EACH</span><span class="w"> </span><span class="k">ROW</span>
+<span class="k">BEGIN</span>
+<span class="w">  </span><span class="k">UPDATE</span><span class="w"> </span><span class="n">productos</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">stock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stock</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="k">NEW</span><span class="p">.</span><span class="n">cantidad</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">NEW</span><span class="p">.</span><span class="n">producto_id</span><span class="p">;</span>
+<span class="k">END</span><span class="w"> </span><span class="o">//</span>
+
+<span class="c1">-- Procedimiento con parámetro de salida</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">PROCEDURE</span><span class="w"> </span><span class="n">total_ventas</span><span class="p">(</span><span class="k">IN</span><span class="w"> </span><span class="n">p_desde</span><span class="w"> </span><span class="nb">DATE</span><span class="p">,</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="n">p_hasta</span><span class="w"> </span><span class="nb">DATE</span><span class="p">,</span><span class="w"> </span><span class="k">OUT</span><span class="w"> </span><span class="n">p_total</span><span class="w"> </span><span class="nb">DECIMAL</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="k">BEGIN</span>
+<span class="w">  </span><span class="k">SELECT</span><span class="w"> </span><span class="k">COALESCE</span><span class="p">(</span><span class="k">SUM</span><span class="p">(</span><span class="n">total</span><span class="p">),</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">p_total</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">ventas</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">fecha</span><span class="w"> </span><span class="k">BETWEEN</span><span class="w"> </span><span class="n">p_desde</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">p_hasta</span><span class="p">;</span>
+<span class="k">END</span><span class="w"> </span><span class="o">//</span>
+
+<span class="c1">-- Función</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">FUNCTION</span><span class="w"> </span><span class="n">con_iva</span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="nb">DECIMAL</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span><span class="w"> </span><span class="k">RETURNS</span><span class="w"> </span><span class="nb">DECIMAL</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">DETERMINISTIC</span>
+<span class="k">BEGIN</span>
+<span class="w">  </span><span class="k">RETURN</span><span class="w"> </span><span class="n">ROUND</span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1</span><span class="p">.</span><span class="mi">15</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span>
+<span class="k">END</span><span class="w"> </span><span class="o">//</span>
+<span class="k">DELIMITER</span><span class="w"> </span><span class="p">;</span>
+
+<span class="k">CALL</span><span class="w"> </span><span class="n">total_ventas</span><span class="p">(</span><span class="s1">&#39;2026-01-01&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2026-12-31&#39;</span><span class="p">,</span><span class="w"> </span><span class="o">@</span><span class="n">t</span><span class="p">);</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="o">@</span><span class="n">t</span><span class="p">;</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="n">nombre</span><span class="p">,</span><span class="w"> </span><span class="n">con_iva</span><span class="p">(</span><span class="n">precio</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">productos</span><span class="p">;</span>
+</code></pre></div>
+
+<h2 id="16-usuarios-y-permisos-dcl">16. Usuarios y permisos (DCL)</h2>
+<div class="codehilite"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="s1">&#39;app&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span><span class="w"> </span><span class="n">IDENTIFIED</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="s1">&#39;Clave_Segura1&#39;</span><span class="p">;</span>
+<span class="k">GRANT</span><span class="w"> </span><span class="k">SELECT</span><span class="p">,</span><span class="w"> </span><span class="k">INSERT</span><span class="p">,</span><span class="w"> </span><span class="k">UPDATE</span><span class="p">,</span><span class="w"> </span><span class="k">DELETE</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">tienda</span><span class="p">.</span><span class="o">*</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="s1">&#39;app&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span><span class="p">;</span>
+<span class="k">REVOKE</span><span class="w"> </span><span class="k">DELETE</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">tienda</span><span class="p">.</span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="s1">&#39;app&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span><span class="p">;</span>
+<span class="k">SHOW</span><span class="w"> </span><span class="n">GRANTS</span><span class="w"> </span><span class="k">FOR</span><span class="w"> </span><span class="s1">&#39;app&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span><span class="p">;</span>
+</code></pre></div>
+
+<p>La aplicación <strong>no</strong> debería conectarse como root: se crea un usuario con los permisos mínimos.</p>
+<h2 id="17-normalizacion-con-ejemplo">17. Normalización con ejemplo</h2>
+<p>Tabla sin normalizar:</p>
+<table>
+<thead>
+<tr>
+<th>venta</th>
+<th>cliente</th>
+<th>tel_cliente</th>
+<th>productos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Ana</td>
+<td>099...</td>
+<td>Mouse, Teclado</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>1FN</strong> (valores atómicos): separar "Mouse, Teclado" en filas distintas.</li>
+<li><strong>2FN</strong> (sin dependencias parciales): si la clave es (venta, producto), el cliente depende solo de venta, así que va a otra tabla <code>ventas</code>.</li>
+<li><strong>3FN</strong> (sin dependencias transitivas): <code>tel_cliente</code> depende de cliente y no de venta, así que va a la tabla <code>clientes</code>.</li>
+</ul>
+<p>Resultado: <code>clientes(id, nombre, telefono)</code>, <code>ventas(id, cliente_id, fecha)</code>, <code>productos(id, nombre, precio)</code>, <code>detalle_ventas(venta_id, producto_id, cantidad, precio_unitario)</code>.</p>
+<blockquote>
+<p>¿Por qué guardar <code>precio_unitario</code> en el detalle si ya está en productos? Porque el precio puede cambiar después, y la venta debe conservar el precio histórico. Es una <strong>desnormalización intencional</strong>.</p>
+</blockquote>
+<h2 id="18-modelos-tipicos-que-te-pueden-pedir-dibujalos">18. Modelos típicos que te pueden pedir (dibújalos)</h2>
+<p><strong>Biblioteca:</strong> <code>autores</code>, <code>libros(autor_id)</code>, <code>socios</code>, <code>prestamos(libro_id, socio_id, fecha_prestamo, fecha_devolucion)</code>.
+<strong>Matrículas:</strong> <code>estudiantes</code>, <code>materias(creditos)</code>, <code>periodos</code>, <code>matriculas(estudiante_id, materia_id, periodo_id, nota_final)</code>, con UNIQUE(estudiante_id, materia_id, periodo_id).
+<strong>Facturación:</strong> <code>clientes</code>, <code>productos</code>, <code>facturas(cliente_id, fecha, subtotal, iva, total)</code>, <code>detalle_factura(factura_id, producto_id, cantidad, precio_unitario)</code>.
+<strong>Mesa de ayuda:</strong> <code>usuarios(rol)</code>, <code>tickets(solicitante_id, tecnico_id, estado, prioridad, creado_en, cerrado_en)</code>, <code>comentarios(ticket_id, usuario_id, texto, fecha)</code>.
+<strong>Inventario de equipos:</strong> <code>equipos(codigo, tipo, marca, estado, laboratorio_id)</code>, <code>laboratorios</code>, <code>mantenimientos(equipo_id, fecha, descripcion, costo)</code>.</p>
+<h2 id="19-consultas-tipicas-de-entrevista-con-solucion">19. Consultas típicas de entrevista (con solución)</h2>
+<div class="codehilite"><pre><span></span><code><span class="c1">-- Segundo salario más alto</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="k">MAX</span><span class="p">(</span><span class="n">salario</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">empleados</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">salario</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="k">MAX</span><span class="p">(</span><span class="n">salario</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">empleados</span><span class="p">);</span>
+<span class="c1">-- o: SELECT DISTINCT salario FROM empleados ORDER BY salario DESC LIMIT 1 OFFSET 1;</span>
+
+<span class="c1">-- Duplicados</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="n">email</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">usuarios</span><span class="w"> </span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">email</span><span class="w"> </span><span class="k">HAVING</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+
+<span class="c1">-- Eliminar duplicados conservando el de menor id</span>
+<span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">usuarios</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="k">MIN</span><span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">usuarios</span><span class="w"> </span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">email</span><span class="p">);</span>
+
+<span class="c1">-- Top 3 por grupo (con ventana)</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="p">(</span>
+<span class="w">  </span><span class="k">SELECT</span><span class="w"> </span><span class="n">carrera</span><span class="p">,</span><span class="w"> </span><span class="n">nombre</span><span class="p">,</span><span class="w"> </span><span class="n">promedio</span><span class="p">,</span><span class="w"> </span><span class="n">ROW_NUMBER</span><span class="p">()</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">carrera</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">promedio</span><span class="w"> </span><span class="k">DESC</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">rn</span>
+<span class="w">  </span><span class="k">FROM</span><span class="w"> </span><span class="n">v_promedios</span><span class="p">)</span><span class="w"> </span><span class="n">t</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">rn</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span>
+
+<span class="c1">-- Ventas por mes</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">fecha</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">mes</span><span class="p">,</span><span class="w"> </span><span class="k">SUM</span><span class="p">(</span><span class="n">total</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">ventas</span><span class="w"> </span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">mes</span><span class="p">;</span><span class="w">      </span><span class="c1">-- SQLite</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="n">DATE_FORMAT</span><span class="p">(</span><span class="n">fecha</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;%Y-%m&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">mes</span><span class="p">,</span><span class="w"> </span><span class="k">SUM</span><span class="p">(</span><span class="n">total</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">ventas</span><span class="w"> </span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">mes</span><span class="p">;</span><span class="w">   </span><span class="c1">-- MySQL</span>
+
+<span class="c1">-- Clientes que nunca compraron</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">clientes</span><span class="w"> </span><span class="k">c</span><span class="w"> </span><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">ventas</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">cliente_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NULL</span><span class="p">;</span>
+
+<span class="c1">-- Pivot simple (conteo por estado en columnas)</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="n">tecnico_id</span><span class="p">,</span>
+<span class="w">  </span><span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">estado</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;abierto&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">ELSE</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">abiertos</span><span class="p">,</span>
+<span class="w">  </span><span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">estado</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;cerrado&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">ELSE</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">cerrados</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">tickets</span><span class="w"> </span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">tecnico_id</span><span class="p">;</span>
+</code></pre></div></main></div>
+<script>
+document.querySelectorAll('.codehilite').forEach(b => {
+  const btn = document.createElement('button'); btn.className = 'copiar'; btn.textContent = 'Copiar';
+  btn.onclick = () => { const t = b.querySelector('pre').innerText;
+    navigator.clipboard.writeText(t).then(() => { btn.textContent = '¡Copiado!'; setTimeout(() => btn.textContent = 'Copiar', 1500); }); };
+  b.prepend(btn);
+});
+</script></body></html>
