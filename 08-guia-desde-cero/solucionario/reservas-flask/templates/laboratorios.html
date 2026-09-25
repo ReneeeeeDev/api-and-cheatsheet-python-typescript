@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block titulo %}Laboratorios{% endblock %}
+{% block contenido %}
+<section class="panel">
+  {# Si form.id existe estamos editando; si no, creando #}
+  <h2>{{ "Editar laboratorio " ~ form.codigo if form.id else "Nuevo laboratorio" }}</h2>
+  <form method="post"
+        action="{{ url_for('actualizar_laboratorio', lab_id=form.id) if form.id else url_for('crear_laboratorio') }}">
+    <div class="grid">
+      <label>Código
+        <input name="codigo" value="{{ form.codigo or '' }}" placeholder="LAB-004" required>
+      </label>
+      <label>Nombre
+        <input name="nombre" value="{{ form.nombre or '' }}" required minlength="3">
+      </label>
+      <label>Piso
+        <input name="piso" type="number" min="0" value="{{ form.piso if form.piso is not none else '' }}" required>
+      </label>
+      <label>Capacidad
+        <input name="capacidad" type="number" min="1" value="{{ form.capacidad or '' }}" required>
+      </label>
+      <label>Estado
+        <select name="estado">
+          {% for e in ["disponible", "mantenimiento"] %}
+            <option value="{{ e }}" {{ "selected" if form.estado == e }}>{{ e|capitalize }}</option>
+          {% endfor %}
+        </select>
+      </label>
+    </div>
+    <div class="acciones">
+      <button type="submit">Guardar</button>
+      {% if form.id %}<a class="btn sec" href="{{ url_for('laboratorios') }}">Cancelar</a>{% endif %}
+    </div>
+  </form>
+</section>
+
+<section class="panel">
+  <h2>Listado</h2>
+  <table>
+    <thead>
+      <tr><th>Código</th><th>Nombre</th><th>Piso</th><th>Capacidad</th><th>Estado</th><th>Acciones</th></tr>
+    </thead>
+    <tbody>
+    {% for lab in labs %}
+      <tr>
+        <td>{{ lab.codigo }}</td>
+        <td>{{ lab.nombre }}</td>
+        <td>{{ lab.piso }}</td>
+        <td>{{ lab.capacidad }}</td>
+        <td><span class="estado {{ lab.estado }}">{{ lab.estado }}</span></td>
+        <td class="acciones">
+          <a class="btn sec" href="{{ url_for('laboratorios', editar=lab.id) }}">Editar</a>
+          <form method="post" action="{{ url_for('eliminar_laboratorio', lab_id=lab.id) }}"
+                onsubmit="return confirm('¿Eliminar {{ lab.codigo }}?')">
+            <button class="peligro">Eliminar</button>
+          </form>
+        </td>
+      </tr>
+    {% else %}
+      <tr><td colspan="6">No hay laboratorios registrados.</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

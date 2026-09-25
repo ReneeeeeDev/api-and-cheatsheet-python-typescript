@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block titulo %}Reservas{% endblock %} | Laboratorios ISTE</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+  <header class="barra">
+    <a class="logo" href="/">Reservas de Laboratorios</a>
+    <nav>
+      <a href="/laboratorios">Laboratorios</a>
+      <a href="/reservas">Reservas</a>
+      <a href="/reporte">Reporte</a>
+    </nav>
+  </header>
+
+  <main class="contenedor">
+    {# Mensajes después de redirigir (flash) #}
+    {% for categoria, mensaje in get_flashed_messages(with_categories=true) %}
+      <div class="alerta {{ categoria }}">{{ mensaje }}</div>
+    {% endfor %}
+
+    {# Errores de validación al volver a mostrar un formulario #}
+    {% if errores %}
+      <div class="alerta error">
+        <strong>Revise los datos:</strong>
+        <ul>{% for e in errores %}<li>{{ e }}</li>{% endfor %}</ul>
+      </div>
+    {% endif %}
+
+    {% block contenido %}{% endblock %}
+  </main>
+</body>
+</html>

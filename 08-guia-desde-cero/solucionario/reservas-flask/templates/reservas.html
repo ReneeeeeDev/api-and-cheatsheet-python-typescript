@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block titulo %}Reservas{% endblock %}
+{% block contenido %}
+<section class="panel">
+  <h2>Nueva reserva</h2>
+  <form method="post" action="{{ url_for('crear_reserva') }}">
+    <div class="grid">
+      <label>Docente
+        <input name="docente" value="{{ form.docente or '' }}" required>
+      </label>
+      <label>Laboratorio
+        <select name="laboratorio_id" required>
+          <option value="">-- Seleccione --</option>
+          {% for lab in labs %}
+            <option value="{{ lab.id }}"
+                    {{ "selected" if (form.laboratorio_id|string) == (lab.id|string) }}
+                    {{ "disabled" if lab.estado == "mantenimiento" }}>
+              {{ lab.codigo }} - {{ lab.nombre }}{{ " (mantenimiento)" if lab.estado == "mantenimiento" }}
+            </option>
+          {% endfor %}
+        </select>
+      </label>
+      <label>Fecha
+        <input name="fecha" type="date" value="{{ form.fecha or '' }}" required>
+      </label>
+      <label>Hora inicio
+        <input name="hora_inicio" type="time" value="{{ form.hora_inicio or '' }}" required>
+      </label>
+      <label>Hora fin
+        <input name="hora_fin" type="time" value="{{ form.hora_fin or '' }}" required>
+      </label>
+      <label>Motivo
+        <input name="motivo" value="{{ form.motivo or '' }}">
+      </label>
+    </div>
+    <div class="acciones"><button type="submit">Reservar</button></div>
+  </form>
+</section>
+
+<section class="panel">
+  <h2>Reservas registradas</h2>
+  {# Filtros: formulario GET → los valores viajan en la URL (?fecha=...&lab=...) #}
+  <form method="get" class="filtros">
+    <label>Fecha <input name="fecha" type="date" value="{{ filtro.fecha }}"></label>
+    <label>Laboratorio
+      <select name="lab">
+        <option value="">Todos</option>
+        {% for lab in labs %}
+          <option value="{{ lab.id }}" {{ "selected" if filtro.lab == lab.id|string }}>{{ lab.codigo }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <button type="submit">Filtrar</button>
+    <a class="btn sec" href="{{ url_for('reservas') }}">Limpiar</a>
+  </form>
+
+  <table>
+    <thead>
+      <tr><th>Fecha</th><th>Horario</th><th>Laboratorio</th><th>Docente</th><th>Motivo</th><th></th></tr>
+    </thead>
+    <tbody>
+    {% for r in reservas %}
+      <tr>
+        <td>{{ r.fecha }}</td>
+        <td>{{ r.hora_inicio }} - {{ r.hora_fin }}</td>
+        <td>{{ r.codigo }} - {{ r.laboratorio }}</td>
+        <td>{{ r.docente }}</td>
+        <td>{{ r.motivo or "" }}</td>
+        <td>
+          <form method="post" action="{{ url_for('eliminar_reserva', reserva_id=r.id) }}"
+                onsubmit="return confirm('¿Cancelar esta reserva?')">
+            <button class="peligro">Cancelar</button>
+          </form>
+        </td>
+      </tr>
+    {% else %}
+      <tr><td colspan="6">No hay reservas.</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

@@ -1,0 +1,65 @@
+<%- include("partials/cabecera", { titulo: "Laboratorios" }) %>
+
+<section class="panel">
+  <%# Si form.id existe estamos editando; si no, creando %>
+  <h2><%= form.id ? `Editar laboratorio ${form.codigo}` : "Nuevo laboratorio" %></h2>
+  <form method="post" action="<%= form.id ? `/laboratorios/${form.id}` : '/laboratorios' %>">
+    <div class="grid">
+      <label>Código
+        <input name="codigo" value="<%= form.codigo ?? '' %>" placeholder="LAB-004" required>
+      </label>
+      <label>Nombre
+        <input name="nombre" value="<%= form.nombre ?? '' %>" required minlength="3">
+      </label>
+      <label>Piso
+        <input name="piso" type="number" min="0" value="<%= form.piso ?? '' %>" required>
+      </label>
+      <label>Capacidad
+        <input name="capacidad" type="number" min="1" value="<%= form.capacidad ?? '' %>" required>
+      </label>
+      <label>Estado
+        <select name="estado">
+          <% ["disponible", "mantenimiento"].forEach(e => { %>
+            <option value="<%= e %>" <%= form.estado === e ? "selected" : "" %>><%= e %></option>
+          <% }) %>
+        </select>
+      </label>
+    </div>
+    <div class="acciones">
+      <button type="submit">Guardar</button>
+      <% if (form.id) { %><a class="btn sec" href="/laboratorios">Cancelar</a><% } %>
+    </div>
+  </form>
+</section>
+
+<section class="panel">
+  <h2>Listado</h2>
+  <table>
+    <thead>
+      <tr><th>Código</th><th>Nombre</th><th>Piso</th><th>Capacidad</th><th>Estado</th><th>Acciones</th></tr>
+    </thead>
+    <tbody>
+      <% if (labs.length === 0) { %>
+        <tr><td colspan="6">No hay laboratorios registrados.</td></tr>
+      <% } %>
+      <% labs.forEach(lab => { %>
+        <tr>
+          <td><%= lab.codigo %></td>
+          <td><%= lab.nombre %></td>
+          <td><%= lab.piso %></td>
+          <td><%= lab.capacidad %></td>
+          <td><span class="estado <%= lab.estado %>"><%= lab.estado %></span></td>
+          <td class="acciones">
+            <a class="btn sec" href="/laboratorios?editar=<%= lab.id %>">Editar</a>
+            <form method="post" action="/laboratorios/<%= lab.id %>/eliminar"
+                  onsubmit="return confirm('¿Eliminar <%= lab.codigo %>?')">
+              <button class="peligro">Eliminar</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</section>
+
+<%- include("partials/pie") %>

@@ -1,0 +1,63 @@
+*, *::before, *::after { box-sizing: border-box; }
+
+:root {
+  --primario: #0a5bd6;
+  --peligro: #dc2626;
+  --gris: #64748b;
+  --borde: #e5e7eb;
+  --fondo: #f1f5f9;
+}
+
+body { margin: 0; font-family: system-ui, sans-serif; background: var(--fondo); color: #1f2937; }
+
+/* Barra superior */
+.barra { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
+         gap: 12px; padding: 12px 24px; background: var(--primario); }
+.barra a { color: #fff; text-decoration: none; }
+.barra nav { display: flex; gap: 16px; }
+.logo { font-weight: 700; }
+
+.contenedor { max-width: 1000px; margin: 24px auto; padding: 0 16px; display: grid; gap: 16px; }
+.panel { background: #fff; border-radius: 10px; padding: 16px; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+.panel h2 { margin-top: 0; font-size: 18px; }
+
+/* Formularios */
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+label { display: grid; gap: 4px; font-size: 14px; }
+input, select { width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; }
+.filtros { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; margin-bottom: 12px; }
+.filtros label { min-width: 160px; }
+
+/* Botones */
+button, .btn { display: inline-block; padding: 8px 14px; border: 0; border-radius: 6px; cursor: pointer;
+               background: var(--primario); color: #fff; text-decoration: none; font-size: 14px; }
+.btn.sec { background: var(--gris); }
+.peligro { background: var(--peligro); }
+.acciones { display: flex; gap: 8px; align-items: center; margin-top: 12px; }
+td.acciones { margin: 0; }
+.acciones form { margin: 0; }
+
+/* Tablas */
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 10px; border-bottom: 1px solid var(--borde); text-align: left; }
+thead { background: #f8fafc; }
+.estado { padding: 2px 8px; border-radius: 999px; font-size: 12px; }
+.estado.disponible { background: #dcfce7; color: #166534; }
+.estado.mantenimiento { background: #fee2e2; color: #991b1b; }
+
+/* Mensajes */
+.alerta { padding: 10px 14px; border-radius: 8px; }
+.alerta ul { margin: 6px 0 0; }
+.alerta.ok { background: #dcfce7; color: #166534; }
+.alerta.error { background: #fee2e2; color: #991b1b; }
+
+/* Tarjetas del inicio */
+.tarjetas { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+.tarjeta { background: #fff; border-radius: 10px; padding: 16px; display: grid; gap: 4px; }
+.tarjeta span { color: var(--gris); font-size: 13px; }
+.tarjeta strong { font-size: 28px; }
+
+/* Celular: la tabla se desplaza horizontalmente */
+@media (max-width: 700px) {
+  .panel { overflow-x: auto; }
+}

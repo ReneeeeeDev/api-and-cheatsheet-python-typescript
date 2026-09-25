@@ -1,0 +1,14 @@
+<%- include("partials/cabecera", { titulo: "Inicio" }) %>
+
+<h1>Panel principal</h1>
+<div class="tarjetas">
+  <div class="tarjeta"><span>Laboratorios</span><strong><%= totales.laboratorios %></strong></div>
+  <div class="tarjeta"><span>Disponibles</span><strong><%= totales.disponibles %></strong></div>
+  <div class="tarjeta"><span>Reservas</span><strong><%= totales.reservas %></strong></div>
+</div>
+<p class="acciones">
+  <a class="btn" href="/reservas">Nueva reserva</a>
+  <a class="btn sec" href="/laboratorios">Gestionar laboratorios</a>
+</p>
+
+<%- include("partials/pie") %>

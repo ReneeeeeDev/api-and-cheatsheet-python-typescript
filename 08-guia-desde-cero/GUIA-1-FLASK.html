@@ -1,0 +1,1575 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Guía 1 — Construir desde cero con Python + Flask</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,Segoe UI,sans-serif;line-height:1.6;color:#1f2937;background:#f8fafc}
+.layout{display:grid;grid-template-columns:270px 1fr;max-width:1400px;margin:auto}
+nav{position:sticky;top:0;height:100vh;overflow:auto;padding:18px;border-right:1px solid #e5e7eb;background:#fff;font-size:13.5px}
+nav ul{list-style:none;padding-left:10px;margin:3px 0} nav>div>ul{padding-left:0} nav a{color:#334155;text-decoration:none} nav a:hover{color:#0a5bd6}
+.volver{display:inline-block;margin-bottom:10px;font-weight:600;color:#0a5bd6!important}
+main{padding:24px 40px;min-width:0} h1{color:#0a5bd6} h2{border-top:2px solid #e5e7eb;padding-top:22px;margin-top:36px}
+table{border-collapse:collapse;width:100%;margin:12px 0;font-size:14px;display:block;overflow-x:auto}
+th,td{border:1px solid #e5e7eb;padding:6px 10px;text-align:left;vertical-align:top} th{background:#f1f5f9}
+code{background:#eef2f7;padding:1px 5px;border-radius:4px;font-size:.9em}
+.codehilite{border-radius:8px;margin:12px 0;overflow:auto;position:relative} .codehilite pre{padding:14px;margin:0;font-size:13px;line-height:1.5}
+.codehilite code{background:none;padding:0;color:inherit}
+blockquote{margin:12px 0;padding:8px 16px;background:#fff7ed;border-left:4px solid #f59e0b;border-radius:4px}
+.copiar{position:absolute;right:6px;top:6px;padding:3px 10px;font-size:12px;border:0;border-radius:4px;cursor:pointer;background:#334155;color:#fff}
+@media (max-width:900px){.layout{grid-template-columns:1fr} nav{position:static;height:auto;border-right:0} main{padding:16px}}
+pre { line-height: 125%; }
+td.linenos .normal { color: #6e7681; background-color: #0d1117; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #6e7681; background-color: #0d1117; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #e6edf3; background-color: #6e7681; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #e6edf3; background-color: #6e7681; padding-left: 5px; padding-right: 5px; }
+.codehilite .hll { background-color: #6e7681 }
+.codehilite { background: #0d1117; color: #E6EDF3 }
+.codehilite .c { color: #8B949E; font-style: italic } /* Comment */
+.codehilite .err { color: #F85149 } /* Error */
+.codehilite .esc { color: #E6EDF3 } /* Escape */
+.codehilite .g { color: #E6EDF3 } /* Generic */
+.codehilite .k { color: #FF7B72 } /* Keyword */
+.codehilite .l { color: #A5D6FF } /* Literal */
+.codehilite .n { color: #E6EDF3 } /* Name */
+.codehilite .o { color: #FF7B72; font-weight: bold } /* Operator */
+.codehilite .x { color: #E6EDF3 } /* Other */
+.codehilite .p { color: #E6EDF3 } /* Punctuation */
+.codehilite .ch { color: #8B949E; font-style: italic } /* Comment.Hashbang */
+.codehilite .cm { color: #8B949E; font-style: italic } /* Comment.Multiline */
+.codehilite .cp { color: #8B949E; font-weight: bold; font-style: italic } /* Comment.Preproc */
+.codehilite .cpf { color: #8B949E; font-style: italic } /* Comment.PreprocFile */
+.codehilite .c1 { color: #8B949E; font-style: italic } /* Comment.Single */
+.codehilite .cs { color: #8B949E; font-weight: bold; font-style: italic } /* Comment.Special */
+.codehilite .gd { color: #FFA198; background-color: #490202 } /* Generic.Deleted */
+.codehilite .ge { color: #E6EDF3; font-style: italic } /* Generic.Emph */
+.codehilite .ges { color: #E6EDF3; font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.codehilite .gr { color: #FFA198 } /* Generic.Error */
+.codehilite .gh { color: #79C0FF; font-weight: bold } /* Generic.Heading */
+.codehilite .gi { color: #56D364; background-color: #0F5323 } /* Generic.Inserted */
+.codehilite .go { color: #8B949E } /* Generic.Output */
+.codehilite .gp { color: #8B949E } /* Generic.Prompt */
+.codehilite .gs { color: #E6EDF3; font-weight: bold } /* Generic.Strong */
+.codehilite .gu { color: #79C0FF } /* Generic.Subheading */
+.codehilite .gt { color: #FF7B72 } /* Generic.Traceback */
+.codehilite .g-Underline { color: #E6EDF3; text-decoration: underline } /* Generic.Underline */
+.codehilite .kc { color: #79C0FF } /* Keyword.Constant */
+.codehilite .kd { color: #FF7B72 } /* Keyword.Declaration */
+.codehilite .kn { color: #FF7B72 } /* Keyword.Namespace */
+.codehilite .kp { color: #79C0FF } /* Keyword.Pseudo */
+.codehilite .kr { color: #FF7B72 } /* Keyword.Reserved */
+.codehilite .kt { color: #FF7B72 } /* Keyword.Type */
+.codehilite .ld { color: #79C0FF } /* Literal.Date */
+.codehilite .m { color: #A5D6FF } /* Literal.Number */
+.codehilite .s { color: #A5D6FF } /* Literal.String */
+.codehilite .na { color: #E6EDF3 } /* Name.Attribute */
+.codehilite .nb { color: #E6EDF3 } /* Name.Builtin */
+.codehilite .nc { color: #F0883E; font-weight: bold } /* Name.Class */
+.codehilite .no { color: #79C0FF; font-weight: bold } /* Name.Constant */
+.codehilite .nd { color: #D2A8FF; font-weight: bold } /* Name.Decorator */
+.codehilite .ni { color: #FFA657 } /* Name.Entity */
+.codehilite .ne { color: #F0883E; font-weight: bold } /* Name.Exception */
+.codehilite .nf { color: #D2A8FF; font-weight: bold } /* Name.Function */
+.codehilite .nl { color: #79C0FF; font-weight: bold } /* Name.Label */
+.codehilite .nn { color: #FF7B72 } /* Name.Namespace */
+.codehilite .nx { color: #E6EDF3 } /* Name.Other */
+.codehilite .py { color: #79C0FF } /* Name.Property */
+.codehilite .nt { color: #7EE787 } /* Name.Tag */
+.codehilite .nv { color: #79C0FF } /* Name.Variable */
+.codehilite .ow { color: #FF7B72; font-weight: bold } /* Operator.Word */
+.codehilite .pm { color: #E6EDF3 } /* Punctuation.Marker */
+.codehilite .w { color: #6E7681 } /* Text.Whitespace */
+.codehilite .mb { color: #A5D6FF } /* Literal.Number.Bin */
+.codehilite .mf { color: #A5D6FF } /* Literal.Number.Float */
+.codehilite .mh { color: #A5D6FF } /* Literal.Number.Hex */
+.codehilite .mi { color: #A5D6FF } /* Literal.Number.Integer */
+.codehilite .mo { color: #A5D6FF } /* Literal.Number.Oct */
+.codehilite .sa { color: #79C0FF } /* Literal.String.Affix */
+.codehilite .sb { color: #A5D6FF } /* Literal.String.Backtick */
+.codehilite .sc { color: #A5D6FF } /* Literal.String.Char */
+.codehilite .dl { color: #79C0FF } /* Literal.String.Delimiter */
+.codehilite .sd { color: #A5D6FF } /* Literal.String.Doc */
+.codehilite .s2 { color: #A5D6FF } /* Literal.String.Double */
+.codehilite .se { color: #79C0FF } /* Literal.String.Escape */
+.codehilite .sh { color: #79C0FF } /* Literal.String.Heredoc */
+.codehilite .si { color: #A5D6FF } /* Literal.String.Interpol */
+.codehilite .sx { color: #A5D6FF } /* Literal.String.Other */
+.codehilite .sr { color: #79C0FF } /* Literal.String.Regex */
+.codehilite .s1 { color: #A5D6FF } /* Literal.String.Single */
+.codehilite .ss { color: #A5D6FF } /* Literal.String.Symbol */
+.codehilite .bp { color: #E6EDF3 } /* Name.Builtin.Pseudo */
+.codehilite .fm { color: #D2A8FF; font-weight: bold } /* Name.Function.Magic */
+.codehilite .vc { color: #79C0FF } /* Name.Variable.Class */
+.codehilite .vg { color: #79C0FF } /* Name.Variable.Global */
+.codehilite .vi { color: #79C0FF } /* Name.Variable.Instance */
+.codehilite .vm { color: #79C0FF } /* Name.Variable.Magic */
+.codehilite .il { color: #A5D6FF } /* Literal.Number.Integer.Long */
+</style></head><body><div class="layout">
+<nav><a class="volver" href="../LEEME-PRIMERO.html">← Índice del kit</a><br><strong>En esta página</strong><div class="toc">
+<ul>
+<li><a href="#mapa-de-pasos">Mapa de pasos</a></li>
+<li><a href="#paso-0-verificar-herramientas-3-min">Paso 0 — Verificar herramientas (3 min)</a></li>
+<li><a href="#paso-1-leer-y-disenar-antes-de-programar-10-min">Paso 1 — Leer y diseñar antes de programar (10 min)</a></li>
+<li><a href="#paso-2-crear-el-proyecto-y-las-carpetas-10-min">Paso 2 — Crear el proyecto y las carpetas (10 min)</a><ul>
+<li><a href="#21-crear-la-carpeta-y-el-entorno-virtual">2.1 Crear la carpeta y el entorno virtual</a></li>
+<li><a href="#22-instalar-flask-y-registrar-dependencias">2.2 Instalar Flask y registrar dependencias</a></li>
+<li><a href="#23-crear-la-estructura-de-carpetas">2.3 Crear la estructura de carpetas</a></li>
+<li><a href="#24-git">2.4 Git</a></li>
+</ul>
+</li>
+<li><a href="#paso-3-base-de-datos-10-min">Paso 3 — Base de datos (10 min)</a><ul>
+<li><a href="#31-schemasql-las-tablas">3.1 schema.sql — las tablas</a></li>
+<li><a href="#32-dbpy-conexion">3.2 db.py — conexión</a></li>
+</ul>
+</li>
+<li><a href="#paso-4-reglas-de-negocio-15-min">Paso 4 — Reglas de negocio (15 min)</a><ul>
+<li><a href="#validacionespy">validaciones.py</a></li>
+</ul>
+</li>
+<li><a href="#paso-5-app-base-plantilla-y-estilos-15-min">Paso 5 — App base, plantilla y estilos (15 min)</a><ul>
+<li><a href="#51-apppy-version-inicial">5.1 app.py (versión inicial)</a></li>
+<li><a href="#52-templatesbasehtml-esqueleto-comun">5.2 templates/base.html — esqueleto común</a></li>
+<li><a href="#53-templatesiniciohtml">5.3 templates/inicio.html</a></li>
+<li><a href="#54-staticcssstylescss">5.4 static/css/styles.css</a></li>
+<li><a href="#ejecutar">▶ Ejecutar</a></li>
+</ul>
+</li>
+<li><a href="#paso-6-crud-de-laboratorios-25-min">Paso 6 — CRUD de laboratorios (25 min)</a><ul>
+<li><a href="#61-rutas-pega-este-bloque-en-apppy-encima-del-bloque-arranque">6.1 Rutas: pega este bloque en app.py encima del bloque ARRANQUE</a></li>
+<li><a href="#62-templateslaboratorioshtml">6.2 templates/laboratorios.html</a></li>
+</ul>
+</li>
+<li><a href="#paso-7-reservas-y-filtros-25-min">Paso 7 — Reservas y filtros (25 min)</a><ul>
+<li><a href="#71-rutas-pega-en-apppy-encima-del-bloque-arranque">7.1 Rutas: pega en app.py encima del bloque ARRANQUE</a></li>
+<li><a href="#72-templatesreservashtml">7.2 templates/reservas.html</a></li>
+</ul>
+</li>
+<li><a href="#paso-8-reporte-7-min">Paso 8 — Reporte (7 min)</a><ul>
+<li><a href="#81-ruta-pega-en-apppy-encima-del-bloque-arranque">8.1 Ruta: pega en app.py encima del bloque ARRANQUE</a></li>
+<li><a href="#82-templatesreportehtml">8.2 templates/reporte.html</a></li>
+</ul>
+</li>
+<li><a href="#paso-9-api-rest-en-json-7-min">Paso 9 — API REST en JSON (7 min)</a></li>
+<li><a href="#paso-10-pruebas-automaticas-8-min">Paso 10 — Pruebas automáticas (8 min)</a><ul>
+<li><a href="#teststest_apppy">tests/test_app.py</a></li>
+</ul>
+</li>
+<li><a href="#paso-11-readme-y-github-10-min">Paso 11 — README y GitHub (10 min)</a><ul>
+<li><a href="#readmemd">README.md</a></li>
+<li><a href="#subir-a-github">Subir a GitHub</a></li>
+</ul>
+</li>
+<li><a href="#paso-12-revision-final-ultimos-1520-min-de-la-prueba">Paso 12 — Revisión final (últimos 15–20 min de la prueba)</a></li>
+<li><a href="#errores-comunes-y-solucion">Errores comunes y solución</a></li>
+<li><a href="#si-en-el-laboratorio-te-piden-mysql-en-vez-de-sqlite">Si en el laboratorio te piden MySQL en vez de SQLite</a></li>
+<li><a href="#como-explicarle-tu-proyecto-al-evaluador-30-segundos">Cómo explicarle tu proyecto al evaluador (30 segundos)</a></li>
+</ul>
+</div>
+</nav>
+<main><h1 id="guia-1-construir-desde-cero-con-python-flask">Guía 1 — Construir desde cero con Python + Flask</h1>
+<p><strong>App:</strong> Sistema de reserva de laboratorios (el simulacro).
+<strong>Resultado:</strong> CRUD de laboratorios, reservas sin cruces de horario, filtros, reporte, API JSON y pruebas.
+<strong>Tiempo objetivo:</strong> 2 h 15 min. Cada paso termina con <strong>✅ Verifica</strong> y <strong>💾 Commit</strong>.</p>
+<blockquote>
+<p>La carpeta <code>solucionario/reservas-flask</code> tiene el proyecto terminado. Todo el código de esta guía sale de ahí, así que si algo no te funciona, compara tu archivo con el del solucionario.</p>
+</blockquote>
+<h2 id="mapa-de-pasos">Mapa de pasos</h2>
+<table>
+<thead>
+<tr>
+<th>Paso</th>
+<th>Qué haces</th>
+<th>Min</th>
+<th>Acumulado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Verificar herramientas</td>
+<td>3</td>
+<td>0:03</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Leer y diseñar (tablas y rutas)</td>
+<td>10</td>
+<td>0:13</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Crear el proyecto y las carpetas</td>
+<td>10</td>
+<td>0:23</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Base de datos</td>
+<td>10</td>
+<td>0:33</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Reglas de negocio (validaciones)</td>
+<td>15</td>
+<td>0:48</td>
+</tr>
+<tr>
+<td>5</td>
+<td>App base + plantilla HTML + CSS</td>
+<td>15</td>
+<td>1:03</td>
+</tr>
+<tr>
+<td>6</td>
+<td>CRUD de laboratorios</td>
+<td>25</td>
+<td>1:28</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Reservas + filtros</td>
+<td>25</td>
+<td>1:53</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Reporte</td>
+<td>7</td>
+<td>2:00</td>
+</tr>
+<tr>
+<td>9</td>
+<td>API JSON</td>
+<td>7</td>
+<td>2:07</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Pruebas automáticas</td>
+<td>8</td>
+<td>2:15</td>
+</tr>
+<tr>
+<td>11</td>
+<td>README + GitHub</td>
+<td>10</td>
+<td>2:25</td>
+</tr>
+</tbody>
+</table>
+<p>Si vas atrasado, <strong>salta el 10</strong> (pruebas) y haz el 11. El orden prioriza que siempre tengas algo funcionando.</p>
+<hr />
+<h2 id="paso-0-verificar-herramientas-3-min">Paso 0 — Verificar herramientas (3 min)</h2>
+<p>Abre una terminal (en Windows: <strong>PowerShell</strong> o la terminal de VS Code con <code>Ctrl + ñ</code>).</p>
+<div class="codehilite"><pre><span></span><code>python<span class="w"> </span>--version<span class="w">        </span><span class="c1"># debe decir 3.8 o mayor. Si no funciona, prueba: py --version</span>
+pip<span class="w"> </span>--version<span class="w">           </span><span class="c1"># si no funciona: python -m pip --version</span>
+git<span class="w"> </span>--version
+code<span class="w"> </span>--version<span class="w">          </span><span class="c1"># VS Code (opcional)</span>
+</code></pre></div>
+
+<p>Si <code>python</code> no existe pero <code>py</code> sí, usa <code>py</code> en todos los comandos de esta guía.</p>
+<hr />
+<h2 id="paso-1-leer-y-disenar-antes-de-programar-10-min">Paso 1 — Leer y diseñar antes de programar (10 min)</h2>
+<p>En una hoja escribe esto. Dedicarle 10 minutos te ahorra 30 después.</p>
+<p><strong>Tablas:</strong></p>
+<div class="codehilite"><pre><span></span><code>laboratorios                         reservas
+------------                         --------
+id (PK)                              id (PK)
+codigo (único)       1 ───────── N   laboratorio_id (FK → laboratorios.id)
+nombre                               docente
+piso                                 fecha        (AAAA-MM-DD)
+capacidad (&gt; 0)                      hora_inicio  (HH:MM)
+estado (disponible|mantenimiento)    hora_fin     (HH:MM)
+                                     motivo
+</code></pre></div>
+
+<p><strong>Rutas (URLs):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>URL</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/</code></td>
+<td>Panel con totales</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/laboratorios</code></td>
+<td>Listado + formulario (con <code>?editar=ID</code> carga uno para editar)</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/laboratorios</code></td>
+<td>Crear</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/laboratorios/&lt;id&gt;</code></td>
+<td>Actualizar</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/laboratorios/&lt;id&gt;/eliminar</code></td>
+<td>Eliminar</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/reservas</code></td>
+<td>Listado con filtros <code>?fecha=&amp;lab=</code> + formulario</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/reservas</code></td>
+<td>Crear reserva</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/reservas/&lt;id&gt;/eliminar</code></td>
+<td>Cancelar reserva</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/reporte</code></td>
+<td>Reservas y horas por laboratorio</td>
+</tr>
+<tr>
+<td>GET/POST</td>
+<td><code>/api/laboratorios</code></td>
+<td>API JSON</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/reservas</code></td>
+<td>API JSON</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Los formularios HTML solo envían GET y POST. Por eso editar y eliminar usan POST con URLs distintas. En una API JSON usarías PUT y DELETE.</p>
+</blockquote>
+<p><strong>Regla clave (choque de horarios):</strong> dos reservas del mismo laboratorio y el mismo día chocan si <code>inicio_nueva &lt; fin_existente</code> <strong>y</strong> <code>inicio_existente &lt; fin_nueva</code>.</p>
+<hr />
+<h2 id="paso-2-crear-el-proyecto-y-las-carpetas-10-min">Paso 2 — Crear el proyecto y las carpetas (10 min)</h2>
+<h3 id="21-crear-la-carpeta-y-el-entorno-virtual">2.1 Crear la carpeta y el entorno virtual</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Ubícate donde quieras el proyecto (Escritorio, Documentos...)</span>
+<span class="nb">cd</span><span class="w"> </span>Desktop
+mkdir<span class="w"> </span>reservas-flask
+<span class="nb">cd</span><span class="w"> </span>reservas-flask
+
+<span class="c1"># Entorno virtual: aísla las librerías de este proyecto</span>
+python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>venv
+</code></pre></div>
+
+<p>Activa el entorno (hazlo <strong>cada vez</strong> que abras una terminal nueva):</p>
+<div class="codehilite"><pre><span></span><code>venv<span class="se">\S</span>cripts<span class="se">\a</span>ctivate<span class="w">           </span><span class="c1"># Windows (PowerShell o CMD)</span>
+<span class="nb">source</span><span class="w"> </span>venv/bin/activate<span class="w">        </span><span class="c1"># Linux / Mac</span>
+</code></pre></div>
+
+<p>Cuando está activo, la línea de la terminal empieza con <code>(venv)</code>.</p>
+<blockquote>
+<p><strong>Si PowerShell dice "la ejecución de scripts está deshabilitada":</strong>
+<code>Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass</code> y vuelve a activar.</p>
+</blockquote>
+<h3 id="22-instalar-flask-y-registrar-dependencias">2.2 Instalar Flask y registrar dependencias</h3>
+<div class="codehilite"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>flask
+pip<span class="w"> </span>freeze<span class="w"> </span>&gt;<span class="w"> </span>requirements.txt
+</code></pre></div>
+
+<p><code>requirements.txt</code> sirve para que otra persona instale lo mismo con <code>pip install -r requirements.txt</code>.</p>
+<h3 id="23-crear-la-estructura-de-carpetas">2.3 Crear la estructura de carpetas</h3>
+<div class="codehilite"><pre><span></span><code>mkdir<span class="w"> </span>templates
+mkdir<span class="w"> </span>static
+mkdir<span class="w"> </span>static<span class="se">\c</span>ss<span class="w">          </span><span class="c1"># Linux/Mac: mkdir -p static/css</span>
+mkdir<span class="w"> </span>tests
+</code></pre></div>
+
+<p>Estructura final a la que vamos a llegar:</p>
+<div class="codehilite"><pre><span></span><code>reservas-flask/
+├── venv/                  ← entorno virtual (NO se sube a Git)
+├── app.py                 ← rutas: recibe peticiones y responde (controlador)
+├── db.py                  ← conexión a la base de datos
+├── schema.sql             ← creación de tablas
+├── validaciones.py        ← reglas de negocio (qué datos son válidos)
+├── requirements.txt       ← dependencias
+├── README.md              ← cómo instalar y ejecutar
+├── .gitignore             ← qué NO subir a Git
+├── templates/             ← HTML con Jinja2 (Flask busca aquí por defecto)
+│   ├── base.html          ← esqueleto común (menú, mensajes)
+│   ├── inicio.html
+│   ├── laboratorios.html
+│   ├── reservas.html
+│   └── reporte.html
+├── static/                ← archivos públicos (Flask los sirve en /static/...)
+│   └── css/styles.css
+└── tests/
+    └── test_app.py
+</code></pre></div>
+
+<p><strong>¿Por qué separar así?</strong> Cada archivo tiene una sola responsabilidad: <code>db.py</code> sabe hablar con la BD, <code>validaciones.py</code> sabe qué es válido y <code>app.py</code> une todo. Es una versión simple de <strong>MVC</strong>: el modelo son <code>db.py</code> + <code>schema.sql</code> + <code>validaciones.py</code>, la vista son los <code>templates/</code> y el controlador es <code>app.py</code>. Si el evaluador te pregunta, eso es lo que responde.</p>
+<blockquote>
+<p>Los nombres <code>templates</code> y <code>static</code> <strong>no se pueden cambiar</strong>: Flask los busca con esos nombres.</p>
+</blockquote>
+<h3 id="24-git">2.4 Git</h3>
+<p>Crea el archivo <code>.gitignore</code> en la raíz del proyecto:</p>
+<div class="codehilite"><pre><span></span><code>venv/
+__pycache__/
+*.db
+.vscode/
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>git<span class="w"> </span>init
+git<span class="w"> </span>config<span class="w"> </span>user.name<span class="w"> </span><span class="s2">&quot;Tu Nombre&quot;</span><span class="w">          </span><span class="c1"># si la PC del laboratorio no lo tiene</span>
+git<span class="w"> </span>config<span class="w"> </span>user.email<span class="w"> </span><span class="s2">&quot;tu@correo.com&quot;</span>
+git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;chore: estructura inicial del proyecto Flask&quot;</span>
+</code></pre></div>
+
+<p>Abre la carpeta en VS Code: <code>code .</code></p>
+<p>✅ <strong>Verifica:</strong> <code>git status</code> dice "nothing to commit" y <code>venv/</code> no aparece en <code>git status</code>.</p>
+<hr />
+<h2 id="paso-3-base-de-datos-10-min">Paso 3 — Base de datos (10 min)</h2>
+<p>Usamos <strong>SQLite</strong>, que viene incluido con Python: no hay que instalar nada y la BD es un archivo (<code>reservas.db</code>).</p>
+<h3 id="31-schemasql-las-tablas">3.1 <code>schema.sql</code> — las tablas</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1">-- Esquema de la base de datos (SQLite).</span>
+<span class="c1">-- &quot;IF NOT EXISTS&quot; permite ejecutarlo cada vez que arranca la app sin borrar datos.</span>
+
+<span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">laboratorios</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">id</span><span class="w">          </span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="n">AUTOINCREMENT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">codigo</span><span class="w">      </span><span class="nb">TEXT</span><span class="w">    </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">UNIQUE</span><span class="p">,</span>
+<span class="w">    </span><span class="n">nombre</span><span class="w">      </span><span class="nb">TEXT</span><span class="w">    </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">piso</span><span class="w">        </span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">CHECK</span><span class="w"> </span><span class="p">(</span><span class="n">piso</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span>
+<span class="w">    </span><span class="n">capacidad</span><span class="w">   </span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">CHECK</span><span class="w"> </span><span class="p">(</span><span class="n">capacidad</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span>
+<span class="w">    </span><span class="n">estado</span><span class="w">      </span><span class="nb">TEXT</span><span class="w">    </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="s1">&#39;disponible&#39;</span>
+<span class="w">                </span><span class="k">CHECK</span><span class="w"> </span><span class="p">(</span><span class="n">estado</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;disponible&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;mantenimiento&#39;</span><span class="p">))</span>
+<span class="p">);</span>
+
+<span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">reservas</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">id</span><span class="w">              </span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="n">AUTOINCREMENT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">laboratorio_id</span><span class="w">  </span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">REFERENCES</span><span class="w"> </span><span class="n">laboratorios</span><span class="p">(</span><span class="n">id</span><span class="p">),</span>
+<span class="w">    </span><span class="n">docente</span><span class="w">         </span><span class="nb">TEXT</span><span class="w">    </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">fecha</span><span class="w">           </span><span class="nb">TEXT</span><span class="w">    </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w">          </span><span class="c1">-- formato AAAA-MM-DD</span>
+<span class="w">    </span><span class="n">hora_inicio</span><span class="w">     </span><span class="nb">TEXT</span><span class="w">    </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w">          </span><span class="c1">-- formato HH:MM</span>
+<span class="w">    </span><span class="n">hora_fin</span><span class="w">        </span><span class="nb">TEXT</span><span class="w">    </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">motivo</span><span class="w">          </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="k">CHECK</span><span class="w"> </span><span class="p">(</span><span class="n">hora_fin</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">hora_inicio</span><span class="p">)</span>
+<span class="p">);</span>
+</code></pre></div>
+
+<p>Puntos a notar:
+- <code>UNIQUE</code> en <code>codigo</code>: la BD misma impide duplicados.
+- <code>REFERENCES laboratorios(id)</code>: clave foránea (FK).
+- Los <code>CHECK</code> son una segunda línea de defensa. La validación principal la hacemos en Python para mostrar mensajes claros.</p>
+<h3 id="32-dbpy-conexion">3.2 <code>db.py</code> — conexión</h3>
+<div class="codehilite"><pre><span></span><code><span class="sd">&quot;&quot;&quot;Conexión a la base de datos SQLite (una conexión por petición).&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sqlite3</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">flask</span><span class="w"> </span><span class="kn">import</span> <span class="n">current_app</span><span class="p">,</span> <span class="n">g</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_db</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Devuelve la conexión de esta petición; la crea si no existe.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="s2">&quot;db&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">g</span><span class="p">:</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">current_app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;DATABASE&quot;</span><span class="p">])</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">row_factory</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">Row</span>          <span class="c1"># permite fila[&quot;columna&quot;]</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;PRAGMA foreign_keys = ON&quot;</span><span class="p">)</span>  <span class="c1"># SQLite no activa las FK por defecto</span>
+    <span class="k">return</span> <span class="n">g</span><span class="o">.</span><span class="n">db</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">close_db</span><span class="p">(</span><span class="n">error</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Flask la llama automáticamente al terminar cada petición.&quot;&quot;&quot;</span>
+    <span class="n">db</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;db&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">db</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">init_db</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Crea las tablas y carga datos de ejemplo si la tabla está vacía.&quot;&quot;&quot;</span>
+    <span class="n">db</span> <span class="o">=</span> <span class="n">get_db</span><span class="p">()</span>
+    <span class="k">with</span> <span class="n">current_app</span><span class="o">.</span><span class="n">open_resource</span><span class="p">(</span><span class="s2">&quot;schema.sql&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">executescript</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+
+    <span class="n">vacia</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT COUNT(*) FROM laboratorios&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">vacia</span><span class="p">:</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span>
+            <span class="s2">&quot;INSERT INTO laboratorios (codigo, nombre, piso, capacidad, estado) VALUES (?, ?, ?, ?, ?)&quot;</span><span class="p">,</span>
+            <span class="p">[</span>
+                <span class="p">(</span><span class="s2">&quot;LAB-001&quot;</span><span class="p">,</span> <span class="s2">&quot;Laboratorio de Redes&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="s2">&quot;disponible&quot;</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;LAB-002&quot;</span><span class="p">,</span> <span class="s2">&quot;Laboratorio de Software&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="s2">&quot;disponible&quot;</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;LAB-003&quot;</span><span class="p">,</span> <span class="s2">&quot;Laboratorio Multimedia&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="s2">&quot;mantenimiento&quot;</span><span class="p">),</span>
+            <span class="p">],</span>
+        <span class="p">)</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</code></pre></div>
+
+<p><strong>Qué hace cada parte:</strong>
+- <code>g</code> es un objeto de Flask que vive solo durante una petición. Guardamos ahí la conexión para reutilizarla.
+- <code>row_factory = sqlite3.Row</code> permite escribir <code>fila["nombre"]</code> en lugar de <code>fila[2]</code>.
+- <code>current_app.open_resource("schema.sql")</code> abre el archivo relativo a la carpeta del proyecto.
+- <code>executemany</code> inserta varias filas con <strong>parámetros <code>?</code></strong>. <strong>Nunca</strong> armes SQL concatenando texto del usuario: eso es SQL Injection.</p>
+<p>💾 <code>git add . ; git commit -m "feat: esquema de base de datos y conexión"</code></p>
+<blockquote>
+<p>El <code>;</code> separa dos comandos y funciona tanto en PowerShell como en Git Bash. En CMD escribe los dos comandos por separado.</p>
+</blockquote>
+<hr />
+<h2 id="paso-4-reglas-de-negocio-15-min">Paso 4 — Reglas de negocio (15 min)</h2>
+<h3 id="validacionespy"><code>validaciones.py</code></h3>
+<div class="codehilite"><pre><span></span><code><span class="sd">&quot;&quot;&quot;Reglas de negocio. Cada función recibe la conexión (db) y los datos del formulario</span>
+<span class="sd">y devuelve una lista de mensajes de error (lista vacía = todo correcto).&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+
+<span class="n">ESTADOS</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;disponible&quot;</span><span class="p">,</span> <span class="s2">&quot;mantenimiento&quot;</span><span class="p">)</span>
+<span class="n">PATRON_HORA</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^([01]\d|2[0-3]):[0-5]\d$&quot;</span><span class="p">)</span>      <span class="c1"># 00:00 a 23:59</span>
+<span class="n">PATRON_FECHA</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^\d</span><span class="si">{4}</span><span class="s2">-\d</span><span class="si">{2}</span><span class="s2">-\d</span><span class="si">{2}</span><span class="s2">$&quot;</span><span class="p">)</span>           <span class="c1"># 2026-09-25</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">se_cruzan</span><span class="p">(</span><span class="n">ini1</span><span class="p">,</span> <span class="n">fin1</span><span class="p">,</span> <span class="n">ini2</span><span class="p">,</span> <span class="n">fin2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Dos horarios [ini, fin) se cruzan si uno empieza antes de que termine el otro.</span>
+<span class="sd">    Las horas en formato HH:MM se pueden comparar como texto.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">ini1</span> <span class="o">&lt;</span> <span class="n">fin2</span> <span class="ow">and</span> <span class="n">ini2</span> <span class="o">&lt;</span> <span class="n">fin1</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">es_entero</span><span class="p">(</span><span class="n">valor</span><span class="p">,</span> <span class="n">minimo</span><span class="p">):</span>
+    <span class="n">texto</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">valor</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">texto</span><span class="o">.</span><span class="n">isdigit</span><span class="p">()</span> <span class="ow">and</span> <span class="nb">int</span><span class="p">(</span><span class="n">texto</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">minimo</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">validar_laboratorio</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">datos</span><span class="p">,</span> <span class="n">id_actual</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="n">errores</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">codigo</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">datos</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;codigo&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+    <span class="n">nombre</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">datos</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;nombre&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">codigo</span><span class="p">:</span>
+        <span class="n">errores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;El código es obligatorio.&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT 1 FROM laboratorios WHERE codigo = ? AND id &lt;&gt; ?&quot;</span><span class="p">,</span>
+                    <span class="p">(</span><span class="n">codigo</span><span class="p">,</span> <span class="n">id_actual</span><span class="p">))</span><span class="o">.</span><span class="n">fetchone</span><span class="p">():</span>
+        <span class="n">errores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ya existe un laboratorio con el código </span><span class="si">{</span><span class="n">codigo</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nombre</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="n">errores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;El nombre debe tener al menos 3 caracteres.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">es_entero</span><span class="p">(</span><span class="n">datos</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;piso&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="n">errores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;El piso debe ser un número entero (0 o mayor).&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">es_entero</span><span class="p">(</span><span class="n">datos</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;capacidad&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">errores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;La capacidad debe ser un número entero mayor a 0.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">datos</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;estado&quot;</span><span class="p">,</span> <span class="s2">&quot;disponible&quot;</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ESTADOS</span><span class="p">:</span>
+        <span class="n">errores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;El estado debe ser &#39;disponible&#39; o &#39;mantenimiento&#39;.&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">errores</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">buscar_choque</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">laboratorio_id</span><span class="p">,</span> <span class="n">fecha</span><span class="p">,</span> <span class="n">hora_inicio</span><span class="p">,</span> <span class="n">hora_fin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Devuelve la reserva que se cruza con el horario pedido, o None.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;SELECT * FROM reservas</span>
+<span class="sd">           WHERE laboratorio_id = ? AND fecha = ?</span>
+<span class="sd">             AND hora_inicio &lt; ? AND ? &lt; hora_fin&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="p">(</span><span class="n">laboratorio_id</span><span class="p">,</span> <span class="n">fecha</span><span class="p">,</span> <span class="n">hora_fin</span><span class="p">,</span> <span class="n">hora_inicio</span><span class="p">),</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">validar_reserva</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">datos</span><span class="p">):</span>
+    <span class="n">errores</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">docente</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">datos</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;docente&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="n">fecha</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">datos</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fecha&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
+    <span class="n">inicio</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">datos</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;hora_inicio&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
+    <span class="n">fin</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">datos</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;hora_fin&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
+    <span class="n">lab</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM laboratorios WHERE id = ?&quot;</span><span class="p">,</span>
+                     <span class="p">(</span><span class="n">datos</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;laboratorio_id&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="mi">0</span><span class="p">,))</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">docente</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="n">errores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;El nombre del docente es obligatorio (mínimo 3 caracteres).&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">lab</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">errores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Seleccione un laboratorio válido.&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">lab</span><span class="p">[</span><span class="s2">&quot;estado&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;mantenimiento&quot;</span><span class="p">:</span>
+        <span class="n">errores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">lab</span><span class="p">[</span><span class="s1">&#39;nombre&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> está en mantenimiento y no se puede reservar.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">PATRON_FECHA</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">fecha</span><span class="p">):</span>
+        <span class="n">errores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;La fecha es obligatoria.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">PATRON_HORA</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">inicio</span><span class="p">)</span> <span class="ow">and</span> <span class="n">PATRON_HORA</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">fin</span><span class="p">)):</span>
+        <span class="n">errores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Las horas de inicio y fin son obligatorias (HH:MM).&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">fin</span> <span class="o">&lt;=</span> <span class="n">inicio</span><span class="p">:</span>
+        <span class="n">errores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;La hora de fin debe ser mayor que la hora de inicio.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Solo buscamos choques si lo anterior está bien</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">errores</span><span class="p">:</span>
+        <span class="n">choque</span> <span class="o">=</span> <span class="n">buscar_choque</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">lab</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">fecha</span><span class="p">,</span> <span class="n">inicio</span><span class="p">,</span> <span class="n">fin</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">choque</span><span class="p">:</span>
+            <span class="n">errores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Horario ocupado: </span><span class="si">{</span><span class="n">choque</span><span class="p">[</span><span class="s1">&#39;hora_inicio&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">choque</span><span class="p">[</span><span class="s1">&#39;hora_fin&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> &quot;</span>
+                           <span class="sa">f</span><span class="s2">&quot;reservado por </span><span class="si">{</span><span class="n">choque</span><span class="p">[</span><span class="s1">&#39;docente&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">errores</span>
+</code></pre></div>
+
+<p><strong>Por qué funciona la consulta de choque:</strong> buscamos reservas del mismo laboratorio y la misma fecha donde <code>hora_inicio_existente &lt; hora_fin_nueva</code> <strong>y</strong> <code>hora_inicio_nueva &lt; hora_fin_existente</code>. Ejemplos:</p>
+<table>
+<thead>
+<tr>
+<th>Existente</th>
+<th>Nueva</th>
+<th>¿Choca?</th>
+<th>Por qué</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>08:00–10:00</td>
+<td>09:00–11:00</td>
+<td>Sí</td>
+<td>08:00 &lt; 11:00 y 09:00 &lt; 10:00</td>
+</tr>
+<tr>
+<td>08:00–12:00</td>
+<td>09:00–10:00</td>
+<td>Sí</td>
+<td>la nueva queda dentro</td>
+</tr>
+<tr>
+<td>08:00–10:00</td>
+<td>10:00–12:00</td>
+<td>No</td>
+<td>10:00 &lt; 10:00 es falso (son contiguas)</td>
+</tr>
+<tr>
+<td>08:00–10:00</td>
+<td>07:00–08:00</td>
+<td>No</td>
+<td>08:00 &lt; 08:00 es falso</td>
+</tr>
+</tbody>
+</table>
+<p>✅ <strong>Verifica</strong> (con el entorno activo, en la carpeta del proyecto):</p>
+<div class="codehilite"><pre><span></span><code>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;from validaciones import se_cruzan; print(se_cruzan(&#39;08:00&#39;,&#39;10:00&#39;,&#39;09:00&#39;,&#39;11:00&#39;), se_cruzan(&#39;08:00&#39;,&#39;10:00&#39;,&#39;10:00&#39;,&#39;12:00&#39;))&quot;</span>
+</code></pre></div>
+
+<p>Debe imprimir <code>True False</code>.</p>
+<p>💾 <code>git add . ; git commit -m "feat: validaciones y regla de choque de horarios"</code></p>
+<hr />
+<h2 id="paso-5-app-base-plantilla-y-estilos-15-min">Paso 5 — App base, plantilla y estilos (15 min)</h2>
+<h3 id="51-apppy-version-inicial">5.1 <code>app.py</code> (versión inicial)</h3>
+<div class="codehilite"><pre><span></span><code><span class="sd">&quot;&quot;&quot;Sistema de reserva de laboratorios - Flask + SQLite.&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">flask</span><span class="w"> </span><span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">flash</span><span class="p">,</span> <span class="n">jsonify</span><span class="p">,</span> <span class="n">redirect</span><span class="p">,</span> <span class="n">render_template</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">url_for</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">db</span><span class="w"> </span><span class="kn">import</span> <span class="n">close_db</span><span class="p">,</span> <span class="n">get_db</span><span class="p">,</span> <span class="n">init_db</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">validaciones</span><span class="w"> </span><span class="kn">import</span> <span class="n">validar_laboratorio</span><span class="p">,</span> <span class="n">validar_reserva</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;SECRET_KEY&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;cambia-esta-clave&quot;</span>          <span class="c1"># necesario para flash()</span>
+<span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;DATABASE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">root_path</span><span class="p">,</span> <span class="s2">&quot;reservas.db&quot;</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">teardown_appcontext</span><span class="p">(</span><span class="n">close_db</span><span class="p">)</span>                         <span class="c1"># cierra la BD al final de cada petición</span>
+
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">inicio</span><span class="p">():</span>
+    <span class="n">db</span> <span class="o">=</span> <span class="n">get_db</span><span class="p">()</span>
+    <span class="n">totales</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;laboratorios&quot;</span><span class="p">:</span> <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT COUNT(*) FROM laboratorios&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="s2">&quot;disponibles&quot;</span><span class="p">:</span> <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+            <span class="s2">&quot;SELECT COUNT(*) FROM laboratorios WHERE estado = &#39;disponible&#39;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="s2">&quot;reservas&quot;</span><span class="p">:</span> <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT COUNT(*) FROM reservas&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s2">&quot;inicio.html&quot;</span><span class="p">,</span> <span class="n">totales</span><span class="o">=</span><span class="n">totales</span><span class="p">)</span>
+
+
+<span class="c1"># (AQUÍ PEGARÁS EL CÓDIGO DE LOS PASOS 6, 7, 8 Y 9)</span>
+
+<span class="c1"># ----------------------------------------------------------- ARRANQUE</span>
+<span class="k">with</span> <span class="n">app</span><span class="o">.</span><span class="n">app_context</span><span class="p">():</span>
+    <span class="n">init_db</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+
+<ul>
+<li><code>app.teardown_appcontext(close_db)</code> hace que Flask cierre la BD al terminar cada petición.</li>
+<li>El bloque <code>with app.app_context(): init_db()</code> crea las tablas al arrancar. <strong>Siempre debe quedar al final</strong> del archivo. En los siguientes pasos pegarás código <strong>encima</strong> de ese bloque, donde está el comentario.</li>
+<li><code>debug=True</code> recarga el servidor al guardar y muestra los errores detallados.</li>
+</ul>
+<h3 id="52-templatesbasehtml-esqueleto-comun">5.2 <code>templates/base.html</code> — esqueleto común</h3>
+<div class="codehilite"><pre><span></span><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">&quot;es&quot;</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&quot;UTF-8&quot;</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;width=device-width, initial-scale=1.0&quot;</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>{% block titulo %}Reservas{% endblock %} | Laboratorios ISTE<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;{{ url_for(&#39;static&#39;, filename=&#39;css/styles.css&#39;) }}&quot;</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">header</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;barra&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">a</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;logo&quot;</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;/&quot;</span><span class="p">&gt;</span>Reservas de Laboratorios<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">nav</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;/laboratorios&quot;</span><span class="p">&gt;</span>Laboratorios<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;/reservas&quot;</span><span class="p">&gt;</span>Reservas<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;/reporte&quot;</span><span class="p">&gt;</span>Reporte<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">nav</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">header</span><span class="p">&gt;</span>
+
+  <span class="p">&lt;</span><span class="nt">main</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;contenedor&quot;</span><span class="p">&gt;</span>
+    {# Mensajes después de redirigir (flash) #}
+    {% for categoria, mensaje in get_flashed_messages(with_categories=true) %}
+      <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;alerta {{ categoria }}&quot;</span><span class="p">&gt;</span>{{ mensaje }}<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    {% endfor %}
+
+    {# Errores de validación al volver a mostrar un formulario #}
+    {% if errores %}
+      <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;alerta error&quot;</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">strong</span><span class="p">&gt;</span>Revise los datos:<span class="p">&lt;/</span><span class="nt">strong</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>{% for e in errores %}<span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>{{ e }}<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>{% endfor %}<span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    {% endif %}
+
+    {% block contenido %}{% endblock %}
+  <span class="p">&lt;/</span><span class="nt">main</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</code></pre></div>
+
+<p><strong>Herencia de plantillas:</strong> las demás páginas dicen <code>{% extends "base.html" %}</code> y solo rellenan <code>{% block contenido %}</code>. El menú y los mensajes se escriben una sola vez.</p>
+<p>Hay dos tipos de mensaje:
+- <strong>flash</strong>: mensajes que sobreviven a una redirección (ej. "Laboratorio creado").
+- <strong>errores</strong>: lista que pasamos directamente cuando volvemos a mostrar un formulario con datos inválidos.</p>
+<h3 id="53-templatesiniciohtml">5.3 <code>templates/inicio.html</code></h3>
+<div class="codehilite"><pre><span></span><code>{% extends &quot;base.html&quot; %}
+{% block titulo %}Inicio{% endblock %}
+{% block contenido %}
+<span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Panel principal<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;tarjetas&quot;</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;tarjeta&quot;</span><span class="p">&gt;&lt;</span><span class="nt">span</span><span class="p">&gt;</span>Laboratorios<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;&lt;</span><span class="nt">strong</span><span class="p">&gt;</span>{{ totales.laboratorios }}<span class="p">&lt;/</span><span class="nt">strong</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;tarjeta&quot;</span><span class="p">&gt;&lt;</span><span class="nt">span</span><span class="p">&gt;</span>Disponibles<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;&lt;</span><span class="nt">strong</span><span class="p">&gt;</span>{{ totales.disponibles }}<span class="p">&lt;/</span><span class="nt">strong</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;tarjeta&quot;</span><span class="p">&gt;&lt;</span><span class="nt">span</span><span class="p">&gt;</span>Reservas<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;&lt;</span><span class="nt">strong</span><span class="p">&gt;</span>{{ totales.reservas }}<span class="p">&lt;/</span><span class="nt">strong</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">p</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;acciones&quot;</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">a</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;btn&quot;</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;/reservas&quot;</span><span class="p">&gt;</span>Nueva reserva<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">a</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;btn sec&quot;</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;/laboratorios&quot;</span><span class="p">&gt;</span>Gestionar laboratorios<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+{% endblock %}
+</code></pre></div>
+
+<h3 id="54-staticcssstylescss">5.4 <code>static/css/styles.css</code></h3>
+<div class="codehilite"><pre><span></span><code><span class="o">*,</span><span class="w"> </span><span class="o">*</span><span class="p">::</span><span class="nd">before</span><span class="o">,</span><span class="w"> </span><span class="o">*</span><span class="p">::</span><span class="nd">after</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">box-sizing</span><span class="p">:</span><span class="w"> </span><span class="kc">border-box</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+
+<span class="p">:</span><span class="nd">root</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nv">--primario</span><span class="p">:</span><span class="w"> </span><span class="mh">#0a5bd6</span><span class="p">;</span>
+<span class="w">  </span><span class="nv">--peligro</span><span class="p">:</span><span class="w"> </span><span class="mh">#dc2626</span><span class="p">;</span>
+<span class="w">  </span><span class="nv">--gris</span><span class="p">:</span><span class="w"> </span><span class="mh">#64748b</span><span class="p">;</span>
+<span class="w">  </span><span class="nv">--borde</span><span class="p">:</span><span class="w"> </span><span class="mh">#e5e7eb</span><span class="p">;</span>
+<span class="w">  </span><span class="nv">--fondo</span><span class="p">:</span><span class="w"> </span><span class="mh">#f1f5f9</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nt">body</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">margin</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="k">font-family</span><span class="p">:</span><span class="w"> </span><span class="n">system-ui</span><span class="p">,</span><span class="w"> </span><span class="kc">sans-serif</span><span class="p">;</span><span class="w"> </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--fondo</span><span class="p">);</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="mh">#1f2937</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+
+<span class="c">/* Barra superior */</span>
+<span class="p">.</span><span class="nc">barra</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="kc">flex</span><span class="p">;</span><span class="w"> </span><span class="k">justify-content</span><span class="p">:</span><span class="w"> </span><span class="kc">space-between</span><span class="p">;</span><span class="w"> </span><span class="k">align-items</span><span class="p">:</span><span class="w"> </span><span class="kc">center</span><span class="p">;</span><span class="w"> </span><span class="k">flex-wrap</span><span class="p">:</span><span class="w"> </span><span class="kc">wrap</span><span class="p">;</span>
+<span class="w">         </span><span class="k">gap</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="kt">px</span><span class="w"> </span><span class="mi">24</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--primario</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="p">.</span><span class="nc">barra</span><span class="w"> </span><span class="nt">a</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="mh">#fff</span><span class="p">;</span><span class="w"> </span><span class="k">text-decoration</span><span class="p">:</span><span class="w"> </span><span class="kc">none</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">.</span><span class="nc">barra</span><span class="w"> </span><span class="nt">nav</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="kc">flex</span><span class="p">;</span><span class="w"> </span><span class="k">gap</span><span class="p">:</span><span class="w"> </span><span class="mi">16</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">.</span><span class="nc">logo</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">font-weight</span><span class="p">:</span><span class="w"> </span><span class="mi">700</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+
+<span class="p">.</span><span class="nc">contenedor</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">max-width</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="k">margin</span><span class="p">:</span><span class="w"> </span><span class="mi">24</span><span class="kt">px</span><span class="w"> </span><span class="kc">auto</span><span class="p">;</span><span class="w"> </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">16</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="k">grid</span><span class="p">;</span><span class="w"> </span><span class="k">gap</span><span class="p">:</span><span class="w"> </span><span class="mi">16</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">.</span><span class="nc">panel</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="mh">#fff</span><span class="p">;</span><span class="w"> </span><span class="k">border-radius</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mi">16</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="k">box-shadow</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">1</span><span class="kt">px</span><span class="w"> </span><span class="mi">4</span><span class="kt">px</span><span class="w"> </span><span class="nb">rgba</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">.06</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="p">.</span><span class="nc">panel</span><span class="w"> </span><span class="nt">h2</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">margin-top</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="k">font-size</span><span class="p">:</span><span class="w"> </span><span class="mi">18</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+
+<span class="c">/* Formularios */</span>
+<span class="p">.</span><span class="nc">grid</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="k">grid</span><span class="p">;</span><span class="w"> </span><span class="k">grid-template-columns</span><span class="p">:</span><span class="w"> </span><span class="nf">repeat</span><span class="p">(</span><span class="kc">auto</span><span class="nv">-fit</span><span class="p">,</span><span class="w"> </span><span class="nf">minmax</span><span class="p">(</span><span class="mi">180</span><span class="kt">px</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="n">fr</span><span class="p">));</span><span class="w"> </span><span class="k">gap</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="nt">label</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="k">grid</span><span class="p">;</span><span class="w"> </span><span class="k">gap</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="k">font-size</span><span class="p">:</span><span class="w"> </span><span class="mi">14</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="nt">input</span><span class="o">,</span><span class="w"> </span><span class="nt">select</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">width</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="kt">%</span><span class="p">;</span><span class="w"> </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="k">border</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="kt">px</span><span class="w"> </span><span class="kc">solid</span><span class="w"> </span><span class="mh">#cbd5e1</span><span class="p">;</span><span class="w"> </span><span class="k">border-radius</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="k">font-size</span><span class="p">:</span><span class="w"> </span><span class="mi">14</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">.</span><span class="nc">filtros</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="kc">flex</span><span class="p">;</span><span class="w"> </span><span class="k">flex-wrap</span><span class="p">:</span><span class="w"> </span><span class="kc">wrap</span><span class="p">;</span><span class="w"> </span><span class="k">gap</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="k">align-items</span><span class="p">:</span><span class="w"> </span><span class="kc">end</span><span class="p">;</span><span class="w"> </span><span class="k">margin-bottom</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">.</span><span class="nc">filtros</span><span class="w"> </span><span class="nt">label</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">min-width</span><span class="p">:</span><span class="w"> </span><span class="mi">160</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+
+<span class="c">/* Botones */</span>
+<span class="nt">button</span><span class="o">,</span><span class="w"> </span><span class="p">.</span><span class="nc">btn</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="kc">inline-block</span><span class="p">;</span><span class="w"> </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="kt">px</span><span class="w"> </span><span class="mi">14</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="k">border</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="k">border-radius</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="k">cursor</span><span class="p">:</span><span class="w"> </span><span class="kc">pointer</span><span class="p">;</span>
+<span class="w">               </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--primario</span><span class="p">);</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="mh">#fff</span><span class="p">;</span><span class="w"> </span><span class="k">text-decoration</span><span class="p">:</span><span class="w"> </span><span class="kc">none</span><span class="p">;</span><span class="w"> </span><span class="k">font-size</span><span class="p">:</span><span class="w"> </span><span class="mi">14</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">.</span><span class="nc">btn</span><span class="p">.</span><span class="nc">sec</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--gris</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="p">.</span><span class="nc">peligro</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--peligro</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="p">.</span><span class="nc">acciones</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="kc">flex</span><span class="p">;</span><span class="w"> </span><span class="k">gap</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="k">align-items</span><span class="p">:</span><span class="w"> </span><span class="kc">center</span><span class="p">;</span><span class="w"> </span><span class="k">margin-top</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="nt">td</span><span class="p">.</span><span class="nc">acciones</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">margin</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">.</span><span class="nc">acciones</span><span class="w"> </span><span class="nt">form</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">margin</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+
+<span class="c">/* Tablas */</span>
+<span class="nt">table</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">width</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="kt">%</span><span class="p">;</span><span class="w"> </span><span class="k">border-collapse</span><span class="p">:</span><span class="w"> </span><span class="kc">collapse</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="nt">th</span><span class="o">,</span><span class="w"> </span><span class="nt">td</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="k">border-bottom</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="kt">px</span><span class="w"> </span><span class="kc">solid</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--borde</span><span class="p">);</span><span class="w"> </span><span class="k">text-align</span><span class="p">:</span><span class="w"> </span><span class="kc">left</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="nt">thead</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="mh">#f8fafc</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">.</span><span class="nc">estado</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="kt">px</span><span class="w"> </span><span class="mi">8</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="k">border-radius</span><span class="p">:</span><span class="w"> </span><span class="mi">999</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="k">font-size</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">.</span><span class="nc">estado</span><span class="p">.</span><span class="nc">disponible</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="mh">#dcfce7</span><span class="p">;</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="mh">#166534</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">.</span><span class="nc">estado</span><span class="p">.</span><span class="nc">mantenimiento</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="mh">#fee2e2</span><span class="p">;</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="mh">#991b1b</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+
+<span class="c">/* Mensajes */</span>
+<span class="p">.</span><span class="nc">alerta</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="kt">px</span><span class="w"> </span><span class="mi">14</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="k">border-radius</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">.</span><span class="nc">alerta</span><span class="w"> </span><span class="nt">ul</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">margin</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="kt">px</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">.</span><span class="nc">alerta</span><span class="p">.</span><span class="nc">ok</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="mh">#dcfce7</span><span class="p">;</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="mh">#166534</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">.</span><span class="nc">alerta</span><span class="p">.</span><span class="nc">error</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="mh">#fee2e2</span><span class="p">;</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="mh">#991b1b</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+
+<span class="c">/* Tarjetas del inicio */</span>
+<span class="p">.</span><span class="nc">tarjetas</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="k">grid</span><span class="p">;</span><span class="w"> </span><span class="k">grid-template-columns</span><span class="p">:</span><span class="w"> </span><span class="nf">repeat</span><span class="p">(</span><span class="kc">auto</span><span class="nv">-fit</span><span class="p">,</span><span class="w"> </span><span class="nf">minmax</span><span class="p">(</span><span class="mi">180</span><span class="kt">px</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="n">fr</span><span class="p">));</span><span class="w"> </span><span class="k">gap</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">.</span><span class="nc">tarjeta</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="mh">#fff</span><span class="p">;</span><span class="w"> </span><span class="k">border-radius</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mi">16</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="k">grid</span><span class="p">;</span><span class="w"> </span><span class="k">gap</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">.</span><span class="nc">tarjeta</span><span class="w"> </span><span class="nt">span</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--gris</span><span class="p">);</span><span class="w"> </span><span class="k">font-size</span><span class="p">:</span><span class="w"> </span><span class="mi">13</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">.</span><span class="nc">tarjeta</span><span class="w"> </span><span class="nt">strong</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">font-size</span><span class="p">:</span><span class="w"> </span><span class="mi">28</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+
+<span class="c">/* Celular: la tabla se desplaza horizontalmente */</span>
+<span class="p">@</span><span class="k">media</span><span class="w"> </span><span class="o">(</span><span class="nt">max-width</span><span class="o">:</span><span class="w"> </span><span class="nt">700px</span><span class="o">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="p">.</span><span class="nc">panel</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">overflow-x</span><span class="p">:</span><span class="w"> </span><span class="kc">auto</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<blockquote>
+<p>Si vas corto de tiempo, copia solo las secciones de body, barra, contenedor, panel, formularios, botones, tablas y mensajes. El resto es opcional.</p>
+</blockquote>
+<h3 id="ejecutar">▶ Ejecutar</h3>
+<div class="codehilite"><pre><span></span><code>python<span class="w"> </span>app.py
+</code></pre></div>
+
+<p>Abre <strong>http://127.0.0.1:5000</strong>.</p>
+<p>✅ <strong>Verifica:</strong> ves el panel con <strong>3 laboratorios, 2 disponibles, 0 reservas</strong>, y se creó el archivo <code>reservas.db</code>. Los enlaces del menú todavía dan 404 porque esas rutas aún no existen.</p>
+<p>Detén el servidor con <code>Ctrl + C</code> cuando lo necesites. Con <code>debug=True</code> normalmente no hace falta: se recarga solo al guardar.</p>
+<p>💾 <code>git add . ; git commit -m "feat: app base con plantilla y estilos"</code></p>
+<hr />
+<h2 id="paso-6-crud-de-laboratorios-25-min">Paso 6 — CRUD de laboratorios (25 min)</h2>
+<h3 id="61-rutas-pega-este-bloque-en-apppy-encima-del-bloque-arranque">6.1 Rutas: pega este bloque en <code>app.py</code> <strong>encima</strong> del bloque <code>ARRANQUE</code></h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># ----------------------------------------------------------- LABORATORIOS (CRUD)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">datos_laboratorio</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Limpia y convierte los datos del formulario al orden de las columnas.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="s2">&quot;codigo&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">f</span><span class="p">[</span><span class="s2">&quot;nombre&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="s2">&quot;piso&quot;</span><span class="p">]),</span>
+            <span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="s2">&quot;capacidad&quot;</span><span class="p">]),</span> <span class="n">f</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;estado&quot;</span><span class="p">,</span> <span class="s2">&quot;disponible&quot;</span><span class="p">))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">mostrar_laboratorios</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">errores</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="mi">200</span><span class="p">):</span>
+    <span class="n">labs</span> <span class="o">=</span> <span class="n">get_db</span><span class="p">()</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM laboratorios ORDER BY codigo&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s2">&quot;laboratorios.html&quot;</span><span class="p">,</span> <span class="n">labs</span><span class="o">=</span><span class="n">labs</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="n">form</span> <span class="ow">or</span> <span class="p">{},</span>
+                           <span class="n">errores</span><span class="o">=</span><span class="n">errores</span> <span class="ow">or</span> <span class="p">[]),</span> <span class="n">status</span>
+
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/laboratorios&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">laboratorios</span><span class="p">():</span>
+    <span class="n">editar_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;editar&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">editar_id</span><span class="p">:</span>                                   <span class="c1"># /laboratorios?editar=2 → carga el formulario</span>
+        <span class="n">lab</span> <span class="o">=</span> <span class="n">get_db</span><span class="p">()</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM laboratorios WHERE id = ?&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">editar_id</span><span class="p">,))</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">lab</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">flash</span><span class="p">(</span><span class="s2">&quot;Laboratorio no encontrado.&quot;</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s2">&quot;laboratorios&quot;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">mostrar_laboratorios</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">lab</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">mostrar_laboratorios</span><span class="p">()</span>
+
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/laboratorios&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">crear_laboratorio</span><span class="p">():</span>
+    <span class="n">db</span> <span class="o">=</span> <span class="n">get_db</span><span class="p">()</span>
+    <span class="n">errores</span> <span class="o">=</span> <span class="n">validar_laboratorio</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">errores</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">mostrar_laboratorios</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">,</span> <span class="n">errores</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;INSERT INTO laboratorios (codigo, nombre, piso, capacidad, estado) &quot;</span>
+               <span class="s2">&quot;VALUES (?, ?, ?, ?, ?)&quot;</span><span class="p">,</span> <span class="n">datos_laboratorio</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">))</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="n">flash</span><span class="p">(</span><span class="s2">&quot;Laboratorio creado correctamente.&quot;</span><span class="p">,</span> <span class="s2">&quot;ok&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s2">&quot;laboratorios&quot;</span><span class="p">))</span>          <span class="c1"># patrón POST → redirect → GET</span>
+
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/laboratorios/&lt;int:lab_id&gt;&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">actualizar_laboratorio</span><span class="p">(</span><span class="n">lab_id</span><span class="p">):</span>
+    <span class="n">db</span> <span class="o">=</span> <span class="n">get_db</span><span class="p">()</span>
+    <span class="n">errores</span> <span class="o">=</span> <span class="n">validar_laboratorio</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">,</span> <span class="n">id_actual</span><span class="o">=</span><span class="n">lab_id</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">errores</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">mostrar_laboratorios</span><span class="p">({</span><span class="o">**</span><span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">lab_id</span><span class="p">},</span> <span class="n">errores</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;UPDATE laboratorios SET codigo = ?, nombre = ?, piso = ?, capacidad = ?, &quot;</span>
+               <span class="s2">&quot;estado = ? WHERE id = ?&quot;</span><span class="p">,</span> <span class="n">datos_laboratorio</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">lab_id</span><span class="p">,))</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="n">flash</span><span class="p">(</span><span class="s2">&quot;Laboratorio actualizado.&quot;</span><span class="p">,</span> <span class="s2">&quot;ok&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s2">&quot;laboratorios&quot;</span><span class="p">))</span>
+
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/laboratorios/&lt;int:lab_id&gt;/eliminar&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">eliminar_laboratorio</span><span class="p">(</span><span class="n">lab_id</span><span class="p">):</span>
+    <span class="n">db</span> <span class="o">=</span> <span class="n">get_db</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT 1 FROM reservas WHERE laboratorio_id = ?&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">lab_id</span><span class="p">,))</span><span class="o">.</span><span class="n">fetchone</span><span class="p">():</span>
+        <span class="n">flash</span><span class="p">(</span><span class="s2">&quot;No se puede eliminar: el laboratorio tiene reservas registradas.&quot;</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;DELETE FROM laboratorios WHERE id = ?&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">lab_id</span><span class="p">,))</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="n">flash</span><span class="p">(</span><span class="s2">&quot;Laboratorio eliminado.&quot;</span><span class="p">,</span> <span class="s2">&quot;ok&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s2">&quot;laboratorios&quot;</span><span class="p">))</span>
+</code></pre></div>
+
+<p><strong>Cómo funciona el flujo (patrón POST → Redirect → GET):</strong></p>
+<div class="codehilite"><pre><span></span><code>Usuario envía el formulario  ──POST /laboratorios──►  crear_laboratorio()
+                                                         │
+                         ┌──── ¿hay errores? ────────────┤
+                         ▼ sí                            ▼ no
+          vuelve a mostrar la página con         INSERT + commit + flash
+          los datos escritos y los errores       redirect a /laboratorios (GET)
+          (código 400)                           → si el usuario refresca, NO se duplica
+</code></pre></div>
+
+<ul>
+<li><code>request.form</code> contiene lo que envió el formulario (siempre texto).</li>
+<li><code>request.args</code> contiene lo que va en la URL (<code>?editar=2</code>).</li>
+<li><code>url_for("laboratorios")</code> genera la URL a partir del <strong>nombre de la función</strong>. Si cambias la URL, no se rompen los enlaces.</li>
+<li>Para editar reutilizamos el mismo formulario: si <code>form.id</code> existe, el <code>action</code> apunta a <code>/laboratorios/&lt;id&gt;</code>.</li>
+</ul>
+<h3 id="62-templateslaboratorioshtml">6.2 <code>templates/laboratorios.html</code></h3>
+<div class="codehilite"><pre><span></span><code>{% extends &quot;base.html&quot; %}
+{% block titulo %}Laboratorios{% endblock %}
+{% block contenido %}
+<span class="p">&lt;</span><span class="nt">section</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;panel&quot;</span><span class="p">&gt;</span>
+  {# Si form.id existe estamos editando; si no, creando #}
+  <span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span>{{ &quot;Editar laboratorio &quot; ~ form.codigo if form.id else &quot;Nuevo laboratorio&quot; }}<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">form</span> <span class="na">method</span><span class="o">=</span><span class="s">&quot;post&quot;</span>
+        <span class="na">action</span><span class="o">=</span><span class="s">&quot;{{ url_for(&#39;actualizar_laboratorio&#39;, lab_id=form.id) if form.id else url_for(&#39;crear_laboratorio&#39;) }}&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;grid&quot;</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">label</span><span class="p">&gt;</span>Código
+        <span class="p">&lt;</span><span class="nt">input</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;codigo&quot;</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;{{ form.codigo or &#39;&#39; }}&quot;</span> <span class="na">placeholder</span><span class="o">=</span><span class="s">&quot;LAB-004&quot;</span> <span class="na">required</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">label</span><span class="p">&gt;</span>Nombre
+        <span class="p">&lt;</span><span class="nt">input</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;nombre&quot;</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;{{ form.nombre or &#39;&#39; }}&quot;</span> <span class="na">required</span> <span class="na">minlength</span><span class="o">=</span><span class="s">&quot;3&quot;</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">label</span><span class="p">&gt;</span>Piso
+        <span class="p">&lt;</span><span class="nt">input</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;piso&quot;</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;number&quot;</span> <span class="na">min</span><span class="o">=</span><span class="s">&quot;0&quot;</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;{{ form.piso if form.piso is not none else &#39;&#39; }}&quot;</span> <span class="na">required</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">label</span><span class="p">&gt;</span>Capacidad
+        <span class="p">&lt;</span><span class="nt">input</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;capacidad&quot;</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;number&quot;</span> <span class="na">min</span><span class="o">=</span><span class="s">&quot;1&quot;</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;{{ form.capacidad or &#39;&#39; }}&quot;</span> <span class="na">required</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">label</span><span class="p">&gt;</span>Estado
+        <span class="p">&lt;</span><span class="nt">select</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;estado&quot;</span><span class="p">&gt;</span>
+          {% for e in [&quot;disponible&quot;, &quot;mantenimiento&quot;] %}
+            <span class="p">&lt;</span><span class="nt">option</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;{{ e }}&quot;</span> <span class="err">{{</span> <span class="err">&quot;</span><span class="na">selected</span><span class="err">&quot;</span> <span class="na">if</span> <span class="na">form</span><span class="err">.</span><span class="na">estado </span><span class="o">=</span><span class="s">=</span> <span class="na">e</span> <span class="err">}}</span><span class="p">&gt;</span>{{ e|capitalize }}<span class="p">&lt;/</span><span class="nt">option</span><span class="p">&gt;</span>
+          {% endfor %}
+        <span class="p">&lt;/</span><span class="nt">select</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;acciones&quot;</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;submit&quot;</span><span class="p">&gt;</span>Guardar<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+      {% if form.id %}<span class="p">&lt;</span><span class="nt">a</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;btn sec&quot;</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;{{ url_for(&#39;laboratorios&#39;) }}&quot;</span><span class="p">&gt;</span>Cancelar<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>{% endif %}
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">section</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">section</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;panel&quot;</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span>Listado<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">table</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">thead</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;&lt;</span><span class="nt">th</span><span class="p">&gt;</span>Código<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;&lt;</span><span class="nt">th</span><span class="p">&gt;</span>Nombre<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;&lt;</span><span class="nt">th</span><span class="p">&gt;</span>Piso<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;&lt;</span><span class="nt">th</span><span class="p">&gt;</span>Capacidad<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;&lt;</span><span class="nt">th</span><span class="p">&gt;</span>Estado<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;&lt;</span><span class="nt">th</span><span class="p">&gt;</span>Acciones<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">thead</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">tbody</span><span class="p">&gt;</span>
+    {% for lab in labs %}
+      <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>{{ lab.codigo }}<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>{{ lab.nombre }}<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>{{ lab.piso }}<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>{{ lab.capacidad }}<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;estado {{ lab.estado }}&quot;</span><span class="p">&gt;</span>{{ lab.estado }}<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">td</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;acciones&quot;</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nt">a</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;btn sec&quot;</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;{{ url_for(&#39;laboratorios&#39;, editar=lab.id) }}&quot;</span><span class="p">&gt;</span>Editar<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nt">form</span> <span class="na">method</span><span class="o">=</span><span class="s">&quot;post&quot;</span> <span class="na">action</span><span class="o">=</span><span class="s">&quot;{{ url_for(&#39;eliminar_laboratorio&#39;, lab_id=lab.id) }}&quot;</span>
+                <span class="na">onsubmit</span><span class="o">=</span><span class="s">&quot;return confirm(&#39;¿Eliminar {{ lab.codigo }}?&#39;)&quot;</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">button</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;peligro&quot;</span><span class="p">&gt;</span>Eliminar<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+          <span class="p">&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+    {% else %}
+      <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;&lt;</span><span class="nt">td</span> <span class="na">colspan</span><span class="o">=</span><span class="s">&quot;6&quot;</span><span class="p">&gt;</span>No hay laboratorios registrados.<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+    {% endfor %}
+    <span class="p">&lt;/</span><span class="nt">tbody</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">table</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">section</span><span class="p">&gt;</span>
+{% endblock %}
+</code></pre></div>
+
+<ul>
+<li><code>{% for ... %}{% else %}{% endfor %}</code>: el <code>else</code> se muestra si la lista está vacía.</li>
+<li>Eliminar es un <code>&lt;form method="post"&gt;</code> y no un enlace. Nunca borres con GET, porque un buscador o una precarga del navegador podría borrar datos.</li>
+<li><code>onsubmit="return confirm(...)"</code> pide confirmación.</li>
+</ul>
+<p>✅ <strong>Verifica</strong> en http://127.0.0.1:5000/laboratorios:</p>
+<table>
+<thead>
+<tr>
+<th>Prueba</th>
+<th>Resultado esperado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Crear <code>lab-004</code>, "Lab Hardware", piso 1, capacidad 20</td>
+<td>Aparece como <strong>LAB-004</strong> y el mensaje verde</td>
+</tr>
+<tr>
+<td>Crear otro con código <code>LAB-001</code></td>
+<td>Error "Ya existe un laboratorio..." y los datos siguen escritos</td>
+</tr>
+<tr>
+<td>Capacidad 0</td>
+<td>Error de capacidad (quita temporalmente <code>min="1"</code> del HTML para probar la validación del servidor)</td>
+</tr>
+<tr>
+<td>Editar LAB-004, cambiar el nombre</td>
+<td>Se actualiza</td>
+</tr>
+<tr>
+<td>Eliminar LAB-004</td>
+<td>Desaparece</td>
+</tr>
+</tbody>
+</table>
+<p>💾 <code>git add . ; git commit -m "feat: CRUD de laboratorios"</code></p>
+<hr />
+<h2 id="paso-7-reservas-y-filtros-25-min">Paso 7 — Reservas y filtros (25 min)</h2>
+<h3 id="71-rutas-pega-en-apppy-encima-del-bloque-arranque">7.1 Rutas: pega en <code>app.py</code> <strong>encima</strong> del bloque <code>ARRANQUE</code></h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># ----------------------------------------------------------- RESERVAS</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">mostrar_reservas</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">errores</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="mi">200</span><span class="p">):</span>
+    <span class="n">db</span> <span class="o">=</span> <span class="n">get_db</span><span class="p">()</span>
+    <span class="n">filtro</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;fecha&quot;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fecha&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="s2">&quot;lab&quot;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;lab&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)}</span>
+
+    <span class="n">sql</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;SELECT r.*, l.codigo, l.nombre AS laboratorio</span>
+<span class="s2">             FROM reservas r</span>
+<span class="s2">             JOIN laboratorios l ON l.id = r.laboratorio_id</span>
+<span class="s2">             WHERE 1 = 1&quot;&quot;&quot;</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">filtro</span><span class="p">[</span><span class="s2">&quot;fecha&quot;</span><span class="p">]:</span>
+        <span class="n">sql</span> <span class="o">+=</span> <span class="s2">&quot; AND r.fecha = ?&quot;</span>
+        <span class="n">params</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">filtro</span><span class="p">[</span><span class="s2">&quot;fecha&quot;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">filtro</span><span class="p">[</span><span class="s2">&quot;lab&quot;</span><span class="p">]:</span>
+        <span class="n">sql</span> <span class="o">+=</span> <span class="s2">&quot; AND r.laboratorio_id = ?&quot;</span>
+        <span class="n">params</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">filtro</span><span class="p">[</span><span class="s2">&quot;lab&quot;</span><span class="p">])</span>
+    <span class="n">sql</span> <span class="o">+=</span> <span class="s2">&quot; ORDER BY r.fecha, r.hora_inicio&quot;</span>
+
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span>
+        <span class="s2">&quot;reservas.html&quot;</span><span class="p">,</span>
+        <span class="n">reservas</span><span class="o">=</span><span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span><span class="o">.</span><span class="n">fetchall</span><span class="p">(),</span>
+        <span class="n">labs</span><span class="o">=</span><span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM laboratorios ORDER BY codigo&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fetchall</span><span class="p">(),</span>
+        <span class="n">form</span><span class="o">=</span><span class="n">form</span> <span class="ow">or</span> <span class="p">{},</span> <span class="n">errores</span><span class="o">=</span><span class="n">errores</span> <span class="ow">or</span> <span class="p">[],</span> <span class="n">filtro</span><span class="o">=</span><span class="n">filtro</span><span class="p">,</span>
+    <span class="p">),</span> <span class="n">status</span>
+
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/reservas&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">reservas</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">mostrar_reservas</span><span class="p">()</span>
+
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/reservas&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">crear_reserva</span><span class="p">():</span>
+    <span class="n">db</span> <span class="o">=</span> <span class="n">get_db</span><span class="p">()</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span>
+    <span class="n">errores</span> <span class="o">=</span> <span class="n">validar_reserva</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">errores</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">mostrar_reservas</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">errores</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;INSERT INTO reservas (laboratorio_id, docente, fecha, hora_inicio, hora_fin, motivo) &quot;</span>
+               <span class="s2">&quot;VALUES (?, ?, ?, ?, ?, ?)&quot;</span><span class="p">,</span>
+               <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="s2">&quot;laboratorio_id&quot;</span><span class="p">]),</span> <span class="n">f</span><span class="p">[</span><span class="s2">&quot;docente&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">f</span><span class="p">[</span><span class="s2">&quot;fecha&quot;</span><span class="p">],</span>
+                <span class="n">f</span><span class="p">[</span><span class="s2">&quot;hora_inicio&quot;</span><span class="p">],</span> <span class="n">f</span><span class="p">[</span><span class="s2">&quot;hora_fin&quot;</span><span class="p">],</span> <span class="n">f</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;motivo&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="n">flash</span><span class="p">(</span><span class="s2">&quot;Reserva registrada.&quot;</span><span class="p">,</span> <span class="s2">&quot;ok&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s2">&quot;reservas&quot;</span><span class="p">))</span>
+
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/reservas/&lt;int:reserva_id&gt;/eliminar&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">eliminar_reserva</span><span class="p">(</span><span class="n">reserva_id</span><span class="p">):</span>
+    <span class="n">db</span> <span class="o">=</span> <span class="n">get_db</span><span class="p">()</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;DELETE FROM reservas WHERE id = ?&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">reserva_id</span><span class="p">,))</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="n">flash</span><span class="p">(</span><span class="s2">&quot;Reserva cancelada.&quot;</span><span class="p">,</span> <span class="s2">&quot;ok&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s2">&quot;reservas&quot;</span><span class="p">))</span>
+</code></pre></div>
+
+<ul>
+<li><strong>JOIN</strong>: trae el nombre del laboratorio junto a cada reserva.</li>
+<li><strong>Filtros dinámicos</strong>: empezamos con <code>WHERE 1 = 1</code> (siempre verdadero) para poder añadir <code>AND ...</code> solo si el usuario llenó el filtro, y los valores van en <code>params</code>, nunca pegados al SQL.</li>
+</ul>
+<h3 id="72-templatesreservashtml">7.2 <code>templates/reservas.html</code></h3>
+<div class="codehilite"><pre><span></span><code>{% extends &quot;base.html&quot; %}
+{% block titulo %}Reservas{% endblock %}
+{% block contenido %}
+<span class="p">&lt;</span><span class="nt">section</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;panel&quot;</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span>Nueva reserva<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">form</span> <span class="na">method</span><span class="o">=</span><span class="s">&quot;post&quot;</span> <span class="na">action</span><span class="o">=</span><span class="s">&quot;{{ url_for(&#39;crear_reserva&#39;) }}&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;grid&quot;</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">label</span><span class="p">&gt;</span>Docente
+        <span class="p">&lt;</span><span class="nt">input</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;docente&quot;</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;{{ form.docente or &#39;&#39; }}&quot;</span> <span class="na">required</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">label</span><span class="p">&gt;</span>Laboratorio
+        <span class="p">&lt;</span><span class="nt">select</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;laboratorio_id&quot;</span> <span class="na">required</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nt">option</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">&gt;</span>-- Seleccione --<span class="p">&lt;/</span><span class="nt">option</span><span class="p">&gt;</span>
+          {% for lab in labs %}
+            <span class="p">&lt;</span><span class="nt">option</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;{{ lab.id }}&quot;</span>
+                    <span class="err">{{</span> <span class="err">&quot;</span><span class="na">selected</span><span class="err">&quot;</span> <span class="na">if</span> <span class="err">(</span><span class="na">form</span><span class="err">.</span><span class="na">laboratorio_id</span><span class="err">|</span><span class="na">string</span><span class="err">)</span> <span class="err">==</span> <span class="err">(</span><span class="na">lab</span><span class="err">.</span><span class="na">id</span><span class="err">|</span><span class="na">string</span><span class="err">)</span> <span class="err">}}</span>
+                    <span class="err">{{</span> <span class="err">&quot;</span><span class="na">disabled</span><span class="err">&quot;</span> <span class="na">if</span> <span class="na">lab</span><span class="err">.</span><span class="na">estado </span><span class="o">=</span><span class="s">=</span> <span class="err">&quot;</span><span class="na">mantenimiento</span><span class="err">&quot;</span> <span class="err">}}</span><span class="p">&gt;</span>
+              {{ lab.codigo }} - {{ lab.nombre }}{{ &quot; (mantenimiento)&quot; if lab.estado == &quot;mantenimiento&quot; }}
+            <span class="p">&lt;/</span><span class="nt">option</span><span class="p">&gt;</span>
+          {% endfor %}
+        <span class="p">&lt;/</span><span class="nt">select</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">label</span><span class="p">&gt;</span>Fecha
+        <span class="p">&lt;</span><span class="nt">input</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;fecha&quot;</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;date&quot;</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;{{ form.fecha or &#39;&#39; }}&quot;</span> <span class="na">required</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">label</span><span class="p">&gt;</span>Hora inicio
+        <span class="p">&lt;</span><span class="nt">input</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;hora_inicio&quot;</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;time&quot;</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;{{ form.hora_inicio or &#39;&#39; }}&quot;</span> <span class="na">required</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">label</span><span class="p">&gt;</span>Hora fin
+        <span class="p">&lt;</span><span class="nt">input</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;hora_fin&quot;</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;time&quot;</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;{{ form.hora_fin or &#39;&#39; }}&quot;</span> <span class="na">required</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">label</span><span class="p">&gt;</span>Motivo
+        <span class="p">&lt;</span><span class="nt">input</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;motivo&quot;</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;{{ form.motivo or &#39;&#39; }}&quot;</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;acciones&quot;</span><span class="p">&gt;&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;submit&quot;</span><span class="p">&gt;</span>Reservar<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">section</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">section</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;panel&quot;</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span>Reservas registradas<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+  {# Filtros: formulario GET → los valores viajan en la URL (?fecha=...<span class="err">&amp;</span>lab=...) #}
+  <span class="p">&lt;</span><span class="nt">form</span> <span class="na">method</span><span class="o">=</span><span class="s">&quot;get&quot;</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;filtros&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">label</span><span class="p">&gt;</span>Fecha <span class="p">&lt;</span><span class="nt">input</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;fecha&quot;</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;date&quot;</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;{{ filtro.fecha }}&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">label</span><span class="p">&gt;</span>Laboratorio
+      <span class="p">&lt;</span><span class="nt">select</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;lab&quot;</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">option</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">&gt;</span>Todos<span class="p">&lt;/</span><span class="nt">option</span><span class="p">&gt;</span>
+        {% for lab in labs %}
+          <span class="p">&lt;</span><span class="nt">option</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;{{ lab.id }}&quot;</span> <span class="err">{{</span> <span class="err">&quot;</span><span class="na">selected</span><span class="err">&quot;</span> <span class="na">if</span> <span class="na">filtro</span><span class="err">.</span><span class="na">lab </span><span class="o">=</span><span class="s">=</span> <span class="na">lab</span><span class="err">.</span><span class="na">id</span><span class="err">|</span><span class="na">string</span> <span class="err">}}</span><span class="p">&gt;</span>{{ lab.codigo }}<span class="p">&lt;/</span><span class="nt">option</span><span class="p">&gt;</span>
+        {% endfor %}
+      <span class="p">&lt;/</span><span class="nt">select</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;submit&quot;</span><span class="p">&gt;</span>Filtrar<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">a</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;btn sec&quot;</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;{{ url_for(&#39;reservas&#39;) }}&quot;</span><span class="p">&gt;</span>Limpiar<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
+
+  <span class="p">&lt;</span><span class="nt">table</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">thead</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;&lt;</span><span class="nt">th</span><span class="p">&gt;</span>Fecha<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;&lt;</span><span class="nt">th</span><span class="p">&gt;</span>Horario<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;&lt;</span><span class="nt">th</span><span class="p">&gt;</span>Laboratorio<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;&lt;</span><span class="nt">th</span><span class="p">&gt;</span>Docente<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;&lt;</span><span class="nt">th</span><span class="p">&gt;</span>Motivo<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;&lt;</span><span class="nt">th</span><span class="p">&gt;&lt;/</span><span class="nt">th</span><span class="p">&gt;&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">thead</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">tbody</span><span class="p">&gt;</span>
+    {% for r in reservas %}
+      <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>{{ r.fecha }}<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>{{ r.hora_inicio }} - {{ r.hora_fin }}<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>{{ r.codigo }} - {{ r.laboratorio }}<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>{{ r.docente }}<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>{{ r.motivo or &quot;&quot; }}<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nt">form</span> <span class="na">method</span><span class="o">=</span><span class="s">&quot;post&quot;</span> <span class="na">action</span><span class="o">=</span><span class="s">&quot;{{ url_for(&#39;eliminar_reserva&#39;, reserva_id=r.id) }}&quot;</span>
+                <span class="na">onsubmit</span><span class="o">=</span><span class="s">&quot;return confirm(&#39;¿Cancelar esta reserva?&#39;)&quot;</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">button</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;peligro&quot;</span><span class="p">&gt;</span>Cancelar<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+          <span class="p">&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+    {% else %}
+      <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;&lt;</span><span class="nt">td</span> <span class="na">colspan</span><span class="o">=</span><span class="s">&quot;6&quot;</span><span class="p">&gt;</span>No hay reservas.<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+    {% endfor %}
+    <span class="p">&lt;/</span><span class="nt">tbody</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">table</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">section</span><span class="p">&gt;</span>
+{% endblock %}
+</code></pre></div>
+
+<ul>
+<li><code>disabled</code> en los laboratorios en mantenimiento es una ayuda visual. <strong>La validación real está en el servidor</strong>, porque cualquiera puede enviar el formulario saltándose el HTML.</li>
+<li><code>|string</code> en Jinja convierte a texto para comparar: el formulario envía <code>"2"</code> y la BD tiene <code>2</code>.</li>
+<li>El formulario de filtros usa <code>method="get"</code>, así que los filtros quedan en la URL y se pueden compartir.</li>
+</ul>
+<p>✅ <strong>Verifica</strong> en http://127.0.0.1:5000/reservas (usa el mismo laboratorio y fecha):</p>
+<table>
+<thead>
+<tr>
+<th>Reserva</th>
+<th>Esperado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LAB-002, 08:00–10:00</td>
+<td>✔ Registrada</td>
+</tr>
+<tr>
+<td>LAB-002, 09:00–11:00</td>
+<td>✘ "Horario ocupado: 08:00-10:00..."</td>
+</tr>
+<tr>
+<td>LAB-002, 10:00–12:00</td>
+<td>✔ (contigua)</td>
+</tr>
+<tr>
+<td>LAB-001, 08:00–10:00</td>
+<td>✔ (otro laboratorio)</td>
+</tr>
+<tr>
+<td>Hora fin 07:00 con inicio 09:00</td>
+<td>✘ "La hora de fin debe ser mayor..."</td>
+</tr>
+<tr>
+<td>Filtrar por fecha / laboratorio</td>
+<td>Solo aparecen las que coinciden</td>
+</tr>
+<tr>
+<td>Eliminar LAB-002 en /laboratorios</td>
+<td>✘ "tiene reservas registradas"</td>
+</tr>
+</tbody>
+</table>
+<p>💾 <code>git add . ; git commit -m "feat: reservas con validación de choques y filtros"</code></p>
+<hr />
+<h2 id="paso-8-reporte-7-min">Paso 8 — Reporte (7 min)</h2>
+<h3 id="81-ruta-pega-en-apppy-encima-del-bloque-arranque">8.1 Ruta: pega en <code>app.py</code> <strong>encima</strong> del bloque <code>ARRANQUE</code></h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># ----------------------------------------------------------- REPORTE</span>
+<span class="n">SQL_REPORTE</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT l.codigo, l.nombre,</span>
+<span class="s2">       COUNT(r.id) AS total_reservas,</span>
+<span class="s2">       ROUND(COALESCE(SUM(</span>
+<span class="s2">           (strftime(&#39;</span><span class="si">%s</span><span class="s2">&#39;, r.hora_fin) - strftime(&#39;</span><span class="si">%s</span><span class="s2">&#39;, r.hora_inicio)) / 3600.0</span>
+<span class="s2">       ), 0), 1) AS horas</span>
+<span class="s2">FROM laboratorios l</span>
+<span class="s2">LEFT JOIN reservas r ON r.laboratorio_id = l.id</span>
+<span class="s2">GROUP BY l.id</span>
+<span class="s2">ORDER BY horas DESC, l.codigo</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/reporte&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">reporte</span><span class="p">():</span>
+    <span class="n">filas</span> <span class="o">=</span> <span class="n">get_db</span><span class="p">()</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">SQL_REPORTE</span><span class="p">)</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s2">&quot;reporte.html&quot;</span><span class="p">,</span> <span class="n">filas</span><span class="o">=</span><span class="n">filas</span><span class="p">)</span>
+</code></pre></div>
+
+<ul>
+<li><strong>LEFT JOIN</strong>: incluye los laboratorios <strong>sin</strong> reservas (con 0).</li>
+<li><code>strftime('%s', hora)</code> convierte la hora a segundos, y al dividir para 3600 obtienes horas.</li>
+<li><code>COALESCE(x, 0)</code>: si no hay reservas, <code>SUM</code> da NULL y lo convertimos en 0.</li>
+<li>En <strong>MySQL</strong> sería: <code>SUM(TIME_TO_SEC(TIMEDIFF(r.hora_fin, r.hora_inicio)) / 3600)</code>.</li>
+</ul>
+<h3 id="82-templatesreportehtml">8.2 <code>templates/reporte.html</code></h3>
+<div class="codehilite"><pre><span></span><code>{% extends &quot;base.html&quot; %}
+{% block titulo %}Reporte{% endblock %}
+{% block contenido %}
+<span class="p">&lt;</span><span class="nt">section</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;panel&quot;</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span>Uso de laboratorios<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">table</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">thead</span><span class="p">&gt;&lt;</span><span class="nt">tr</span><span class="p">&gt;&lt;</span><span class="nt">th</span><span class="p">&gt;</span>Código<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;&lt;</span><span class="nt">th</span><span class="p">&gt;</span>Laboratorio<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;&lt;</span><span class="nt">th</span><span class="p">&gt;</span>Reservas<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;&lt;</span><span class="nt">th</span><span class="p">&gt;</span>Horas reservadas<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;&lt;/</span><span class="nt">tr</span><span class="p">&gt;&lt;/</span><span class="nt">thead</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">tbody</span><span class="p">&gt;</span>
+    {% for f in filas %}
+      <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>{{ f.codigo }}<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>{{ f.nombre }}<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>{{ f.total_reservas }}<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>{{ f.horas }}<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+    {% endfor %}
+    <span class="p">&lt;/</span><span class="nt">tbody</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">table</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">section</span><span class="p">&gt;</span>
+{% endblock %}
+</code></pre></div>
+
+<p>✅ <strong>Verifica:</strong> con una reserva de 08:00 a 10:00, el reporte muestra 1 reserva y 2.0 horas.</p>
+<p>💾 <code>git add . ; git commit -m "feat: reporte de uso por laboratorio"</code></p>
+<hr />
+<h2 id="paso-9-api-rest-en-json-7-min">Paso 9 — API REST en JSON (7 min)</h2>
+<p>Pega en <code>app.py</code> <strong>encima</strong> del bloque <code>ARRANQUE</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># ----------------------------------------------------------- API REST (JSON)</span>
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/api/laboratorios&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">api_listar_laboratorios</span><span class="p">():</span>
+    <span class="n">filas</span> <span class="o">=</span> <span class="n">get_db</span><span class="p">()</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM laboratorios ORDER BY codigo&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">([</span><span class="nb">dict</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">filas</span><span class="p">])</span>
+
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/api/laboratorios&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">api_crear_laboratorio</span><span class="p">():</span>
+    <span class="n">datos</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get_json</span><span class="p">(</span><span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="ow">or</span> <span class="p">{}</span>
+    <span class="n">datos</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">datos</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>      <span class="c1"># todo a texto, igual que un formulario</span>
+    <span class="n">datos</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;estado&quot;</span><span class="p">,</span> <span class="s2">&quot;disponible&quot;</span><span class="p">)</span>
+    <span class="n">db</span> <span class="o">=</span> <span class="n">get_db</span><span class="p">()</span>
+    <span class="n">errores</span> <span class="o">=</span> <span class="n">validar_laboratorio</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">datos</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">errores</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;errores&quot;</span><span class="p">:</span> <span class="n">errores</span><span class="p">}),</span> <span class="mi">400</span>
+    <span class="n">cur</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;INSERT INTO laboratorios (codigo, nombre, piso, capacidad, estado) &quot;</span>
+                     <span class="s2">&quot;VALUES (?, ?, ?, ?, ?)&quot;</span><span class="p">,</span> <span class="n">datos_laboratorio</span><span class="p">(</span><span class="n">datos</span><span class="p">))</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="n">nuevo</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM laboratorios WHERE id = ?&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">cur</span><span class="o">.</span><span class="n">lastrowid</span><span class="p">,))</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">nuevo</span><span class="p">)),</span> <span class="mi">201</span>
+
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/api/reservas&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">api_listar_reservas</span><span class="p">():</span>
+    <span class="n">fecha</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fecha&quot;</span><span class="p">)</span>
+    <span class="n">sql</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;SELECT r.*, l.codigo FROM reservas r JOIN laboratorios l ON l.id = r.laboratorio_id&quot;</span><span class="p">)</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">fecha</span><span class="p">:</span>
+        <span class="n">sql</span> <span class="o">+=</span> <span class="s2">&quot; WHERE r.fecha = ?&quot;</span>
+        <span class="n">params</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fecha</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">([</span><span class="nb">dict</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">get_db</span><span class="p">()</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span> <span class="o">+</span> <span class="s2">&quot; ORDER BY r.fecha, r.hora_inicio&quot;</span><span class="p">,</span> <span class="n">params</span><span class="p">)])</span>
+</code></pre></div>
+
+<p>✅ <strong>Verifica:</strong>
+- En el navegador: http://127.0.0.1:5000/api/laboratorios muestra el JSON.
+- Crear por API desde <strong>PowerShell</strong>:
+  <code>powershell
+  Invoke-RestMethod -Method Post -Uri http://127.0.0.1:5000/api/laboratorios -ContentType "application/json" -Body '{"codigo":"LAB-050","nombre":"Lab API","piso":1,"capacidad":12}'</code>
+- Desde <strong>CMD / Git Bash / Linux</strong>:
+  <code>bash
+  curl -X POST http://127.0.0.1:5000/api/laboratorios -H "Content-Type: application/json" -d "{\"codigo\":\"LAB-051\",\"nombre\":\"Lab API\",\"piso\":1,\"capacidad\":12}"</code>
+  Respuesta esperada: código <strong>201</strong> con el laboratorio creado. Si envías <code>{}</code>, la respuesta es <strong>400</strong> con la lista de errores.</p>
+<p>💾 <code>git add . ; git commit -m "feat: API JSON de laboratorios y reservas"</code></p>
+<hr />
+<h2 id="paso-10-pruebas-automaticas-8-min">Paso 10 — Pruebas automáticas (8 min)</h2>
+<h3 id="teststest_apppy"><code>tests/test_app.py</code></h3>
+<div class="codehilite"><pre><span></span><code><span class="sd">&quot;&quot;&quot;Pruebas. Ejecutar desde la carpeta del proyecto:  python -m unittest discover tests -v&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">unittest</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">app</span><span class="w"> </span><span class="kn">import</span> <span class="n">app</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">db</span><span class="w"> </span><span class="kn">import</span> <span class="n">init_db</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">validaciones</span><span class="w"> </span><span class="kn">import</span> <span class="n">se_cruzan</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">TestReglas</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Pruebas unitarias: la función pura, sin base de datos.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_horarios_que_se_cruzan</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">se_cruzan</span><span class="p">(</span><span class="s2">&quot;08:00&quot;</span><span class="p">,</span> <span class="s2">&quot;10:00&quot;</span><span class="p">,</span> <span class="s2">&quot;09:00&quot;</span><span class="p">,</span> <span class="s2">&quot;11:00&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">se_cruzan</span><span class="p">(</span><span class="s2">&quot;08:00&quot;</span><span class="p">,</span> <span class="s2">&quot;12:00&quot;</span><span class="p">,</span> <span class="s2">&quot;09:00&quot;</span><span class="p">,</span> <span class="s2">&quot;10:00&quot;</span><span class="p">))</span>   <span class="c1"># uno dentro del otro</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_horarios_contiguos_no_se_cruzan</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">se_cruzan</span><span class="p">(</span><span class="s2">&quot;08:00&quot;</span><span class="p">,</span> <span class="s2">&quot;10:00&quot;</span><span class="p">,</span> <span class="s2">&quot;10:00&quot;</span><span class="p">,</span> <span class="s2">&quot;12:00&quot;</span><span class="p">))</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">TestApp</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Pruebas de integración: peticiones HTTP reales contra una BD temporal.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fd</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ruta</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkstemp</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.db&quot;</span><span class="p">)</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">TESTING</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">DATABASE</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ruta</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">app</span><span class="o">.</span><span class="n">app_context</span><span class="p">():</span>
+            <span class="n">init_db</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">test_client</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fd</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ruta</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">reservar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inicio</span><span class="p">,</span> <span class="n">fin</span><span class="p">,</span> <span class="n">lab</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">fecha</span><span class="o">=</span><span class="s2">&quot;2026-09-25&quot;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/reservas&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;docente&quot;</span><span class="p">:</span> <span class="s2">&quot;Ing. Ruiz&quot;</span><span class="p">,</span> <span class="s2">&quot;laboratorio_id&quot;</span><span class="p">:</span> <span class="n">lab</span><span class="p">,</span> <span class="s2">&quot;fecha&quot;</span><span class="p">:</span> <span class="n">fecha</span><span class="p">,</span>
+            <span class="s2">&quot;hora_inicio&quot;</span><span class="p">:</span> <span class="n">inicio</span><span class="p">,</span> <span class="s2">&quot;hora_fin&quot;</span><span class="p">:</span> <span class="n">fin</span><span class="p">,</span> <span class="s2">&quot;motivo&quot;</span><span class="p">:</span> <span class="s2">&quot;Clase&quot;</span><span class="p">})</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_paginas_cargan</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">ruta</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="s2">&quot;/laboratorios&quot;</span><span class="p">,</span> <span class="s2">&quot;/reservas&quot;</span><span class="p">,</span> <span class="s2">&quot;/reporte&quot;</span><span class="p">,</span> <span class="s2">&quot;/laboratorios?editar=1&quot;</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ruta</span><span class="p">)</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="n">ruta</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_crear_laboratorio</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/laboratorios&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;codigo&quot;</span><span class="p">:</span> <span class="s2">&quot;lab-010&quot;</span><span class="p">,</span> <span class="s2">&quot;nombre&quot;</span><span class="p">:</span> <span class="s2">&quot;Lab IA&quot;</span><span class="p">,</span> <span class="s2">&quot;piso&quot;</span><span class="p">:</span> <span class="s2">&quot;3&quot;</span><span class="p">,</span> <span class="s2">&quot;capacidad&quot;</span><span class="p">:</span> <span class="s2">&quot;15&quot;</span><span class="p">,</span> <span class="s2">&quot;estado&quot;</span><span class="p">:</span> <span class="s2">&quot;disponible&quot;</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">302</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s2">&quot;LAB-010&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/laboratorios&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="n">as_text</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_laboratorio_invalido_y_duplicado</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/laboratorios&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;codigo&quot;</span><span class="p">:</span> <span class="s2">&quot;LAB-001&quot;</span><span class="p">,</span> <span class="s2">&quot;nombre&quot;</span><span class="p">:</span> <span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;piso&quot;</span><span class="p">:</span> <span class="s2">&quot;-1&quot;</span><span class="p">,</span>
+                                                    <span class="s2">&quot;capacidad&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;estado&quot;</span><span class="p">:</span> <span class="s2">&quot;otro&quot;</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+        <span class="n">html</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="n">as_text</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s2">&quot;Ya existe&quot;</span><span class="p">,</span> <span class="n">html</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s2">&quot;capacidad&quot;</span><span class="p">,</span> <span class="n">html</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_editar_laboratorio</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/laboratorios/1&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;codigo&quot;</span><span class="p">:</span> <span class="s2">&quot;LAB-001&quot;</span><span class="p">,</span> <span class="s2">&quot;nombre&quot;</span><span class="p">:</span> <span class="s2">&quot;Redes Renovado&quot;</span><span class="p">,</span> <span class="s2">&quot;piso&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;capacidad&quot;</span><span class="p">:</span> <span class="s2">&quot;40&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;estado&quot;</span><span class="p">:</span> <span class="s2">&quot;disponible&quot;</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">302</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s2">&quot;Redes Renovado&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/laboratorios&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="n">as_text</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_reserva_valida</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reservar</span><span class="p">(</span><span class="s2">&quot;08:00&quot;</span><span class="p">,</span> <span class="s2">&quot;10:00&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">302</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_reserva_que_choca</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reservar</span><span class="p">(</span><span class="s2">&quot;08:00&quot;</span><span class="p">,</span> <span class="s2">&quot;10:00&quot;</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reservar</span><span class="p">(</span><span class="s2">&quot;09:00&quot;</span><span class="p">,</span> <span class="s2">&quot;11:00&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s2">&quot;Horario ocupado&quot;</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="n">as_text</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_reservas_contiguas_y_otro_dia</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reservar</span><span class="p">(</span><span class="s2">&quot;08:00&quot;</span><span class="p">,</span> <span class="s2">&quot;10:00&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reservar</span><span class="p">(</span><span class="s2">&quot;10:00&quot;</span><span class="p">,</span> <span class="s2">&quot;12:00&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">302</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reservar</span><span class="p">(</span><span class="s2">&quot;08:00&quot;</span><span class="p">,</span> <span class="s2">&quot;10:00&quot;</span><span class="p">,</span> <span class="n">fecha</span><span class="o">=</span><span class="s2">&quot;2026-09-26&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">302</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_hora_fin_menor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reservar</span><span class="p">(</span><span class="s2">&quot;10:00&quot;</span><span class="p">,</span> <span class="s2">&quot;09:00&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_laboratorio_en_mantenimiento</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reservar</span><span class="p">(</span><span class="s2">&quot;08:00&quot;</span><span class="p">,</span> <span class="s2">&quot;09:00&quot;</span><span class="p">,</span> <span class="n">lab</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_no_elimina_laboratorio_con_reservas</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reservar</span><span class="p">(</span><span class="s2">&quot;08:00&quot;</span><span class="p">,</span> <span class="s2">&quot;10:00&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/laboratorios/2/eliminar&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/api/laboratorios&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get_json</span><span class="p">()),</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/laboratorios/1/eliminar&quot;</span><span class="p">)</span>                 <span class="c1"># este no tiene reservas</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/api/laboratorios&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get_json</span><span class="p">()),</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_filtro_y_reporte</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reservar</span><span class="p">(</span><span class="s2">&quot;08:00&quot;</span><span class="p">,</span> <span class="s2">&quot;10:30&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reservar</span><span class="p">(</span><span class="s2">&quot;08:00&quot;</span><span class="p">,</span> <span class="s2">&quot;09:00&quot;</span><span class="p">,</span> <span class="n">fecha</span><span class="o">=</span><span class="s2">&quot;2026-09-26&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/api/reservas?fecha=2026-09-26&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get_json</span><span class="p">()),</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s2">&quot;3.5&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/reporte&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="n">as_text</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_api_crear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/api/laboratorios&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;codigo&quot;</span><span class="p">:</span> <span class="s2">&quot;LAB-020&quot;</span><span class="p">,</span> <span class="s2">&quot;nombre&quot;</span><span class="p">:</span> <span class="s2">&quot;Lab Móvil&quot;</span><span class="p">,</span>
+                                                         <span class="s2">&quot;piso&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;capacidad&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">201</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">get_json</span><span class="p">()[</span><span class="s2">&quot;codigo&quot;</span><span class="p">],</span> <span class="s2">&quot;LAB-020&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/api/laboratorios&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="p">{})</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+</code></pre></div>
+
+<ul>
+<li><strong>Pruebas unitarias</strong> (<code>TestReglas</code>): prueban una función sola, sin BD.</li>
+<li><strong>Pruebas de integración</strong> (<code>TestApp</code>): hacen peticiones reales con <code>app.test_client()</code> contra una <strong>BD temporal</strong>, así que no ensucian tu <code>reservas.db</code>.</li>
+<li><code>setUp</code> corre antes de <strong>cada</strong> prueba y <code>tearDown</code> después, así que cada prueba empieza con datos limpios.</li>
+</ul>
+<div class="codehilite"><pre><span></span><code>python<span class="w"> </span>-m<span class="w"> </span>unittest<span class="w"> </span>discover<span class="w"> </span>tests<span class="w"> </span>-v
+</code></pre></div>
+
+<p>✅ <strong>Verifica:</strong> <code>Ran 14 tests ... OK</code></p>
+<p>💾 <code>git add . ; git commit -m "test: pruebas unitarias y de integración"</code></p>
+<hr />
+<h2 id="paso-11-readme-y-github-10-min">Paso 11 — README y GitHub (10 min)</h2>
+<h3 id="readmemd"><code>README.md</code></h3>
+<div class="codehilite"><pre><span></span><code><span class="gh"># Sistema de Reserva de Laboratorios (Flask)</span>
+
+Aplicación web para registrar laboratorios y gestionar sus reservas, evitando choques de horario.
+
+<span class="gu">## Funcionalidades</span>
+<span class="k">-</span><span class="w"> </span>CRUD de laboratorios (código único, piso, capacidad, estado).
+<span class="k">-</span><span class="w"> </span>Reservas con validaciones: horario válido, laboratorio disponible y <span class="gs">**sin cruces de horario**</span>.
+<span class="k">-</span><span class="w"> </span>Listado de reservas con filtros por fecha y laboratorio.
+<span class="k">-</span><span class="w"> </span>Reporte de reservas y horas por laboratorio.
+<span class="k">-</span><span class="w"> </span>API REST: <span class="sb">`GET/POST /api/laboratorios`</span>, <span class="sb">`GET /api/reservas?fecha=AAAA-MM-DD`</span>.
+
+<span class="gu">## Tecnologías</span>
+Python 3, Flask, SQLite, Jinja2, HTML/CSS.
+
+<span class="gu">## Instalación y ejecución</span>
+<span class="sb">```bash</span>
+python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>venv
+venv<span class="se">\S</span>cripts<span class="se">\a</span>ctivate<span class="w">            </span><span class="c1"># Windows  (Linux/Mac: source venv/bin/activate)</span>
+pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+python<span class="w"> </span>app.py
+<span class="sb">```</span>
+Abrir http://127.0.0.1:5000. La base de datos <span class="sb">`reservas.db`</span> se crea automáticamente con 3 laboratorios de ejemplo.
+
+<span class="gu">## Pruebas</span>
+<span class="sb">```bash</span>
+python<span class="w"> </span>-m<span class="w"> </span>unittest<span class="w"> </span>discover<span class="w"> </span>tests<span class="w"> </span>-v
+<span class="sb">```</span>
+
+<span class="gu">## Estructura</span>
+<span class="sb">```</span>
+<span class="sb">app.py            Rutas (controladores)</span>
+<span class="sb">db.py             Conexión e inicialización de la BD</span>
+<span class="sb">schema.sql        Tablas</span>
+<span class="sb">validaciones.py   Reglas de negocio</span>
+<span class="sb">templates/        Vistas HTML (Jinja2)</span>
+<span class="sb">static/css/       Estilos</span>
+<span class="sb">tests/            Pruebas automáticas</span>
+<span class="sb">```</span>
+</code></pre></div>
+
+<h3 id="subir-a-github">Subir a GitHub</h3>
+<ol>
+<li>En github.com: <strong>New repository</strong>, con el nombre <code>reservas-flask</code>, <strong>sin</strong> README (ya lo tienes). Pulsa Create.</li>
+<li>En la terminal:
+   <code>bash
+   git add . ; git commit -m "docs: README con instrucciones"
+   git branch -M main
+   git remote add origin https://github.com/TU_USUARIO/reservas-flask.git
+   git push -u origin main</code></li>
+<li>Si pide contraseña, usa un <strong>token</strong> (GitHub → Settings → Developer settings → Personal access tokens), no tu contraseña normal.</li>
+</ol>
+<p>✅ <strong>Verifica:</strong> <code>git log --oneline</code> muestra unos 9 commits con mensajes claros.</p>
+<hr />
+<h2 id="paso-12-revision-final-ultimos-1520-min-de-la-prueba">Paso 12 — Revisión final (últimos 15–20 min de la prueba)</h2>
+<ul>
+<li>[ ] Borra <code>reservas.db</code>, ejecuta <code>python app.py</code> y confirma que todo se crea solo.</li>
+<li>[ ] Recorre todas las pantallas como si fueras el evaluador.</li>
+<li>[ ] Envía formularios vacíos: ninguno debe dar error 500.</li>
+<li>[ ] Revisa los casos de choque de la tabla del Paso 7.</li>
+<li>[ ] El README explica cómo ejecutarlo.</li>
+<li>[ ] <code>git status</code> limpio y último commit hecho.</li>
+</ul>
+<h2 id="errores-comunes-y-solucion">Errores comunes y solución</h2>
+<table>
+<thead>
+<tr>
+<th>Error</th>
+<th>Causa</th>
+<th>Solución</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ModuleNotFoundError: No module named 'flask'</code></td>
+<td>El entorno virtual no está activo</td>
+<td><code>venv\Scripts\activate</code></td>
+</tr>
+<tr>
+<td><code>TemplateNotFound: laboratorios.html</code></td>
+<td>El archivo no está en <code>templates/</code> o tiene otro nombre</td>
+<td>Revisa la carpeta y el nombre exacto</td>
+</tr>
+<tr>
+<td><code>BuildError: Could not build url for endpoint 'x'</code></td>
+<td><code>url_for('x')</code> apunta a una función que no existe o tiene otro nombre</td>
+<td>Revisa el nombre de la función</td>
+</tr>
+<tr>
+<td><code>sqlite3.OperationalError: no such table</code></td>
+<td>Cambiaste el esquema o la BD quedó a medias</td>
+<td>Detén el servidor, borra <code>reservas.db</code> y vuelve a ejecutar</td>
+</tr>
+<tr>
+<td><code>sqlite3.IntegrityError: UNIQUE constraint failed</code></td>
+<td>Faltó validar el duplicado antes del INSERT</td>
+<td>Revisa <code>validar_laboratorio</code></td>
+</tr>
+<tr>
+<td><code>KeyError: 'nombre'</code> en <code>request.form[...]</code></td>
+<td>El <code>name</code> del input no coincide</td>
+<td>Compara el <code>name=""</code> del HTML con el código</td>
+</tr>
+<tr>
+<td><code>werkzeug ... 405 Method Not Allowed</code></td>
+<td>El formulario hace POST a una ruta que solo acepta GET (o al revés)</td>
+<td>Revisa <code>method=</code> y <code>@app.post</code>/<code>@app.get</code></td>
+</tr>
+<tr>
+<td>Los estilos no cargan</td>
+<td>Ruta incorrecta</td>
+<td>Debe ser <code>static/css/styles.css</code> y usar <code>url_for('static', filename='css/styles.css')</code></td>
+</tr>
+<tr>
+<td><code>Address already in use</code></td>
+<td>Ya hay un servidor corriendo</td>
+<td>Cierra la otra terminal o usa <code>app.run(debug=True, port=5001)</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="si-en-el-laboratorio-te-piden-mysql-en-vez-de-sqlite">Si en el laboratorio te piden MySQL en vez de SQLite</h2>
+<ol>
+<li><code>pip install mysql-connector-python</code></li>
+<li>En <code>db.py</code> cambia la conexión:
+   <code>python
+   import mysql.connector
+   g.db = mysql.connector.connect(host="localhost", user="root", password="", database="reservas")
+   cursor = g.db.cursor(dictionary=True)</code></li>
+<li>En las consultas, los parámetros son <code>%s</code> en lugar de <code>?</code>, y se ejecutan con un cursor: <code>cur.execute(sql, params)</code> y luego <code>cur.fetchall()</code>.</li>
+<li>En <code>schema.sql</code> cambia <code>INTEGER PRIMARY KEY AUTOINCREMENT</code> por <code>INT AUTO_INCREMENT PRIMARY KEY</code>, <code>TEXT</code> por <code>VARCHAR(100)</code>, y usa los tipos <code>DATE</code> y <code>TIME</code>.</li>
+</ol>
+<h2 id="como-explicarle-tu-proyecto-al-evaluador-30-segundos">Cómo explicarle tu proyecto al evaluador (30 segundos)</h2>
+<blockquote>
+<p>"Separé el proyecto en capas: <code>schema.sql</code> y <code>db.py</code> para los datos, <code>validaciones.py</code> para las reglas de negocio y <code>app.py</code> para las rutas, con plantillas Jinja que heredan de una base. Todas las consultas son parametrizadas para evitar SQL Injection. Valido en el servidor, no solo en el HTML. Para los choques de horario uso la condición de intervalos superpuestos directamente en SQL. Uso el patrón POST-Redirect-GET para no duplicar registros, y tengo pruebas unitarias y de integración con una base temporal."</p>
+</blockquote></main></div>
+<script>
+document.querySelectorAll('.codehilite').forEach(b => {
+  const btn = document.createElement('button'); btn.className = 'copiar'; btn.textContent = 'Copiar';
+  btn.onclick = () => { const t = b.querySelector('pre').innerText;
+    navigator.clipboard.writeText(t).then(() => { btn.textContent = '¡Copiado!'; setTimeout(() => btn.textContent = 'Copiar', 1500); }); };
+  b.prepend(btn);
+});
+</script></body></html>

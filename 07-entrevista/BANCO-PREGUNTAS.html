@@ -1,0 +1,630 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Banco de preguntas de entrevista (con respuestas cortas)</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,Segoe UI,sans-serif;line-height:1.6;color:#1f2937;background:#f8fafc}
+.layout{display:grid;grid-template-columns:270px 1fr;max-width:1400px;margin:auto}
+nav{position:sticky;top:0;height:100vh;overflow:auto;padding:18px;border-right:1px solid #e5e7eb;background:#fff;font-size:13.5px}
+nav ul{list-style:none;padding-left:10px;margin:3px 0} nav>div>ul{padding-left:0} nav a{color:#334155;text-decoration:none} nav a:hover{color:#0a5bd6}
+.volver{display:inline-block;margin-bottom:10px;font-weight:600;color:#0a5bd6!important}
+main{padding:24px 40px;min-width:0} h1{color:#0a5bd6} h2{border-top:2px solid #e5e7eb;padding-top:22px;margin-top:36px}
+table{border-collapse:collapse;width:100%;margin:12px 0;font-size:14px;display:block;overflow-x:auto}
+th,td{border:1px solid #e5e7eb;padding:6px 10px;text-align:left;vertical-align:top} th{background:#f1f5f9}
+code{background:#eef2f7;padding:1px 5px;border-radius:4px;font-size:.9em}
+.codehilite{border-radius:8px;margin:12px 0;overflow:auto;position:relative} .codehilite pre{padding:14px;margin:0;font-size:13px;line-height:1.5}
+.codehilite code{background:none;padding:0;color:inherit}
+blockquote{margin:12px 0;padding:8px 16px;background:#fff7ed;border-left:4px solid #f59e0b;border-radius:4px}
+.copiar{position:absolute;right:6px;top:6px;padding:3px 10px;font-size:12px;border:0;border-radius:4px;cursor:pointer;background:#334155;color:#fff}
+@media (max-width:900px){.layout{grid-template-columns:1fr} nav{position:static;height:auto;border-right:0} main{padding:16px}}
+pre { line-height: 125%; }
+td.linenos .normal { color: #6e7681; background-color: #0d1117; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #6e7681; background-color: #0d1117; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #e6edf3; background-color: #6e7681; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #e6edf3; background-color: #6e7681; padding-left: 5px; padding-right: 5px; }
+.codehilite .hll { background-color: #6e7681 }
+.codehilite { background: #0d1117; color: #E6EDF3 }
+.codehilite .c { color: #8B949E; font-style: italic } /* Comment */
+.codehilite .err { color: #F85149 } /* Error */
+.codehilite .esc { color: #E6EDF3 } /* Escape */
+.codehilite .g { color: #E6EDF3 } /* Generic */
+.codehilite .k { color: #FF7B72 } /* Keyword */
+.codehilite .l { color: #A5D6FF } /* Literal */
+.codehilite .n { color: #E6EDF3 } /* Name */
+.codehilite .o { color: #FF7B72; font-weight: bold } /* Operator */
+.codehilite .x { color: #E6EDF3 } /* Other */
+.codehilite .p { color: #E6EDF3 } /* Punctuation */
+.codehilite .ch { color: #8B949E; font-style: italic } /* Comment.Hashbang */
+.codehilite .cm { color: #8B949E; font-style: italic } /* Comment.Multiline */
+.codehilite .cp { color: #8B949E; font-weight: bold; font-style: italic } /* Comment.Preproc */
+.codehilite .cpf { color: #8B949E; font-style: italic } /* Comment.PreprocFile */
+.codehilite .c1 { color: #8B949E; font-style: italic } /* Comment.Single */
+.codehilite .cs { color: #8B949E; font-weight: bold; font-style: italic } /* Comment.Special */
+.codehilite .gd { color: #FFA198; background-color: #490202 } /* Generic.Deleted */
+.codehilite .ge { color: #E6EDF3; font-style: italic } /* Generic.Emph */
+.codehilite .ges { color: #E6EDF3; font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.codehilite .gr { color: #FFA198 } /* Generic.Error */
+.codehilite .gh { color: #79C0FF; font-weight: bold } /* Generic.Heading */
+.codehilite .gi { color: #56D364; background-color: #0F5323 } /* Generic.Inserted */
+.codehilite .go { color: #8B949E } /* Generic.Output */
+.codehilite .gp { color: #8B949E } /* Generic.Prompt */
+.codehilite .gs { color: #E6EDF3; font-weight: bold } /* Generic.Strong */
+.codehilite .gu { color: #79C0FF } /* Generic.Subheading */
+.codehilite .gt { color: #FF7B72 } /* Generic.Traceback */
+.codehilite .g-Underline { color: #E6EDF3; text-decoration: underline } /* Generic.Underline */
+.codehilite .kc { color: #79C0FF } /* Keyword.Constant */
+.codehilite .kd { color: #FF7B72 } /* Keyword.Declaration */
+.codehilite .kn { color: #FF7B72 } /* Keyword.Namespace */
+.codehilite .kp { color: #79C0FF } /* Keyword.Pseudo */
+.codehilite .kr { color: #FF7B72 } /* Keyword.Reserved */
+.codehilite .kt { color: #FF7B72 } /* Keyword.Type */
+.codehilite .ld { color: #79C0FF } /* Literal.Date */
+.codehilite .m { color: #A5D6FF } /* Literal.Number */
+.codehilite .s { color: #A5D6FF } /* Literal.String */
+.codehilite .na { color: #E6EDF3 } /* Name.Attribute */
+.codehilite .nb { color: #E6EDF3 } /* Name.Builtin */
+.codehilite .nc { color: #F0883E; font-weight: bold } /* Name.Class */
+.codehilite .no { color: #79C0FF; font-weight: bold } /* Name.Constant */
+.codehilite .nd { color: #D2A8FF; font-weight: bold } /* Name.Decorator */
+.codehilite .ni { color: #FFA657 } /* Name.Entity */
+.codehilite .ne { color: #F0883E; font-weight: bold } /* Name.Exception */
+.codehilite .nf { color: #D2A8FF; font-weight: bold } /* Name.Function */
+.codehilite .nl { color: #79C0FF; font-weight: bold } /* Name.Label */
+.codehilite .nn { color: #FF7B72 } /* Name.Namespace */
+.codehilite .nx { color: #E6EDF3 } /* Name.Other */
+.codehilite .py { color: #79C0FF } /* Name.Property */
+.codehilite .nt { color: #7EE787 } /* Name.Tag */
+.codehilite .nv { color: #79C0FF } /* Name.Variable */
+.codehilite .ow { color: #FF7B72; font-weight: bold } /* Operator.Word */
+.codehilite .pm { color: #E6EDF3 } /* Punctuation.Marker */
+.codehilite .w { color: #6E7681 } /* Text.Whitespace */
+.codehilite .mb { color: #A5D6FF } /* Literal.Number.Bin */
+.codehilite .mf { color: #A5D6FF } /* Literal.Number.Float */
+.codehilite .mh { color: #A5D6FF } /* Literal.Number.Hex */
+.codehilite .mi { color: #A5D6FF } /* Literal.Number.Integer */
+.codehilite .mo { color: #A5D6FF } /* Literal.Number.Oct */
+.codehilite .sa { color: #79C0FF } /* Literal.String.Affix */
+.codehilite .sb { color: #A5D6FF } /* Literal.String.Backtick */
+.codehilite .sc { color: #A5D6FF } /* Literal.String.Char */
+.codehilite .dl { color: #79C0FF } /* Literal.String.Delimiter */
+.codehilite .sd { color: #A5D6FF } /* Literal.String.Doc */
+.codehilite .s2 { color: #A5D6FF } /* Literal.String.Double */
+.codehilite .se { color: #79C0FF } /* Literal.String.Escape */
+.codehilite .sh { color: #79C0FF } /* Literal.String.Heredoc */
+.codehilite .si { color: #A5D6FF } /* Literal.String.Interpol */
+.codehilite .sx { color: #A5D6FF } /* Literal.String.Other */
+.codehilite .sr { color: #79C0FF } /* Literal.String.Regex */
+.codehilite .s1 { color: #A5D6FF } /* Literal.String.Single */
+.codehilite .ss { color: #A5D6FF } /* Literal.String.Symbol */
+.codehilite .bp { color: #E6EDF3 } /* Name.Builtin.Pseudo */
+.codehilite .fm { color: #D2A8FF; font-weight: bold } /* Name.Function.Magic */
+.codehilite .vc { color: #79C0FF } /* Name.Variable.Class */
+.codehilite .vg { color: #79C0FF } /* Name.Variable.Global */
+.codehilite .vi { color: #79C0FF } /* Name.Variable.Instance */
+.codehilite .vm { color: #79C0FF } /* Name.Variable.Magic */
+.codehilite .il { color: #A5D6FF } /* Literal.Number.Integer.Long */
+</style></head><body><div class="layout">
+<nav><a class="volver" href="../LEEME-PRIMERO.html">← Índice del kit</a><br><strong>En esta página</strong><div class="toc">
+<ul>
+<li><a href="#1-sobre-ti-y-el-puesto-prepara-tu-version">1. Sobre ti y el puesto (prepara TU versión)</a></li>
+<li><a href="#2-programacion-general">2. Programación general</a></li>
+<li><a href="#3-poo">3. POO</a></li>
+<li><a href="#4-bases-de-datos">4. Bases de datos</a></li>
+<li><a href="#5-web-y-apis">5. Web y APIs</a></li>
+<li><a href="#6-javascript-react-node">6. JavaScript / React / Node</a></li>
+<li><a href="#7-python-php">7. Python / PHP</a></li>
+<li><a href="#8-git-metodologias-y-buenas-practicas">8. Git, metodologías y buenas prácticas</a></li>
+<li><a href="#9-preguntas-de-situacion-piensa-en-voz-alta">9. Preguntas "de situación" (piensa en voz alta)</a></li>
+</ul>
+</div>
+</nav>
+<main><h1 id="banco-de-preguntas-de-entrevista-con-respuestas-cortas">Banco de preguntas de entrevista (con respuestas cortas)</h1>
+<p>Para después de la prueba práctica, o si te piden explicar tu código. Respuestas de 20–40 segundos: <strong>concepto + ejemplo concreto</strong>.</p>
+<hr />
+<h2 id="1-sobre-ti-y-el-puesto-prepara-tu-version">1. Sobre ti y el puesto (prepara TU versión)</h2>
+<p><strong>¿Por qué quieres trabajar en el ISTE?</strong></p>
+<blockquote>
+<p>"Me atrae desarrollar sistemas que usan estudiantes y docentes todos los días: matrículas, laboratorios, notas. El stack del puesto (PHP, Python, JavaScript, SQL, WordPress) coincide con lo que he trabajado, y en un entorno educativo puedo seguir aprendiendo y aportar rápido."</p>
+</blockquote>
+<p><strong>Háblame de un proyecto del que estés orgulloso.</strong></p>
+<blockquote>
+<p>Usa <strong>STAR</strong>: Situación (contexto) → Tarea (tu responsabilidad) → Acción (qué hiciste tú, con tecnologías concretas) → Resultado (medible: "redujo de 2 días a 2 horas", "lo usan 200 estudiantes").</p>
+</blockquote>
+<p><strong>¿Cuál es tu mayor debilidad?</strong></p>
+<blockquote>
+<p>Una real, pequeña y en mejora: "A veces quería entregar rápido y omitía las pruebas. Ahora escribo pruebas de las reglas críticas antes de dar algo por terminado."</p>
+</blockquote>
+<p><strong>¿Cómo aprendes una tecnología nueva?</strong></p>
+<blockquote>
+<p>"Documentación oficial, un proyecto pequeño de práctica, y después aplicarlo en algo real. Por ejemplo, aprendí React haciendo un CRUD que consumía mi propia API."</p>
+</blockquote>
+<p><strong>¿Qué haces si no sabes resolver algo?</strong></p>
+<blockquote>
+<p>"Primero lo investigo con un tiempo límite (documentación, errores, Stack Overflow). Si en ~30–60 minutos no avanzo, pregunto con contexto: qué intenté y qué error obtuve."</p>
+</blockquote>
+<p><strong>¿Cómo manejas un desacuerdo técnico con un compañero?</strong></p>
+<blockquote>
+<p>"Con datos: comparamos las opciones por criterios (tiempo, mantenimiento, rendimiento), probamos si hace falta y, si no hay acuerdo, decide el líder técnico y yo me alineo."</p>
+</blockquote>
+<p><strong>¿Trabajo bajo presión / plazos cortos?</strong></p>
+<blockquote>
+<p>"Priorizo lo que da valor primero (lo mínimo funcional), comunico riesgos temprano y no sacrifico lo básico: control de versiones y probar antes de entregar."</p>
+</blockquote>
+<p><strong>¿Dónde te ves en 3 años?</strong></p>
+<blockquote>
+<p>"Como desarrollador semi-senior del equipo, dominando los sistemas de la institución y ayudando a los nuevos."</p>
+</blockquote>
+<p><strong>Pretensión salarial</strong> (dice "a convenir"): investiga un rango para Ambato y para un junior. Una respuesta posible: "Estoy abierto a la escala de la institución para el cargo; para mí pesan también el aprendizaje y la estabilidad."</p>
+<p><strong>Preguntas para hacerles al final (demuestran interés):</strong>
+- ¿Qué sistemas mantiene actualmente la Unidad de TI y con qué tecnologías?
+- ¿Cómo es el flujo de trabajo: control de versiones, revisiones de código, despliegues?
+- ¿Cuál sería mi primer proyecto o responsabilidad?
+- ¿Cómo está conformado el equipo?</p>
+<hr />
+<h2 id="2-programacion-general">2. Programación general</h2>
+<table>
+<thead>
+<tr>
+<th>Pregunta</th>
+<th>Respuesta corta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>¿Compilado vs interpretado?</td>
+<td>El compilado se traduce a código máquina o bytecode antes de ejecutarse (Java, C#); el interpretado se ejecuta línea por línea (Python, JS; en la práctica usan JIT).</td>
+</tr>
+<tr>
+<td>¿Tipado estático vs dinámico?</td>
+<td>Estático: el tipo se revisa al compilar (Java, C#, TS). Dinámico: se revisa al ejecutar (Python, JS, PHP).</td>
+</tr>
+<tr>
+<td>¿Paso por valor vs referencia?</td>
+<td>Por valor se copia el dato; por referencia se pasa la dirección y los cambios afectan al original. En Python y JS los objetos se pasan por "referencia compartida".</td>
+</tr>
+<tr>
+<td>¿Qué es la recursión?</td>
+<td>Una función que se llama a sí misma con un caso base que la detiene. Ejemplo: factorial o recorrer carpetas.</td>
+</tr>
+<tr>
+<td>¿Stack vs heap?</td>
+<td>Stack: memoria de llamadas y variables locales, rápida y limitada. Heap: objetos dinámicos, la gestiona el garbage collector.</td>
+</tr>
+<tr>
+<td>¿Qué es un algoritmo? ¿Big O?</td>
+<td>Pasos finitos para resolver un problema. Big O mide cómo crece el tiempo o la memoria con n: O(1), O(log n), O(n), O(n log n), O(n²).</td>
+</tr>
+<tr>
+<td>¿Array vs lista enlazada?</td>
+<td>Array: acceso por índice O(1), insertar en medio O(n). Lista enlazada: insertar O(1) si tienes el nodo, acceso O(n).</td>
+</tr>
+<tr>
+<td>¿Pila vs cola?</td>
+<td>Pila LIFO (deshacer, llamadas). Cola FIFO (atención de turnos, tareas).</td>
+</tr>
+<tr>
+<td>¿Hash table?</td>
+<td>Estructura clave→valor con acceso promedio O(1): dict, Map, HashMap.</td>
+</tr>
+<tr>
+<td>¿Síncrono vs asíncrono?</td>
+<td>Síncrono bloquea hasta terminar; asíncrono continúa y recibe el resultado después (callbacks, promesas, async/await).</td>
+</tr>
+<tr>
+<td>¿Qué es una expresión regular?</td>
+<td>Un patrón para buscar o validar texto: <code>^\d{10}$</code> valida 10 dígitos.</td>
+</tr>
+<tr>
+<td>¿Mutable vs inmutable?</td>
+<td>Mutable se puede modificar (lista); inmutable no (string, tupla). La inmutabilidad evita efectos secundarios.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3-poo">3. POO</h2>
+<table>
+<thead>
+<tr>
+<th>Pregunta</th>
+<th>Respuesta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>4 pilares</td>
+<td><strong>Encapsulamiento</strong> (ocultar estado, exponer métodos), <strong>Abstracción</strong> (mostrar lo esencial), <strong>Herencia</strong> (reutilizar de una clase padre), <strong>Polimorfismo</strong> (misma interfaz, distinto comportamiento).</td>
+</tr>
+<tr>
+<td>¿Clase vs objeto?</td>
+<td>La clase es el molde; el objeto es una instancia concreta.</td>
+</tr>
+<tr>
+<td>¿Interfaz vs clase abstracta?</td>
+<td>Interfaz: solo un contrato, se pueden implementar varias. Abstracta: puede tener estado y código, se hereda una sola.</td>
+</tr>
+<tr>
+<td>¿Sobrecarga vs sobrescritura?</td>
+<td>Sobrecarga: mismo nombre y distintos parámetros. Sobrescritura: la subclase redefine un método del padre.</td>
+</tr>
+<tr>
+<td>¿Composición vs herencia?</td>
+<td>Composición: "tiene un" (Carrito tiene Productos). Herencia: "es un" (Docente es Empleado). Se prefiere la composición porque acopla menos.</td>
+</tr>
+<tr>
+<td>¿Qué es un constructor?</td>
+<td>Método que inicializa el objeto al crearlo.</td>
+</tr>
+<tr>
+<td>¿<code>static</code>?</td>
+<td>Pertenece a la clase y no a la instancia (contador compartido, métodos utilitarios).</td>
+</tr>
+<tr>
+<td>SOLID</td>
+<td><strong>S</strong>: una responsabilidad por clase. <strong>O</strong>: abierta a extensión, cerrada a modificación. <strong>L</strong>: una subclase puede reemplazar a su padre. <strong>I</strong>: interfaces pequeñas. <strong>D</strong>: depender de abstracciones, no de implementaciones concretas.</td>
+</tr>
+<tr>
+<td>Ejemplo de Open/Closed</td>
+<td>Agregar <code>Tesis extends Material</code> sin tocar <code>prestar()</code> (ver <code>06-retos-resueltos/java-consola-poo</code>).</td>
+</tr>
+<tr>
+<td>Patrones de diseño que conoces</td>
+<td><strong>Singleton</strong> (una instancia: conexión), <strong>Factory</strong> (crear objetos según tipo), <strong>Repository/DAO</strong> (acceso a datos), <strong>MVC</strong>, <strong>Observer</strong> (eventos), <strong>Strategy</strong> (algoritmos intercambiables).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-bases-de-datos">4. Bases de datos</h2>
+<table>
+<thead>
+<tr>
+<th>Pregunta</th>
+<th>Respuesta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>¿PK vs FK?</td>
+<td>La PK identifica cada fila (única, no nula); la FK referencia la PK de otra tabla y garantiza la integridad referencial.</td>
+</tr>
+<tr>
+<td>¿INNER vs LEFT JOIN?</td>
+<td>INNER devuelve solo las coincidencias; LEFT devuelve todas las filas de la izquierda (con NULL si no hay match).</td>
+</tr>
+<tr>
+<td>¿WHERE vs HAVING?</td>
+<td>WHERE filtra filas antes de agrupar; HAVING filtra grupos después del GROUP BY.</td>
+</tr>
+<tr>
+<td>¿DELETE vs TRUNCATE vs DROP?</td>
+<td>Borra filas (se puede filtrar y revertir) / vacía la tabla completa (rápido) / elimina la tabla.</td>
+</tr>
+<tr>
+<td>Normalización</td>
+<td>Organizar para evitar redundancia: 1FN valores atómicos, 2FN sin dependencias parciales, 3FN sin dependencias transitivas.</td>
+</tr>
+<tr>
+<td>¿Índice?</td>
+<td>Estructura que acelera búsquedas (como el índice de un libro); hace más lentas las escrituras.</td>
+</tr>
+<tr>
+<td>ACID</td>
+<td>Atomicidad (todo o nada), Consistencia (reglas válidas), Aislamiento (transacciones que no se interfieren), Durabilidad (lo confirmado persiste).</td>
+</tr>
+<tr>
+<td>¿Transacción?</td>
+<td>Grupo de operaciones que se confirma (COMMIT) o se deshace (ROLLBACK) en bloque. Ejemplo: una transferencia bancaria.</td>
+</tr>
+<tr>
+<td>SQL Injection</td>
+<td>Meter SQL malicioso en un input (<code>' OR '1'='1</code>). Se previene con <strong>consultas parametrizadas</strong>, nunca concatenando.</td>
+</tr>
+<tr>
+<td>¿Vista?</td>
+<td>Consulta guardada que se usa como tabla.</td>
+</tr>
+<tr>
+<td>¿Procedimiento almacenado vs función?</td>
+<td>El procedimiento ejecuta acciones (puede no devolver valor, se llama con CALL); la función devuelve un valor y se usa dentro de un SELECT.</td>
+</tr>
+<tr>
+<td>¿Trigger?</td>
+<td>Código que se ejecuta automáticamente ante INSERT, UPDATE o DELETE (ej. descontar stock).</td>
+</tr>
+<tr>
+<td>¿SQL vs NoSQL?</td>
+<td>SQL: tablas con esquema, relaciones, ACID (notas, pagos). NoSQL: documentos o clave-valor flexibles y escalables (logs, catálogos).</td>
+</tr>
+<tr>
+<td>¿ORM?</td>
+<td>Mapea tablas a clases (SQLAlchemy, Eloquent, Entity Framework, Hibernate, Prisma). Ventaja: productividad; desventaja: menos control y posibles consultas ineficientes (problema N+1).</td>
+</tr>
+<tr>
+<td>¿Cómo optimizas una consulta lenta?</td>
+<td><code>EXPLAIN</code>, índices en las columnas de WHERE y JOIN, evitar <code>SELECT *</code>, paginar, evitar funciones sobre columnas indexadas en el WHERE.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-web-y-apis">5. Web y APIs</h2>
+<table>
+<thead>
+<tr>
+<th>Pregunta</th>
+<th>Respuesta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>¿Qué pasa al escribir una URL?</td>
+<td>DNS → IP → conexión TCP/TLS → petición HTTP → el servidor procesa → respuesta HTML → el navegador descarga CSS/JS y renderiza.</td>
+</tr>
+<tr>
+<td>Métodos HTTP</td>
+<td>GET (leer), POST (crear), PUT (reemplazar), PATCH (modificar parcialmente), DELETE (eliminar).</td>
+</tr>
+<tr>
+<td>Códigos HTTP</td>
+<td>200 OK, 201 Created, 204 No Content, 301/302 redirección, 400 Bad Request, 401 no autenticado, 403 prohibido, 404 no encontrado, 409 conflicto, 422 validación, 500 error del servidor.</td>
+</tr>
+<tr>
+<td>¿REST?</td>
+<td>Estilo de API: recursos identificados por URL, verbos HTTP, sin estado y representaciones en JSON.</td>
+</tr>
+<tr>
+<td>¿Idempotente?</td>
+<td>Repetir la petición deja el mismo resultado: GET, PUT y DELETE sí; POST no.</td>
+</tr>
+<tr>
+<td>¿Cookie vs sesión vs JWT?</td>
+<td>La cookie guarda datos en el navegador. La sesión guarda los datos en el servidor y el navegador solo tiene un id en una cookie. El JWT es un token firmado que el cliente envía y el servidor verifica sin guardar estado.</td>
+</tr>
+<tr>
+<td>¿Autenticación vs autorización?</td>
+<td>Quién eres (login) vs qué puedes hacer (roles y permisos).</td>
+</tr>
+<tr>
+<td>¿CORS?</td>
+<td>Regla del navegador que bloquea peticiones a otro origen, salvo que el servidor lo permita con cabeceras <code>Access-Control-Allow-*</code>.</td>
+</tr>
+<tr>
+<td>¿Cómo guardas contraseñas?</td>
+<td>Con hash lento y sal: bcrypt o argon2 (<code>password_hash</code>, <code>generate_password_hash</code>). Nunca en texto plano ni con MD5.</td>
+</tr>
+<tr>
+<td>XSS</td>
+<td>Inyectar JavaScript en una página. Se previene escapando la salida (<code>htmlspecialchars</code>, <code>{{ }}</code> de Jinja, <code>textContent</code>) y con Content-Security-Policy.</td>
+</tr>
+<tr>
+<td>CSRF</td>
+<td>Un sitio malicioso hace que tu navegador envíe peticiones a otro sitio con tu sesión. Se previene con tokens CSRF y cookies SameSite.</td>
+</tr>
+<tr>
+<td>¿HTTP vs HTTPS?</td>
+<td>HTTPS cifra la comunicación con TLS: protege contraseñas y datos.</td>
+</tr>
+<tr>
+<td>¿Frontend vs backend vs full stack?</td>
+<td>Navegador (UI) / servidor (lógica y BD) / ambos.</td>
+</tr>
+<tr>
+<td>¿SSR vs CSR vs SSG?</td>
+<td>El servidor genera el HTML / el navegador lo arma con JS / se genera en el build (estático).</td>
+</tr>
+<tr>
+<td>¿MVC?</td>
+<td>Modelo (datos y reglas), Vista (presentación), Controlador (recibe la petición, coordina y responde).</td>
+</tr>
+<tr>
+<td>¿Qué es un middleware?</td>
+<td>Función que se ejecuta entre la petición y la respuesta (logs, autenticación, parseo de JSON, errores).</td>
+</tr>
+<tr>
+<td>¿Qué es un webhook?</td>
+<td>El servidor A llama a una URL tuya cuando ocurre un evento (pago aprobado).</td>
+</tr>
+<tr>
+<td>¿GraphQL vs REST?</td>
+<td>GraphQL: un endpoint donde el cliente pide exactamente los campos que necesita. REST: varios endpoints por recurso.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="6-javascript-react-node">6. JavaScript / React / Node</h2>
+<table>
+<thead>
+<tr>
+<th>Pregunta</th>
+<th>Respuesta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>var</code> / <code>let</code> / <code>const</code></td>
+<td><code>var</code>: ámbito de función con hoisting (evitar). <code>let</code>: bloque, reasignable. <code>const</code>: bloque, no reasignable (pero el objeto sí puede mutar).</td>
+</tr>
+<tr>
+<td><code>==</code> vs <code>===</code></td>
+<td><code>==</code> convierte los tipos antes de comparar; <code>===</code> compara valor y tipo. Usa siempre <code>===</code>.</td>
+</tr>
+<tr>
+<td>¿Closure?</td>
+<td>Una función que recuerda las variables del ámbito donde se creó (contador privado, debounce).</td>
+</tr>
+<tr>
+<td>¿Event loop?</td>
+<td>JS tiene un solo hilo; las tareas asíncronas se encolan y se ejecutan cuando la pila está vacía. Las microtareas (promesas) van antes que las macrotareas (timers).</td>
+</tr>
+<tr>
+<td>¿Promesa?</td>
+<td>Objeto que representa un valor futuro: pending → fulfilled/rejected. Se usa con <code>.then</code> o <code>await</code>.</td>
+</tr>
+<tr>
+<td><code>null</code> vs <code>undefined</code></td>
+<td><code>undefined</code>: no asignado. <code>null</code>: vacío intencional.</td>
+</tr>
+<tr>
+<td>¿Hoisting?</td>
+<td>Las declaraciones se "elevan": las funciones completas, <code>var</code> sin valor, y <code>let</code>/<code>const</code> quedan en la zona muerta temporal.</td>
+</tr>
+<tr>
+<td><code>map</code> vs <code>forEach</code></td>
+<td><code>map</code> devuelve un nuevo array; <code>forEach</code> solo recorre.</td>
+</tr>
+<tr>
+<td>¿Qué es Node?</td>
+<td>Entorno para ejecutar JS fuera del navegador (motor V8 + APIs de sistema). Es bueno para I/O concurrente.</td>
+</tr>
+<tr>
+<td>¿npm? <code>package.json</code>?</td>
+<td>Gestor de paquetes. <code>package.json</code> lista las dependencias y los scripts; <code>package-lock.json</code> fija las versiones exactas.</td>
+</tr>
+<tr>
+<td>React: estado vs props</td>
+<td>El estado es interno y mutable con su setter; las props vienen del padre y son de solo lectura.</td>
+</tr>
+<tr>
+<td>¿Virtual DOM?</td>
+<td>Copia en memoria; React calcula las diferencias y actualiza solo lo que cambió en el DOM real.</td>
+</tr>
+<tr>
+<td><code>useEffect</code></td>
+<td>Efectos secundarios después del render (fetch, timers); el array de dependencias controla cuándo se ejecuta, y la función de retorno limpia.</td>
+</tr>
+<tr>
+<td>¿Por qué <code>key</code>?</td>
+<td>Identifica los elementos de una lista para que React sepa cuál cambió.</td>
+</tr>
+<tr>
+<td>¿Custom hook?</td>
+<td>Función <code>useAlgo</code> que encapsula lógica reutilizable con otros hooks.</td>
+</tr>
+<tr>
+<td>¿Context?</td>
+<td>Comparte datos globales (usuario, tema) sin pasar props por muchos niveles.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="7-python-php">7. Python / PHP</h2>
+<table>
+<thead>
+<tr>
+<th>Pregunta</th>
+<th>Respuesta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>¿Lista vs tupla vs set vs dict?</td>
+<td>Mutable ordenada / inmutable / sin duplicados / clave→valor.</td>
+</tr>
+<tr>
+<td>¿List comprehension?</td>
+<td><code>[x*2 for x in lista if x &gt; 0]</code>: crea listas de forma concisa.</td>
+</tr>
+<tr>
+<td>¿<code>*args</code>, <code>**kwargs</code>?</td>
+<td>Argumentos posicionales variables (tupla) y con nombre (diccionario).</td>
+</tr>
+<tr>
+<td>¿Decorador?</td>
+<td>Función que envuelve a otra para añadir comportamiento (<code>@app.route</code>, <code>@login_requerido</code>).</td>
+</tr>
+<tr>
+<td>¿Entorno virtual?</td>
+<td>Aísla las dependencias de cada proyecto (<code>python -m venv venv</code>).</td>
+</tr>
+<tr>
+<td>¿Flask vs Django?</td>
+<td>Flask es minimalista y tú eliges las piezas. Django trae ORM, admin y auth incluidos.</td>
+</tr>
+<tr>
+<td>¿GIL?</td>
+<td>En CPython solo un hilo ejecuta bytecode a la vez; para CPU se usan procesos, para I/O sirven hilos o async.</td>
+</tr>
+<tr>
+<td>PHP: <code>include</code> vs <code>require</code></td>
+<td>Si falla, <code>require</code> detiene la ejecución e <code>include</code> solo avisa. <code>_once</code> evita incluir dos veces.</td>
+</tr>
+<tr>
+<td>PHP: <code>==</code> vs <code>===</code></td>
+<td>Igual que en JS: <code>===</code> compara también el tipo.</td>
+</tr>
+<tr>
+<td>PHP: <code>$_GET</code>/<code>$_POST</code>/<code>$_SESSION</code></td>
+<td>Parámetros de la URL / cuerpo del formulario / datos de sesión en el servidor.</td>
+</tr>
+<tr>
+<td>PHP: ¿PDO vs mysqli?</td>
+<td>PDO sirve para varias bases de datos y tiene parámetros con nombre; mysqli es solo para MySQL.</td>
+</tr>
+<tr>
+<td>¿Laravel?</td>
+<td>Framework MVC de PHP: Eloquent ORM, Blade, migraciones, Artisan.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="8-git-metodologias-y-buenas-practicas">8. Git, metodologías y buenas prácticas</h2>
+<table>
+<thead>
+<tr>
+<th>Pregunta</th>
+<th>Respuesta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>¿merge vs rebase?</td>
+<td>Merge une historias con un commit de unión; rebase reescribe tus commits encima de otra rama (historial lineal). No hagas rebase de ramas compartidas.</td>
+</tr>
+<tr>
+<td>¿Conflicto? ¿Cómo lo resuelves?</td>
+<td>Dos cambios en las mismas líneas. Editas el archivo dejando lo correcto, quitas las marcas <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code> y haces <code>add</code> + <code>commit</code>.</td>
+</tr>
+<tr>
+<td>¿Pull Request?</td>
+<td>Solicitud para integrar una rama, con revisión de código.</td>
+</tr>
+<tr>
+<td>¿Qué es un buen commit?</td>
+<td>Pequeño, con un solo propósito y un mensaje en imperativo (<code>feat: agregar filtro por fecha</code>).</td>
+</tr>
+<tr>
+<td>Scrum</td>
+<td>Sprints de 1–4 semanas. Roles: Product Owner, Scrum Master y equipo. Eventos: planning, daily, review y retrospectiva. Artefactos: product backlog, sprint backlog e incremento.</td>
+</tr>
+<tr>
+<td>Kanban</td>
+<td>Tablero (Por hacer / En progreso / Hecho) con límite de trabajo en curso.</td>
+</tr>
+<tr>
+<td>¿Historia de usuario?</td>
+<td>"Como <strong>docente</strong> quiero <strong>reservar un laboratorio</strong> para <strong>dar mi clase práctica</strong>", con criterios de aceptación.</td>
+</tr>
+<tr>
+<td>CI/CD</td>
+<td>Integración continua (pruebas automáticas en cada push) y entrega o despliegue continuo.</td>
+</tr>
+<tr>
+<td>Clean code</td>
+<td>Nombres claros, funciones cortas con una tarea, sin duplicación (DRY), manejo de errores y pruebas.</td>
+</tr>
+<tr>
+<td>¿Code review?</td>
+<td>Otro desarrollador revisa tu código antes de integrarlo: encuentra errores y comparte conocimiento.</td>
+</tr>
+<tr>
+<td>¿Deuda técnica?</td>
+<td>Atajos que ahorran tiempo hoy y cuestan mantenimiento mañana.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="9-preguntas-de-situacion-piensa-en-voz-alta">9. Preguntas "de situación" (piensa en voz alta)</h2>
+<ul>
+<li><strong>"El sistema de matrículas está lento el primer día de inscripciones."</strong> Revisaría los logs y el monitoreo, identificaría las consultas lentas (EXPLAIN), agregaría índices, caché de datos estáticos, paginación y, si hace falta, escalaría recursos. Comunicaría el estado a los usuarios.</li>
+<li><strong>"Encuentras un bug en producción un viernes a las 17h."</strong> Evaluar el impacto; si es crítico, hotfix mínimo probado o revertir al último despliegue estable. Documentar e informar. El arreglo de fondo va con calma.</li>
+<li><strong>"Te piden una función con un plazo imposible."</strong> Proponer un alcance mínimo (MVP) para la fecha y el resto en una segunda entrega; hacer visibles los riesgos.</li>
+<li><strong>"Un docente reporta que 'no funciona el sistema'."</strong> Hacer preguntas concretas: qué intentaba hacer, qué mensaje vio, desde qué navegador, pedir una captura. Reproducir el problema y luego corregir.</li>
+<li><strong>"¿Cómo diseñarías el sistema de reservas de laboratorios?"</strong> Tablas (laboratorios, reservas con FK), regla de choque (<code>ini1 &lt; fin2 AND ini2 &lt; fin1</code>), validaciones en el servidor, roles (docente reserva, admin gestiona), API REST y un reporte de uso. Ya lo tienes implementado en el simulacro.</li>
+</ul></main></div>
+<script>
+document.querySelectorAll('.codehilite').forEach(b => {
+  const btn = document.createElement('button'); btn.className = 'copiar'; btn.textContent = 'Copiar';
+  btn.onclick = () => { const t = b.querySelector('pre').innerText;
+    navigator.clipboard.writeText(t).then(() => { btn.textContent = '¡Copiado!'; setTimeout(() => btn.textContent = 'Copiar', 1500); }); };
+  b.prepend(btn);
+});
+</script></body></html>

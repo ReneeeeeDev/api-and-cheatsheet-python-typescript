@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block titulo %}Reporte{% endblock %}
+{% block contenido %}
+<section class="panel">
+  <h2>Uso de laboratorios</h2>
+  <table>
+    <thead><tr><th>Código</th><th>Laboratorio</th><th>Reservas</th><th>Horas reservadas</th></tr></thead>
+    <tbody>
+    {% for f in filas %}
+      <tr>
+        <td>{{ f.codigo }}</td>
+        <td>{{ f.nombre }}</td>
+        <td>{{ f.total_reservas }}</td>
+        <td>{{ f.horas }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

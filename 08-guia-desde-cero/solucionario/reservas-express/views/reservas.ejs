@@ -1,0 +1,83 @@
+<%- include("partials/cabecera", { titulo: "Reservas" }) %>
+
+<section class="panel">
+  <h2>Nueva reserva</h2>
+  <form method="post" action="/reservas">
+    <div class="grid">
+      <label>Docente
+        <input name="docente" value="<%= form.docente ?? '' %>" required>
+      </label>
+      <label>Laboratorio
+        <select name="laboratorio_id" required>
+          <option value="">-- Seleccione --</option>
+          <% labs.forEach(lab => { %>
+            <option value="<%= lab.id %>"
+                    <%= String(form.laboratorio_id) === String(lab.id) ? "selected" : "" %>
+                    <%= lab.estado === "mantenimiento" ? "disabled" : "" %>>
+              <%= lab.codigo %> - <%= lab.nombre %><%= lab.estado === "mantenimiento" ? " (mantenimiento)" : "" %>
+            </option>
+          <% }) %>
+        </select>
+      </label>
+      <label>Fecha
+        <input name="fecha" type="date" value="<%= form.fecha ?? '' %>" required>
+      </label>
+      <label>Hora inicio
+        <input name="hora_inicio" type="time" value="<%= form.hora_inicio ?? '' %>" required>
+      </label>
+      <label>Hora fin
+        <input name="hora_fin" type="time" value="<%= form.hora_fin ?? '' %>" required>
+      </label>
+      <label>Motivo
+        <input name="motivo" value="<%= form.motivo ?? '' %>">
+      </label>
+    </div>
+    <div class="acciones"><button type="submit">Reservar</button></div>
+  </form>
+</section>
+
+<section class="panel">
+  <h2>Reservas registradas</h2>
+  <%# Filtros: formulario GET → los valores viajan en la URL (?fecha=...&lab=...) %>
+  <form method="get" class="filtros">
+    <label>Fecha <input name="fecha" type="date" value="<%= filtro.fecha %>"></label>
+    <label>Laboratorio
+      <select name="lab">
+        <option value="">Todos</option>
+        <% labs.forEach(lab => { %>
+          <option value="<%= lab.id %>" <%= filtro.lab === String(lab.id) ? "selected" : "" %>><%= lab.codigo %></option>
+        <% }) %>
+      </select>
+    </label>
+    <button type="submit">Filtrar</button>
+    <a class="btn sec" href="/reservas">Limpiar</a>
+  </form>
+
+  <table>
+    <thead>
+      <tr><th>Fecha</th><th>Horario</th><th>Laboratorio</th><th>Docente</th><th>Motivo</th><th></th></tr>
+    </thead>
+    <tbody>
+      <% if (reservas.length === 0) { %>
+        <tr><td colspan="6">No hay reservas.</td></tr>
+      <% } %>
+      <% reservas.forEach(r => { %>
+        <tr>
+          <td><%= r.fecha %></td>
+          <td><%= r.hora_inicio %> - <%= r.hora_fin %></td>
+          <td><%= r.codigo %> - <%= r.laboratorio %></td>
+          <td><%= r.docente %></td>
+          <td><%= r.motivo || "" %></td>
+          <td>
+            <form method="post" action="/reservas/<%= r.id %>/eliminar"
+                  onsubmit="return confirm('¿Cancelar esta reserva?')">
+              <button class="peligro">Cancelar</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</section>
+
+<%- include("partials/pie") %>

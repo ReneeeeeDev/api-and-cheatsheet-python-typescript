@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= titulo %> | Laboratorios ISTE</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header class="barra">
+    <a class="logo" href="/">Reservas de Laboratorios</a>
+    <nav>
+      <a href="/laboratorios">Laboratorios</a>
+      <a href="/reservas">Reservas</a>
+      <a href="/reporte">Reporte</a>
+    </nav>
+  </header>
+
+  <main class="contenedor">
+    <%# Mensajes que llegan por la URL después de redirigir (?ok=... / ?error=...) %>
+    <% if (ok) { %><div class="alerta ok"><%= ok %></div><% } %>
+    <% if (error) { %><div class="alerta error"><%= error %></div><% } %>
+
+    <%# Errores de validación al volver a mostrar un formulario %>
+    <% if (errores.length) { %>
+      <div class="alerta error">
+        <strong>Revise los datos:</strong>
+        <ul><% errores.forEach(e => { %><li><%= e %></li><% }) %></ul>
+      </div>
+    <% } %>
