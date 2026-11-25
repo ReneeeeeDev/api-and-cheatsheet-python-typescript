@@ -26,12 +26,12 @@ Para después de la prueba práctica, o si te piden explicar tu código. Respues
 > "Priorizo lo que da valor primero (lo mínimo funcional), comunico riesgos temprano y no sacrifico lo básico: control de versiones y probar antes de entregar."
 
 **¿Dónde te ves en 3 años?**
-> "Como desarrollador semi-senior del equipo, dominando los sistemas de la institución y ayudando a los nuevos."
+> "Como desarrollador semi-senior del equipo, dominando los sistemas de la empresa y ayudando a los nuevos."
 
-**Pretensión salarial** (dice "a convenir"): investiga un rango para Ambato y para un junior. Una respuesta posible: "Estoy abierto a la escala de la institución para el cargo; para mí pesan también el aprendizaje y la estabilidad."
+**Pretensión salarial:** investiga el rango del cargo en tu ciudad (ofertas similares, LinkedIn, Glassdoor, colegas). Una respuesta posible: "Por lo que investigué, para este rol el rango está entre X e Y. Estoy abierto a conversarlo según los beneficios y las posibilidades de crecimiento."
 
 **Preguntas para hacerles al final (demuestran interés):**
-- ¿Qué sistemas mantiene actualmente la Unidad de TI y con qué tecnologías?
+- ¿Qué sistemas mantiene actualmente el equipo y con qué tecnologías?
 - ¿Cómo es el flujo de trabajo: control de versiones, revisiones de código, despliegues?
 - ¿Cuál sería mi primer proyecto o responsabilidad?
 - ¿Cómo está conformado el equipo?
@@ -174,3 +174,35 @@ Para después de la prueba práctica, o si te piden explicar tu código. Respues
 - **"Te piden una función con un plazo imposible."** Proponer un alcance mínimo (MVP) para la fecha y el resto en una segunda entrega; hacer visibles los riesgos.
 - **"Un docente reporta que 'no funciona el sistema'."** Hacer preguntas concretas: qué intentaba hacer, qué mensaje vio, desde qué navegador, pedir una captura. Reproducir el problema y luego corregir.
 - **"¿Cómo diseñarías el sistema de reservas de laboratorios?"** Tablas (laboratorios, reservas con FK), regla de choque (`ini1 < fin2 AND ini2 < fin1`), validaciones en el servidor, roles (docente reserva, admin gestiona), API REST y un reporte de uso. Ya lo tienes implementado en el simulacro.
+
+## 10. Pruebas y calidad
+
+| Pregunta | Respuesta corta |
+|---|---|
+| ¿Prueba unitaria vs de integración vs E2E? | Unitaria: una función aislada (rápida, muchas). Integración: varias piezas juntas, como API + base de datos. E2E: el sistema completo como lo usa una persona, con un navegador automatizado (pocas, lentas). Es la "pirámide de pruebas". |
+| ¿Qué pruebas primero? | Las reglas de negocio críticas y sus bordes: choques de horario, cálculos de dinero, permisos. Más que el % de cobertura, importa probar lo que duele si falla. |
+| ¿TDD? | Escribir primero una prueba que falla, luego el código mínimo que la pasa y después refactorizar (rojo → verde → refactor). |
+| ¿Mock? | Un objeto falso que reemplaza una dependencia lenta o externa (API de pagos, correo) para probar en aislamiento. |
+| ¿Cobertura? | El % de líneas que ejecutan las pruebas. 100 % no significa sin errores: puedes ejecutar una línea sin verificar su resultado. |
+| ¿Cómo depuras un error? | Reproducirlo con datos concretos → leer el mensaje y el stack trace → aislar (prints, debugger, búsqueda binaria en el código o `git bisect`) → corregir → **agregar una prueba** para que no vuelva. |
+| ¿Linter y formateador? | El linter encuentra errores probables y malas prácticas (ESLint, Ruff, Pylint); el formateador unifica el estilo (Prettier, Black). Se ejecutan en el CI. |
+| ¿Code review: qué miras? | Corrección, seguridad (inyección, permisos), rendimiento (N+1), legibilidad y pruebas. Ver `09-entrevista-tecnica/03-DEBUGGING-Y-CODE-REVIEW.md`. |
+| ¿Refactorizar? | Mejorar la estructura sin cambiar el comportamiento, protegido por pruebas. En pasos pequeños y con un commit por paso. |
+
+## 11. Estructuras de datos y algoritmos (para explicarlos en voz alta)
+
+| Pregunta | Respuesta corta |
+|---|---|
+| ¿Qué es Big-O? | Cómo crece el tiempo o la memoria cuando crece la entrada, en el peor caso, ignorando constantes. O(n) significa que el doble de datos tarda aproximadamente el doble. |
+| ¿Array vs lista enlazada? | Array: acceso por índice O(1), pero insertar al inicio es O(n). Lista enlazada: insertar o borrar con el nodo a mano es O(1), pero llegar a la posición i es O(n). |
+| ¿Cómo funciona un diccionario o hash map? | Una función hash convierte la clave en una posición de un arreglo. Las colisiones se resuelven con listas o sondeo. Búsqueda O(1) en promedio y O(n) en el peor caso. |
+| ¿Árbol binario de búsqueda? | A la izquierda los menores y a la derecha los mayores. Buscar es O(log n) si está balanceado y O(n) si degenera en una lista. Los índices de las bases de datos usan árboles B. |
+| ¿BFS vs DFS? | BFS recorre por niveles con una cola y encuentra el camino más corto sin pesos. DFS va a fondo con recursión o pila; sirve para recorrer todo, detectar ciclos y hacer backtracking. |
+| ¿Heap? | Árbol donde la raíz es siempre el mínimo (o el máximo). Insertar y sacar cuestan O(log n). Sirve para colas de prioridad y para "los k mayores" (`heapq`). |
+| ¿Qué algoritmo de ordenamiento usa `sort`? | Python y JS (V8) usan **Timsort**: híbrido de merge sort e inserción, O(n log n) y estable. |
+| ¿Merge sort vs quicksort? | Merge: O(n log n) siempre, estable, usa O(n) de memoria extra. Quick: O(n log n) en promedio, O(n²) en el peor caso, ordena en el mismo arreglo y suele ser más rápido en la práctica. |
+| ¿Programación dinámica? | Resolver subproblemas que se repiten una sola vez y guardar sus resultados (memoización o tabla). Ejemplo: Fibonacci pasa de O(2ⁿ) a O(n). |
+| ¿Recursión: riesgos? | Desbordar la pila si es muy profunda (en Python el límite es ~1000 llamadas) y recalcular subproblemas. Se soluciona con iteración o memoización. |
+| ¿Cómo eliges una estructura? | Según la operación más frecuente: buscar por clave → dict; mantener el orden y acceder por índice → lista; quitar duplicados o pertenencia rápida → set; FIFO → deque; el mínimo siempre a mano → heap. |
+
+Para practicar estos temas con código y pruebas: `09-entrevista-tecnica/algoritmos/PROBLEMAS.md`.
