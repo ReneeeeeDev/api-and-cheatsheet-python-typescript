@@ -37,7 +37,7 @@ document.querySelectorAll('.codehilite').forEach(b => {{
 }});
 </script></body></html>"""
 
-IGNORAR = ("node_modules", "_herramientas")
+IGNORAR = ("node_modules", "_herramientas", "venv", ".obsidian")
 generados = []
 for md in sorted(RAIZ.rglob("*.md")):
     if any(p in md.parts for p in IGNORAR):
@@ -71,6 +71,8 @@ DESCR = {
     "06-retos-resueltos": "Soluciones de los retos",
     "07-entrevista": "Preguntas de entrevista",
     "08-guia-desde-cero": "Construir el simulacro paso a paso",
+    "09-entrevista-tecnica": "Live coding, 30 algoritmos con pruebas, debugging y diseño de sistemas",
+    "mi-practica": "Mis intentos y avance",
 }
 filas = []
 for carpeta in sorted(grupos, key=lambda c: (c != "Inicio", c)):
@@ -78,14 +80,15 @@ for carpeta in sorted(grupos, key=lambda c: (c != "Inicio", c)):
                       for r, t in grupos[carpeta])
     filas.append(f"<section><h2>{carpeta}</h2><p>{DESCR.get(carpeta, '')}</p><ul>{enlaces}</ul></section>")
 indice = f"""<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Kit de preparación ISTE</title><style>
+<title>Kit de preparación para entrevista técnica</title><style>
 body{{margin:0;font-family:system-ui,Segoe UI,sans-serif;background:#f1f5f9;color:#1f2937}}
 header{{background:#0a5bd6;color:#fff;padding:24px}} header h1{{margin:0}} header p{{color:#dbeafe;font-size:15px}} main{{align-items:start}} main{{max-width:1100px;margin:20px auto;padding:0 16px;
 display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}}
 section{{background:#fff;border-radius:10px;padding:16px;box-shadow:0 1px 4px rgba(0,0,0,.06)}} h2{{margin:0;font-size:18px;color:#0a5bd6}}
 p{{margin:4px 0 8px;color:#64748b;font-size:14px}} ul{{padding-left:18px;margin:0}} li{{margin:4px 0}} a{{color:#1f2937}} small{{color:#94a3b8;display:block;font-size:11px}}
-</style></head><body><header><h1>Kit de preparación — Técnico en Desarrollo de Software</h1>
-<p>Prueba: viernes 25/09/2026 · 16h00 · Laboratorio 002 · llegar 15h45 con cédula</p></header>
+</style></head><body><header><h1>Kit de preparación — Entrevista técnica de desarrollo de software</h1>
+<p>Cheatsheets · proyectos · lógica y SQL · simulacros · algoritmos con pruebas · debugging · diseño · preguntas de entrevista.
+Empieza por «Inicio» y por <a href="09-entrevista-tecnica/02-PLAN-DE-ESTUDIO.html" style="color:#fff">el plan de estudio</a>.</p></header>
 <main>{''.join(filas)}</main></body></html>"""
 (RAIZ / "LEEME-PRIMERO.html").write_text(indice, encoding="utf-8")
 print(len(generados), "documentos HTML generados + índice")

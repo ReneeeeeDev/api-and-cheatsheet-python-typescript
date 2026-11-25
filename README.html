@@ -1,5 +1,5 @@
 <!DOCTYPE html><html lang="es"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1"><title>Kit de preparación v2 — Técnico en Desarrollo de Software (ISTE)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Kit de preparación — Entrevista técnica de desarrollo de software</title>
 <style>
 *{box-sizing:border-box}body{margin:0;font-family:system-ui,Segoe UI,sans-serif;line-height:1.6;color:#1f2937;background:#f8fafc}
 .layout{display:grid;grid-template-columns:270px 1fr;max-width:1400px;margin:auto}
@@ -104,18 +104,51 @@ span.linenos.special { color: #e6edf3; background-color: #6e7681; padding-left: 
 </style></head><body><div class="layout">
 <nav><a class="volver" href="LEEME-PRIMERO.html">← Índice del kit</a><br><strong>En esta página</strong><div class="toc">
 <ul>
+<li><a href="#por-donde-empiezo">¿Por dónde empiezo?</a></li>
 <li><a href="#contenido">Contenido</a></li>
-<li><a href="#todo-verificado">Todo verificado</a></li>
-<li><a href="#plan-para-las-horas-que-quedan-ajustalo-a-tu-hora-actual">Plan para las horas que quedan (ajústalo a tu hora actual)</a></li>
-<li><a href="#checklist-en-la-prueba">Checklist en la prueba</a></li>
+<li><a href="#probar-que-todo-funciona">Probar que todo funciona</a></li>
+<li><a href="#regenerar-los-html">Regenerar los HTML</a></li>
+<li><a href="#como-usar-este-kit-sin-enganarte">Cómo usar este kit sin engañarte</a></li>
 </ul>
 </div>
 </nav>
-<main><h1 id="kit-de-preparacion-v2-tecnico-en-desarrollo-de-software-iste">Kit de preparación v2 — Técnico en Desarrollo de Software (ISTE)</h1>
-<p><strong>Prueba:</strong> viernes 25/09/2026 · 16h00 · 3 horas · 2.º piso, Laboratorio 002 · llegar 15h45 con cédula.</p>
+<main><h1 id="kit-de-preparacion-entrevista-tecnica-de-desarrollo-de-software">Kit de preparación — Entrevista técnica de desarrollo de software</h1>
+<p><a href="https://github.com/ReneeeeeDev/api-and-cheatsheet-python-typescript/actions/workflows/pruebas.yml"><img alt="Pruebas" src="https://github.com/ReneeeeeDev/api-and-cheatsheet-python-typescript/actions/workflows/pruebas.yml/badge.svg" /></a></p>
+<p>Material para prepararse <strong>de principio a fin</strong> para una entrevista técnica de desarrollador junior o semi-senior: fundamentos por tecnología, lógica y SQL, proyectos CRUD completos, una prueba práctica cronometrada, algoritmos para <em>live coding</em>, debugging, diseño de sistemas y preguntas de entrevista. Todo en español y con código que se ejecuta y se prueba.</p>
 <blockquote>
-<p><strong>Forma más cómoda de leer:</strong> abre <code>LEEME-PRIMERO.html</code> en el navegador. Tiene un índice con enlaces a todas las guías en HTML (con botón "Copiar" en cada bloque de código). Los archivos <code>.md</code> tienen el mismo contenido para abrirlos en VS Code con <code>Ctrl + Shift + V</code>.</p>
+<p><strong>Forma más cómoda de leer:</strong> abre <code>LEEME-PRIMERO.html</code> en el navegador. Tiene un índice con enlaces a todas las guías en HTML, con botón "Copiar" en cada bloque de código. Los archivos <code>.md</code> tienen el mismo contenido; en VS Code se ven con <code>Ctrl + Shift + V</code>.</p>
 </blockquote>
+<h2 id="por-donde-empiezo">¿Por dónde empiezo?</h2>
+<table>
+<thead>
+<tr>
+<th>Tu situación</th>
+<th>Empieza por</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tengo una entrevista pronto y no sé cómo organizarme</td>
+<td><a href="09-entrevista-tecnica/02-PLAN-DE-ESTUDIO.html"><code>09-entrevista-tecnica/02-PLAN-DE-ESTUDIO.md</code></a> (planes de 3 días, 1 semana y 2 semanas)</td>
+</tr>
+<tr>
+<td>Me van a poner a programar en vivo</td>
+<td><a href="09-entrevista-tecnica/01-METODO-LIVE-CODING.html"><code>09-entrevista-tecnica/01-METODO-LIVE-CODING.md</code></a> → <a href="09-entrevista-tecnica/algoritmos/PROBLEMAS.html"><code>algoritmos/PROBLEMAS.md</code></a></td>
+</tr>
+<tr>
+<td>Me van a dar una prueba práctica (construir una app en 2–4 h)</td>
+<td><a href="08-guia-desde-cero/LEEME.html"><code>08-guia-desde-cero/</code></a> → <a href="04-simulacro/enunciado.html"><code>04-simulacro/</code></a></td>
+</tr>
+<tr>
+<td>Quiero repasar la teoría para las preguntas</td>
+<td><a href="07-entrevista/BANCO-PREGUNTAS.html"><code>07-entrevista/BANCO-PREGUNTAS.md</code></a> + el cheatsheet de tu lenguaje</td>
+</tr>
+<tr>
+<td>Primero necesito instalar y configurar todo</td>
+<td><a href="00-entorno/GUIA-ENTORNO-Y-EJECUCION.html"><code>00-entorno/GUIA-ENTORNO-Y-EJECUCION.md</code></a></td>
+</tr>
+</tbody>
+</table>
 <h2 id="contenido">Contenido</h2>
 <table>
 <thead>
@@ -128,27 +161,27 @@ span.linenos.special { color: #e6edf3; background-color: #6e7681; padding-left: 
 <tbody>
 <tr>
 <td><code>00-entorno/</code></td>
-<td><strong>Cómo instalar, configurar y ejecutar TODO</strong>: terminal, venv, npm, Java, XAMPP, VS Code, probar APIs, depurar, qué hacer si algo falla en el laboratorio</td>
+<td><strong>Cómo instalar, configurar y ejecutar TODO</strong>: terminal, venv, npm, Java, XAMPP, VS Code, probar APIs, depurar y qué hacer si algo falla en el laboratorio</td>
 <td><code>GUIA-ENTORNO-Y-EJECUCION.md</code></td>
 </tr>
 <tr>
 <td><code>01-cheatsheets/</code></td>
-<td>12 cheatsheets (~4 300 líneas): Python, JS/Node/Express, React/Next, SQL, Git, HTML/CSS, WordPress/PHP/Java/C# (resumen), <strong>PHP completo, TypeScript, Java ampliado (JDBC, Maven, Spring), C#/.NET, Dart/Flutter + WordPress a fondo + Azure/Vercel + QA</strong></td>
+<td>12 cheatsheets (~4 300 líneas): Python, JS/Node/Express, React/Next, SQL, Git, HTML/CSS, PHP, TypeScript, Java (JDBC, Maven, Spring), C#/.NET, Dart/Flutter, WordPress, Azure/Vercel y QA</td>
 <td>el de tu lenguaje fuerte + <code>04-sql.md</code></td>
 </tr>
 <tr>
 <td><code>02-proyectos/</code></td>
-<td>5 proyectos funcionando: Flask, Express, React, Java consola, <strong>PHP + PDO (nuevo)</strong></td>
+<td>5 proyectos funcionando: Flask, Express, React, Java consola y PHP + PDO</td>
 <td>el README de cada uno</td>
 </tr>
 <tr>
 <td><code>03-logica/</code></td>
-<td>30 + <strong>20 ejercicios nuevos</strong> (Python y JS con pruebas), SQL: 15 + <strong>25 ejercicios nuevos</strong>, versión MySQL y ejecutor de SQL</td>
+<td>50 ejercicios de lógica (Python y JS, con pruebas) y 40 de SQL, con versión MySQL y un ejecutor de SQL</td>
 <td><code>ejercicios.md</code>, <code>ejercicios_extra.md</code>, <code>sql/README.md</code></td>
 </tr>
 <tr>
 <td><code>04-simulacro/</code></td>
-<td>Enunciado de prueba de 3 h, plantillas de un archivo, solución Flask</td>
+<td>Enunciado de una prueba práctica de 3 h, plantillas de un archivo y solución en Flask</td>
 <td><code>enunciado.md</code></td>
 </tr>
 <tr>
@@ -158,76 +191,67 @@ span.linenos.special { color: #e6edf3; background-color: #6e7681; padding-left: 
 </tr>
 <tr>
 <td><code>06-retos-resueltos/</code></td>
-<td><strong>Soluciones de los retos</strong> de los 4 proyectos, cada una con RETOS.md explicativo</td>
+<td><strong>Soluciones de los retos</strong> de los 4 proyectos, cada una con un RETOS.md que explica los cambios</td>
 <td><code>README.md</code></td>
 </tr>
 <tr>
 <td><code>07-entrevista/</code></td>
-<td><strong>Banco de ~100 preguntas</strong> con respuestas cortas (técnicas, situacionales, sobre ti)</td>
+<td><strong>Banco de ~120 preguntas</strong> con respuestas cortas: sobre ti, programación, POO, bases de datos, web, JS, Python/PHP, Git, pruebas, algoritmos y situaciones</td>
 <td><code>BANCO-PREGUNTAS.md</code></td>
 </tr>
 <tr>
 <td><code>08-guia-desde-cero/</code></td>
-<td>Guías paso a paso para construir el simulacro desde cero (Flask y Express) con solucionario</td>
+<td>Guías paso a paso para construir una app de reservas desde cero (Flask y Express), con solucionario y 14 pruebas cada una</td>
 <td><code>GUIA-1-FLASK.md</code> o <code>GUIA-2-EXPRESS.md</code></td>
 </tr>
-</tbody>
-</table>
-<h2 id="todo-verificado">Todo verificado</h2>
-<ul>
-<li>Proyectos: Flask (9 pruebas), Express (8), React (build), Java (9), PHP (probado con <code>php -S</code>).</li>
-<li>Retos resueltos: Flask (12 pruebas), Express (12), React (build + navegador), Java (19).</li>
-<li>Guías desde cero: Flask (14), Express (14), seguidas paso a paso.</li>
-<li>Lógica: 30/30 y 21/21 casos en Python y JS. SQL: los 40 ejercicios corren sin errores en SQLite.</li>
-<li>Los 24 ejemplos se ejecutaron sin errores.</li>
-</ul>
-<h2 id="plan-para-las-horas-que-quedan-ajustalo-a-tu-hora-actual">Plan para las horas que quedan (ajústalo a tu hora actual)</h2>
-<table>
-<thead>
 <tr>
-<th>Tiempo</th>
-<th>Actividad</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>20 min</td>
-<td><code>00-entorno</code>: partes 2, 4 (venv) y 10 (checklist del laboratorio). Así evitas perder tiempo configurando.</td>
+<td><code>09-entrevista-tecnica/</code></td>
+<td><strong>Nuevo.</strong> Método para <em>live coding</em>, <strong>30 problemas clásicos por patrón</strong> con plantillas, pruebas automáticas y soluciones en Python y JS, 15 errores para depurar, un ejercicio de code review, diseño de sistemas junior, OWASP Top 10, STAR y rúbrica</td>
+<td><code>README.md</code></td>
 </tr>
 <tr>
-<td>45 min</td>
-<td>En <code>08-guia-desde-cero</code>, en tu lenguaje, <strong>escribe tú</strong> los pasos 4, 6 y 7 (validaciones, CRUD, reservas).</td>
+<td><code>mi-practica/</code></td>
+<td>Mis intentos (separados de las soluciones) y su avance</td>
+<td><code>README.md</code></td>
 </tr>
 <tr>
-<td>20 min</td>
-<td>SQL: ejercicios 16–25 de <code>ejercicios_extra.sql</code> (JOIN, GROUP BY, LEFT JOIN, HAVING).</td>
-</tr>
-<tr>
-<td>20 min</td>
-<td>Lógica: ejercicios 32, 35, 36 y 39 (factura, conflictos, intervalos, password).</td>
-</tr>
-<tr>
-<td>15 min</td>
-<td><code>07-entrevista</code>: secciones 1, 4 y 5.</td>
-</tr>
-<tr>
-<td><strong>Descanso</strong></td>
-<td>Come, hidrátate, sal con tiempo. No estudies en el bus: repasa solo la checklist.</td>
+<td><code>_herramientas/</code></td>
+<td><code>generar_html.py</code>: regenera los <code>.html</code> y el índice a partir de los <code>.md</code></td>
+<td>—</td>
 </tr>
 </tbody>
 </table>
-<h2 id="checklist-en-la-prueba">Checklist en la prueba</h2>
+<h2 id="probar-que-todo-funciona">Probar que todo funciona</h2>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Algoritmos de entrevista (sin instalar nada)</span>
+<span class="nb">cd</span><span class="w"> </span><span class="m">09</span>-entrevista-tecnica/algoritmos
+python<span class="w"> </span>pruebas.py<span class="w">            </span><span class="c1"># 30/30</span>
+node<span class="w"> </span>pruebas.js<span class="w">              </span><span class="c1"># 30/30</span>
+
+<span class="c1"># Lógica</span>
+<span class="nb">cd</span><span class="w"> </span>../../03-logica
+python<span class="w"> </span>soluciones.py<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>python<span class="w"> </span>soluciones_extra.py
+node<span class="w"> </span>soluciones.js<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>node<span class="w"> </span>soluciones_extra.js
+
+<span class="c1"># App Flask del solucionario</span>
+<span class="nb">cd</span><span class="w"> </span>../08-guia-desde-cero/solucionario/reservas-flask
+python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>venv<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>venv<span class="se">\S</span>cripts<span class="se">\a</span>ctivate<span class="w">      </span><span class="c1"># Linux/Mac: source venv/bin/activate</span>
+pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>pytest<span class="w"> </span>-q
+</code></pre></div>
+
+<p>GitHub Actions ejecuta estas pruebas en cada push (insignia "Pruebas" de arriba).</p>
+<h2 id="regenerar-los-html">Regenerar los HTML</h2>
+<p>Si editas un <code>.md</code>, regenera su <code>.html</code> y el índice:</p>
+<div class="codehilite"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>markdown<span class="w"> </span>pygments
+python<span class="w"> </span>_herramientas/generar_html.py
+</code></pre></div>
+
+<h2 id="como-usar-este-kit-sin-enganarte">Cómo usar este kit sin engañarte</h2>
 <ol>
-<li>Leer todo el enunciado. Subrayar lo obligatorio.</li>
-<li>Verificar herramientas (<code>python --version</code>, <code>node -v</code>, XAMPP, internet).</li>
-<li>Diseñar tablas y rutas en papel (5 min).</li>
-<li><code>git init</code> y el primer commit en los primeros 10 minutos.</li>
-<li>Hacer funcionar <strong>listar y crear</strong> primero; luego editar/eliminar; después las reglas de negocio; al final lo extra.</li>
-<li>Validar en el servidor. Consultas parametrizadas. Commit cada vez que algo funcione.</li>
-<li>README con cómo ejecutarlo.</li>
-<li>Últimos 20 minutos: probar todo como usuario, sin agregar funciones nuevas.</li>
-</ol>
-<p>¡Éxitos!</p></main></div>
+<li><strong>Escribe el código tú.</strong> Leer una solución da la falsa sensación de que "ya lo sabes". Usa <code>plantilla.py</code>/<code>plantilla.js</code> y la carpeta <code>mi-practica/</code>.</li>
+<li><strong>Cronométrate y habla en voz alta</strong>, como en la entrevista real.</li>
+<li><strong>Registra tus fallos</strong> (tabla del plan de estudio) y repite esos problemas días después.</li>
+<li>Haz al menos <strong>un simulacro completo</strong> (<code>04-simulacro/</code>) antes de una prueba práctica.</li>
+</ol></main></div>
 <script>
 document.querySelectorAll('.codehilite').forEach(b => {
   const btn = document.createElement('button'); btn.className = 'copiar'; btn.textContent = 'Copiar';
