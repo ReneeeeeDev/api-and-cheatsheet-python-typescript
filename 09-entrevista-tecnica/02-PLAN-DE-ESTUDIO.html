@@ -1,0 +1,562 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Plan de estudio para la entrevista técnica</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,Segoe UI,sans-serif;line-height:1.6;color:#1f2937;background:#f8fafc}
+.layout{display:grid;grid-template-columns:270px 1fr;max-width:1400px;margin:auto}
+nav{position:sticky;top:0;height:100vh;overflow:auto;padding:18px;border-right:1px solid #e5e7eb;background:#fff;font-size:13.5px}
+nav ul{list-style:none;padding-left:10px;margin:3px 0} nav>div>ul{padding-left:0} nav a{color:#334155;text-decoration:none} nav a:hover{color:#0a5bd6}
+.volver{display:inline-block;margin-bottom:10px;font-weight:600;color:#0a5bd6!important}
+main{padding:24px 40px;min-width:0} h1{color:#0a5bd6} h2{border-top:2px solid #e5e7eb;padding-top:22px;margin-top:36px}
+table{border-collapse:collapse;width:100%;margin:12px 0;font-size:14px;display:block;overflow-x:auto}
+th,td{border:1px solid #e5e7eb;padding:6px 10px;text-align:left;vertical-align:top} th{background:#f1f5f9}
+code{background:#eef2f7;padding:1px 5px;border-radius:4px;font-size:.9em}
+.codehilite{border-radius:8px;margin:12px 0;overflow:auto;position:relative} .codehilite pre{padding:14px;margin:0;font-size:13px;line-height:1.5}
+.codehilite code{background:none;padding:0;color:inherit}
+blockquote{margin:12px 0;padding:8px 16px;background:#fff7ed;border-left:4px solid #f59e0b;border-radius:4px}
+.copiar{position:absolute;right:6px;top:6px;padding:3px 10px;font-size:12px;border:0;border-radius:4px;cursor:pointer;background:#334155;color:#fff}
+@media (max-width:900px){.layout{grid-template-columns:1fr} nav{position:static;height:auto;border-right:0} main{padding:16px}}
+pre { line-height: 125%; }
+td.linenos .normal { color: #6e7681; background-color: #0d1117; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #6e7681; background-color: #0d1117; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #e6edf3; background-color: #6e7681; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #e6edf3; background-color: #6e7681; padding-left: 5px; padding-right: 5px; }
+.codehilite .hll { background-color: #6e7681 }
+.codehilite { background: #0d1117; color: #E6EDF3 }
+.codehilite .c { color: #8B949E; font-style: italic } /* Comment */
+.codehilite .err { color: #F85149 } /* Error */
+.codehilite .esc { color: #E6EDF3 } /* Escape */
+.codehilite .g { color: #E6EDF3 } /* Generic */
+.codehilite .k { color: #FF7B72 } /* Keyword */
+.codehilite .l { color: #A5D6FF } /* Literal */
+.codehilite .n { color: #E6EDF3 } /* Name */
+.codehilite .o { color: #FF7B72; font-weight: bold } /* Operator */
+.codehilite .x { color: #E6EDF3 } /* Other */
+.codehilite .p { color: #E6EDF3 } /* Punctuation */
+.codehilite .ch { color: #8B949E; font-style: italic } /* Comment.Hashbang */
+.codehilite .cm { color: #8B949E; font-style: italic } /* Comment.Multiline */
+.codehilite .cp { color: #8B949E; font-weight: bold; font-style: italic } /* Comment.Preproc */
+.codehilite .cpf { color: #8B949E; font-style: italic } /* Comment.PreprocFile */
+.codehilite .c1 { color: #8B949E; font-style: italic } /* Comment.Single */
+.codehilite .cs { color: #8B949E; font-weight: bold; font-style: italic } /* Comment.Special */
+.codehilite .gd { color: #FFA198; background-color: #490202 } /* Generic.Deleted */
+.codehilite .ge { color: #E6EDF3; font-style: italic } /* Generic.Emph */
+.codehilite .ges { color: #E6EDF3; font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.codehilite .gr { color: #FFA198 } /* Generic.Error */
+.codehilite .gh { color: #79C0FF; font-weight: bold } /* Generic.Heading */
+.codehilite .gi { color: #56D364; background-color: #0F5323 } /* Generic.Inserted */
+.codehilite .go { color: #8B949E } /* Generic.Output */
+.codehilite .gp { color: #8B949E } /* Generic.Prompt */
+.codehilite .gs { color: #E6EDF3; font-weight: bold } /* Generic.Strong */
+.codehilite .gu { color: #79C0FF } /* Generic.Subheading */
+.codehilite .gt { color: #FF7B72 } /* Generic.Traceback */
+.codehilite .g-Underline { color: #E6EDF3; text-decoration: underline } /* Generic.Underline */
+.codehilite .kc { color: #79C0FF } /* Keyword.Constant */
+.codehilite .kd { color: #FF7B72 } /* Keyword.Declaration */
+.codehilite .kn { color: #FF7B72 } /* Keyword.Namespace */
+.codehilite .kp { color: #79C0FF } /* Keyword.Pseudo */
+.codehilite .kr { color: #FF7B72 } /* Keyword.Reserved */
+.codehilite .kt { color: #FF7B72 } /* Keyword.Type */
+.codehilite .ld { color: #79C0FF } /* Literal.Date */
+.codehilite .m { color: #A5D6FF } /* Literal.Number */
+.codehilite .s { color: #A5D6FF } /* Literal.String */
+.codehilite .na { color: #E6EDF3 } /* Name.Attribute */
+.codehilite .nb { color: #E6EDF3 } /* Name.Builtin */
+.codehilite .nc { color: #F0883E; font-weight: bold } /* Name.Class */
+.codehilite .no { color: #79C0FF; font-weight: bold } /* Name.Constant */
+.codehilite .nd { color: #D2A8FF; font-weight: bold } /* Name.Decorator */
+.codehilite .ni { color: #FFA657 } /* Name.Entity */
+.codehilite .ne { color: #F0883E; font-weight: bold } /* Name.Exception */
+.codehilite .nf { color: #D2A8FF; font-weight: bold } /* Name.Function */
+.codehilite .nl { color: #79C0FF; font-weight: bold } /* Name.Label */
+.codehilite .nn { color: #FF7B72 } /* Name.Namespace */
+.codehilite .nx { color: #E6EDF3 } /* Name.Other */
+.codehilite .py { color: #79C0FF } /* Name.Property */
+.codehilite .nt { color: #7EE787 } /* Name.Tag */
+.codehilite .nv { color: #79C0FF } /* Name.Variable */
+.codehilite .ow { color: #FF7B72; font-weight: bold } /* Operator.Word */
+.codehilite .pm { color: #E6EDF3 } /* Punctuation.Marker */
+.codehilite .w { color: #6E7681 } /* Text.Whitespace */
+.codehilite .mb { color: #A5D6FF } /* Literal.Number.Bin */
+.codehilite .mf { color: #A5D6FF } /* Literal.Number.Float */
+.codehilite .mh { color: #A5D6FF } /* Literal.Number.Hex */
+.codehilite .mi { color: #A5D6FF } /* Literal.Number.Integer */
+.codehilite .mo { color: #A5D6FF } /* Literal.Number.Oct */
+.codehilite .sa { color: #79C0FF } /* Literal.String.Affix */
+.codehilite .sb { color: #A5D6FF } /* Literal.String.Backtick */
+.codehilite .sc { color: #A5D6FF } /* Literal.String.Char */
+.codehilite .dl { color: #79C0FF } /* Literal.String.Delimiter */
+.codehilite .sd { color: #A5D6FF } /* Literal.String.Doc */
+.codehilite .s2 { color: #A5D6FF } /* Literal.String.Double */
+.codehilite .se { color: #79C0FF } /* Literal.String.Escape */
+.codehilite .sh { color: #79C0FF } /* Literal.String.Heredoc */
+.codehilite .si { color: #A5D6FF } /* Literal.String.Interpol */
+.codehilite .sx { color: #A5D6FF } /* Literal.String.Other */
+.codehilite .sr { color: #79C0FF } /* Literal.String.Regex */
+.codehilite .s1 { color: #A5D6FF } /* Literal.String.Single */
+.codehilite .ss { color: #A5D6FF } /* Literal.String.Symbol */
+.codehilite .bp { color: #E6EDF3 } /* Name.Builtin.Pseudo */
+.codehilite .fm { color: #D2A8FF; font-weight: bold } /* Name.Function.Magic */
+.codehilite .vc { color: #79C0FF } /* Name.Variable.Class */
+.codehilite .vg { color: #79C0FF } /* Name.Variable.Global */
+.codehilite .vi { color: #79C0FF } /* Name.Variable.Instance */
+.codehilite .vm { color: #79C0FF } /* Name.Variable.Magic */
+.codehilite .il { color: #A5D6FF } /* Literal.Number.Integer.Long */
+</style></head><body><div class="layout">
+<nav><a class="volver" href="../LEEME-PRIMERO.html">← Índice del kit</a><br><strong>En esta página</strong><div class="toc">
+<ul>
+<li><a href="#si-tienes-3-dias">Si tienes 3 días</a></li>
+<li><a href="#si-tienes-1-semana">Si tienes 1 semana</a></li>
+<li><a href="#si-tienes-2-semanas">Si tienes 2 semanas</a></li>
+<li><a href="#rutina-diaria-4560-min">Rutina diaria (45–60 min)</a></li>
+<li><a href="#seguimiento-de-los-30-problemas">Seguimiento de los 30 problemas</a></li>
+<li><a href="#el-dia-de-la-entrevista">El día de la entrevista</a></li>
+</ul>
+</div>
+</nav>
+<main><h1 id="plan-de-estudio-para-la-entrevista-tecnica">Plan de estudio para la entrevista técnica</h1>
+<p>Elige el plan según el tiempo que tengas. Todos usan el material de este repositorio. <strong>Regla:</strong> cada día, al menos la mitad del tiempo es <strong>escribir código tú</strong>, no leer.</p>
+<hr />
+<h2 id="si-tienes-3-dias">Si tienes 3 días</h2>
+<table>
+<thead>
+<tr>
+<th>Día</th>
+<th>Mañana (2 h)</th>
+<th>Tarde (2 h)</th>
+<th>Noche (30 min)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>01-METODO-LIVE-CODING.md</code>, secciones 2–6 · problemas 1, 6 y 10</td>
+<td><code>03-logica/</code>: ejercicios 11–20 en tu lenguaje</td>
+<td><code>07-entrevista/BANCO-PREGUNTAS.md</code>, secciones 2–5</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Problemas 3, 8, 11, 13 y 19 con cronómetro</td>
+<td><code>08-guia-desde-cero/</code>: pasos 4, 6 y 7 escritos por ti</td>
+<td>Prepara tus 5 historias STAR (sección 9 del método)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Simulacro: 2 problemas al azar de 30 min, grabándote</td>
+<td><code>03-DEBUGGING-Y-CODE-REVIEW.md</code> completo · <code>04-DISENO…</code>, sección 2</td>
+<td>Repasa la tabla Big-O y tus historias. <strong>Duerme bien.</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="si-tienes-1-semana">Si tienes 1 semana</h2>
+<table>
+<thead>
+<tr>
+<th>Día</th>
+<th>Tema</th>
+<th>Práctica</th>
+<th>Lectura de apoyo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Entorno y método</td>
+<td>Configura todo con <code>00-entorno/</code>; problemas 1, 2, 6 y 7</td>
+<td><code>01-METODO-LIVE-CODING.md</code> completo</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Hash y dos punteros</td>
+<td>Problemas 3, 4, 5, 8 y 9 · <code>03-logica</code> 26 y 43</td>
+<td><code>01-cheatsheets/</code> de tu lenguaje</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Ventana, pila y búsqueda binaria</td>
+<td>Problemas 10–16 · <code>03-logica</code> 21 y 23</td>
+<td>Sección 5 del método (Big-O)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>SQL y proyecto web</td>
+<td><code>03-logica/sql/</code> ejercicios 1–25 · <code>08-guia-desde-cero/</code> pasos 1–5</td>
+<td><code>01-cheatsheets/04-sql.md</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td>Estructuras (listas, árboles, grafos)</td>
+<td>Problemas 17–23</td>
+<td>Sección 6 del método (patrones)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Backtracking, DP y diseño</td>
+<td>Problemas 24–30 · <code>04-DISENO…</code>, secciones 1 y 2</td>
+<td><code>03-DEBUGGING-Y-CODE-REVIEW.md</code></td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>Simulacro completo</strong></td>
+<td><code>04-simulacro/enunciado.md</code> en 3 h, o 2 problemas al azar + 1 diseño</td>
+<td>Historias STAR + rúbrica (sección 10)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="si-tienes-2-semanas">Si tienes 2 semanas</h2>
+<p><strong>Semana 1, fundamentos.</strong> Sigue el plan de 1 semana, pero resuelve cada problema <strong>en los dos lenguajes</strong> (Python y JS). Al terminar cada día, explica en voz alta un problema como si se lo enseñaras a alguien.</p>
+<p><strong>Semana 2, presión real.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Día</th>
+<th>Actividad</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8</td>
+<td>Repite sin mirar los problemas en los que fallaste (revisa la tabla de seguimiento)</td>
+</tr>
+<tr>
+<td>9</td>
+<td><code>02-proyectos/</code> → resuelve 1 reto de un proyecto y compáralo con <code>06-retos-resueltos/</code></td>
+</tr>
+<tr>
+<td>10</td>
+<td>Simulacro de prueba práctica: <code>04-simulacro/</code> en 3 horas, con commits</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Code review: revisa tu propio simulacro con la checklist de <code>03-DEBUGGING…</code></td>
+</tr>
+<tr>
+<td>12</td>
+<td>Diseño: los 4 ejercicios de <code>04-DISENO…</code>, sección 3, dibujados y explicados en voz alta</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Simulacro de entrevista con otra persona o grabándote: 1 problema, 1 diseño y 3 preguntas STAR</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Repaso ligero: Big-O, patrones, tus historias y preguntas para el entrevistador. Descanso.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="rutina-diaria-4560-min">Rutina diaria (45–60 min)</h2>
+<ol>
+<li><strong>Calentamiento (5 min):</strong> un ejercicio ⭐ de <code>03-logica/</code> sin mirar nada.</li>
+<li><strong>Problema principal (30 min):</strong> uno de <code>algoritmos/PROBLEMAS.md</code> con el método de 6 pasos, en voz alta.</li>
+<li><strong>Revisión (10 min):</strong> compara con la solución de referencia. ¿Hay algo más simple? ¿Acertaste la complejidad?</li>
+<li><strong>Registro (5 min):</strong> llena la tabla de abajo. Si fallaste, anota <strong>por qué</strong> (no vi el patrón, error de bordes, sintaxis…).</li>
+</ol>
+<hr />
+<h2 id="seguimiento-de-los-30-problemas">Seguimiento de los 30 problemas</h2>
+<p>Copia esta tabla a un archivo tuyo (o a Obsidian) y complétala. Repite cada problema hasta que lo resuelvas <strong>sin pistas y en tiempo</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Problema</th>
+<th>Patrón</th>
+<th>Intento 1</th>
+<th>Intento 2</th>
+<th>Sin ayuda</th>
+<th>Nota</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Contiene duplicado</td>
+<td>Hash</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Elemento mayoritario</td>
+<td>Hash</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>Secuencia consecutiva</td>
+<td>Hash</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>Subarreglos suma k</td>
+<td>Prefijos</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>Producto excepto sí mismo</td>
+<td>Prefijos</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>Mover ceros</td>
+<td>Dos punteros</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>Fusionar ordenadas</td>
+<td>Dos punteros</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td>Tres suma</td>
+<td>Dos punteros</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td>Contenedor con más agua</td>
+<td>Dos punteros</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td>Máx. suma ventana</td>
+<td>Ventana</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td>Subcadena sin repetir</td>
+<td>Ventana</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>12</td>
+<td>Evaluar RPN</td>
+<td>Pila</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>13</td>
+<td>Temperaturas diarias</td>
+<td>Pila monótona</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>14</td>
+<td>Pila mínima</td>
+<td>Diseño + pila</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>15</td>
+<td>Raíz entera</td>
+<td>Búsqueda binaria</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>16</td>
+<td>Buscar en rotado</td>
+<td>Búsqueda binaria</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>17</td>
+<td>Invertir lista</td>
+<td>Lista enlazada</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>18</td>
+<td>Detectar ciclo</td>
+<td>Lista enlazada</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>19</td>
+<td>Altura de árbol</td>
+<td>DFS</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>20</td>
+<td>Recorrido por niveles</td>
+<td>BFS</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>21</td>
+<td>¿Es BST?</td>
+<td>DFS + rangos</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>22</td>
+<td>Contar islas</td>
+<td>BFS/DFS en cuadrícula</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>23</td>
+<td>Orden de materias</td>
+<td>Orden topológico</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>24</td>
+<td>Subconjuntos</td>
+<td>Backtracking</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>25</td>
+<td>Permutaciones</td>
+<td>Backtracking</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>26</td>
+<td>Subir escalera</td>
+<td>DP</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>27</td>
+<td>Subarreglo máximo</td>
+<td>DP (Kadane)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>28</td>
+<td>Subsecuencia común</td>
+<td>DP 2D</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>29</td>
+<td>Merge sort</td>
+<td>Divide y vencerás</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>30</td>
+<td>Caché LRU</td>
+<td>Diseño + hash</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="el-dia-de-la-entrevista">El día de la entrevista</h2>
+<ul>
+<li>[ ] Probé cámara, micrófono, internet y el editor (o la plataforma que usarán: CoderPad, HackerRank, LeetCode).</li>
+<li>[ ] Tengo agua, papel y lápiz para dibujar.</li>
+<li>[ ] Repasé mis 5 historias STAR y 3 preguntas para el entrevistador.</li>
+<li>[ ] Llego (o me conecto) 10 minutos antes.</li>
+<li>[ ] Durante el problema: entender → ejemplos → fuerza bruta → optimizar → programar → probar.</li>
+<li>[ ] Si me bloqueo: lo digo en voz alta y vuelvo al ejemplo.</li>
+<li>[ ] Al final: agradezco y pregunto por los siguientes pasos.</li>
+</ul></main></div>
+<script>
+document.querySelectorAll('.codehilite').forEach(b => {
+  const btn = document.createElement('button'); btn.className = 'copiar'; btn.textContent = 'Copiar';
+  btn.onclick = () => { const t = b.querySelector('pre').innerText;
+    navigator.clipboard.writeText(t).then(() => { btn.textContent = '¡Copiado!'; setTimeout(() => btn.textContent = 'Copiar', 1500); }); };
+  b.prepend(btn);
+});
+</script></body></html>

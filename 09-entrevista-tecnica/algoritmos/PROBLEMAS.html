@@ -1,0 +1,439 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>30 problemas clásicos de entrevista técnica (por patrón)</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,Segoe UI,sans-serif;line-height:1.6;color:#1f2937;background:#f8fafc}
+.layout{display:grid;grid-template-columns:270px 1fr;max-width:1400px;margin:auto}
+nav{position:sticky;top:0;height:100vh;overflow:auto;padding:18px;border-right:1px solid #e5e7eb;background:#fff;font-size:13.5px}
+nav ul{list-style:none;padding-left:10px;margin:3px 0} nav>div>ul{padding-left:0} nav a{color:#334155;text-decoration:none} nav a:hover{color:#0a5bd6}
+.volver{display:inline-block;margin-bottom:10px;font-weight:600;color:#0a5bd6!important}
+main{padding:24px 40px;min-width:0} h1{color:#0a5bd6} h2{border-top:2px solid #e5e7eb;padding-top:22px;margin-top:36px}
+table{border-collapse:collapse;width:100%;margin:12px 0;font-size:14px;display:block;overflow-x:auto}
+th,td{border:1px solid #e5e7eb;padding:6px 10px;text-align:left;vertical-align:top} th{background:#f1f5f9}
+code{background:#eef2f7;padding:1px 5px;border-radius:4px;font-size:.9em}
+.codehilite{border-radius:8px;margin:12px 0;overflow:auto;position:relative} .codehilite pre{padding:14px;margin:0;font-size:13px;line-height:1.5}
+.codehilite code{background:none;padding:0;color:inherit}
+blockquote{margin:12px 0;padding:8px 16px;background:#fff7ed;border-left:4px solid #f59e0b;border-radius:4px}
+.copiar{position:absolute;right:6px;top:6px;padding:3px 10px;font-size:12px;border:0;border-radius:4px;cursor:pointer;background:#334155;color:#fff}
+@media (max-width:900px){.layout{grid-template-columns:1fr} nav{position:static;height:auto;border-right:0} main{padding:16px}}
+pre { line-height: 125%; }
+td.linenos .normal { color: #6e7681; background-color: #0d1117; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #6e7681; background-color: #0d1117; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #e6edf3; background-color: #6e7681; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #e6edf3; background-color: #6e7681; padding-left: 5px; padding-right: 5px; }
+.codehilite .hll { background-color: #6e7681 }
+.codehilite { background: #0d1117; color: #E6EDF3 }
+.codehilite .c { color: #8B949E; font-style: italic } /* Comment */
+.codehilite .err { color: #F85149 } /* Error */
+.codehilite .esc { color: #E6EDF3 } /* Escape */
+.codehilite .g { color: #E6EDF3 } /* Generic */
+.codehilite .k { color: #FF7B72 } /* Keyword */
+.codehilite .l { color: #A5D6FF } /* Literal */
+.codehilite .n { color: #E6EDF3 } /* Name */
+.codehilite .o { color: #FF7B72; font-weight: bold } /* Operator */
+.codehilite .x { color: #E6EDF3 } /* Other */
+.codehilite .p { color: #E6EDF3 } /* Punctuation */
+.codehilite .ch { color: #8B949E; font-style: italic } /* Comment.Hashbang */
+.codehilite .cm { color: #8B949E; font-style: italic } /* Comment.Multiline */
+.codehilite .cp { color: #8B949E; font-weight: bold; font-style: italic } /* Comment.Preproc */
+.codehilite .cpf { color: #8B949E; font-style: italic } /* Comment.PreprocFile */
+.codehilite .c1 { color: #8B949E; font-style: italic } /* Comment.Single */
+.codehilite .cs { color: #8B949E; font-weight: bold; font-style: italic } /* Comment.Special */
+.codehilite .gd { color: #FFA198; background-color: #490202 } /* Generic.Deleted */
+.codehilite .ge { color: #E6EDF3; font-style: italic } /* Generic.Emph */
+.codehilite .ges { color: #E6EDF3; font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.codehilite .gr { color: #FFA198 } /* Generic.Error */
+.codehilite .gh { color: #79C0FF; font-weight: bold } /* Generic.Heading */
+.codehilite .gi { color: #56D364; background-color: #0F5323 } /* Generic.Inserted */
+.codehilite .go { color: #8B949E } /* Generic.Output */
+.codehilite .gp { color: #8B949E } /* Generic.Prompt */
+.codehilite .gs { color: #E6EDF3; font-weight: bold } /* Generic.Strong */
+.codehilite .gu { color: #79C0FF } /* Generic.Subheading */
+.codehilite .gt { color: #FF7B72 } /* Generic.Traceback */
+.codehilite .g-Underline { color: #E6EDF3; text-decoration: underline } /* Generic.Underline */
+.codehilite .kc { color: #79C0FF } /* Keyword.Constant */
+.codehilite .kd { color: #FF7B72 } /* Keyword.Declaration */
+.codehilite .kn { color: #FF7B72 } /* Keyword.Namespace */
+.codehilite .kp { color: #79C0FF } /* Keyword.Pseudo */
+.codehilite .kr { color: #FF7B72 } /* Keyword.Reserved */
+.codehilite .kt { color: #FF7B72 } /* Keyword.Type */
+.codehilite .ld { color: #79C0FF } /* Literal.Date */
+.codehilite .m { color: #A5D6FF } /* Literal.Number */
+.codehilite .s { color: #A5D6FF } /* Literal.String */
+.codehilite .na { color: #E6EDF3 } /* Name.Attribute */
+.codehilite .nb { color: #E6EDF3 } /* Name.Builtin */
+.codehilite .nc { color: #F0883E; font-weight: bold } /* Name.Class */
+.codehilite .no { color: #79C0FF; font-weight: bold } /* Name.Constant */
+.codehilite .nd { color: #D2A8FF; font-weight: bold } /* Name.Decorator */
+.codehilite .ni { color: #FFA657 } /* Name.Entity */
+.codehilite .ne { color: #F0883E; font-weight: bold } /* Name.Exception */
+.codehilite .nf { color: #D2A8FF; font-weight: bold } /* Name.Function */
+.codehilite .nl { color: #79C0FF; font-weight: bold } /* Name.Label */
+.codehilite .nn { color: #FF7B72 } /* Name.Namespace */
+.codehilite .nx { color: #E6EDF3 } /* Name.Other */
+.codehilite .py { color: #79C0FF } /* Name.Property */
+.codehilite .nt { color: #7EE787 } /* Name.Tag */
+.codehilite .nv { color: #79C0FF } /* Name.Variable */
+.codehilite .ow { color: #FF7B72; font-weight: bold } /* Operator.Word */
+.codehilite .pm { color: #E6EDF3 } /* Punctuation.Marker */
+.codehilite .w { color: #6E7681 } /* Text.Whitespace */
+.codehilite .mb { color: #A5D6FF } /* Literal.Number.Bin */
+.codehilite .mf { color: #A5D6FF } /* Literal.Number.Float */
+.codehilite .mh { color: #A5D6FF } /* Literal.Number.Hex */
+.codehilite .mi { color: #A5D6FF } /* Literal.Number.Integer */
+.codehilite .mo { color: #A5D6FF } /* Literal.Number.Oct */
+.codehilite .sa { color: #79C0FF } /* Literal.String.Affix */
+.codehilite .sb { color: #A5D6FF } /* Literal.String.Backtick */
+.codehilite .sc { color: #A5D6FF } /* Literal.String.Char */
+.codehilite .dl { color: #79C0FF } /* Literal.String.Delimiter */
+.codehilite .sd { color: #A5D6FF } /* Literal.String.Doc */
+.codehilite .s2 { color: #A5D6FF } /* Literal.String.Double */
+.codehilite .se { color: #79C0FF } /* Literal.String.Escape */
+.codehilite .sh { color: #79C0FF } /* Literal.String.Heredoc */
+.codehilite .si { color: #A5D6FF } /* Literal.String.Interpol */
+.codehilite .sx { color: #A5D6FF } /* Literal.String.Other */
+.codehilite .sr { color: #79C0FF } /* Literal.String.Regex */
+.codehilite .s1 { color: #A5D6FF } /* Literal.String.Single */
+.codehilite .ss { color: #A5D6FF } /* Literal.String.Symbol */
+.codehilite .bp { color: #E6EDF3 } /* Name.Builtin.Pseudo */
+.codehilite .fm { color: #D2A8FF; font-weight: bold } /* Name.Function.Magic */
+.codehilite .vc { color: #79C0FF } /* Name.Variable.Class */
+.codehilite .vg { color: #79C0FF } /* Name.Variable.Global */
+.codehilite .vi { color: #79C0FF } /* Name.Variable.Instance */
+.codehilite .vm { color: #79C0FF } /* Name.Variable.Magic */
+.codehilite .il { color: #A5D6FF } /* Literal.Number.Integer.Long */
+</style></head><body><div class="layout">
+<nav><a class="volver" href="../../LEEME-PRIMERO.html">← Índice del kit</a><br><strong>En esta página</strong><div class="toc">
+<ul>
+<li><a href="#como-practicar">Cómo practicar</a></li>
+<li><a href="#a-arreglos-y-hash">A. Arreglos y hash</a><ul>
+<li><a href="#1-contiene-duplicado">1. Contiene duplicado — ⭐</a></li>
+<li><a href="#2-elemento-mayoritario">2. Elemento mayoritario — ⭐</a></li>
+<li><a href="#3-secuencia-consecutiva-mas-larga">3. Secuencia consecutiva más larga — ⭐⭐</a></li>
+<li><a href="#4-subarreglos-que-suman-k">4. Subarreglos que suman k — ⭐⭐</a></li>
+<li><a href="#5-producto-de-todos-excepto-si-mismo">5. Producto de todos excepto sí mismo — ⭐⭐</a></li>
+</ul>
+</li>
+<li><a href="#b-dos-punteros">B. Dos punteros</a><ul>
+<li><a href="#6-mover-ceros">6. Mover ceros — ⭐</a></li>
+<li><a href="#7-fusionar-dos-listas-ordenadas">7. Fusionar dos listas ordenadas — ⭐</a></li>
+<li><a href="#8-tres-suma-3sum">8. Tres suma (3Sum) — ⭐⭐</a></li>
+<li><a href="#9-contenedor-con-mas-agua">9. Contenedor con más agua — ⭐⭐</a></li>
+</ul>
+</li>
+<li><a href="#c-ventana-deslizante">C. Ventana deslizante</a><ul>
+<li><a href="#10-maxima-suma-de-k-elementos-seguidos">10. Máxima suma de k elementos seguidos — ⭐</a></li>
+<li><a href="#11-subcadena-mas-larga-sin-repetir-letras">11. Subcadena más larga sin repetir letras — ⭐⭐</a></li>
+</ul>
+</li>
+<li><a href="#d-pilas">D. Pilas</a><ul>
+<li><a href="#12-evaluar-notacion-polaca-inversa">12. Evaluar notación polaca inversa — ⭐⭐</a></li>
+<li><a href="#13-temperaturas-diarias">13. Temperaturas diarias — ⭐⭐</a></li>
+<li><a href="#14-pila-con-minimo-en-o1">14. Pila con mínimo en O(1) — ⭐⭐</a></li>
+</ul>
+</li>
+<li><a href="#e-busqueda-binaria">E. Búsqueda binaria</a><ul>
+<li><a href="#15-raiz-cuadrada-entera">15. Raíz cuadrada entera — ⭐</a></li>
+<li><a href="#16-buscar-en-arreglo-ordenado-y-rotado">16. Buscar en arreglo ordenado y rotado — ⭐⭐⭐</a></li>
+</ul>
+</li>
+<li><a href="#f-listas-enlazadas">F. Listas enlazadas</a><ul>
+<li><a href="#17-invertir-una-lista-enlazada">17. Invertir una lista enlazada — ⭐⭐</a></li>
+<li><a href="#18-detectar-un-ciclo">18. Detectar un ciclo — ⭐⭐</a></li>
+</ul>
+</li>
+<li><a href="#g-arboles">G. Árboles</a><ul>
+<li><a href="#19-altura-de-un-arbol">19. Altura de un árbol — ⭐</a></li>
+<li><a href="#20-recorrido-por-niveles">20. Recorrido por niveles — ⭐⭐</a></li>
+<li><a href="#21-es-un-arbol-binario-de-busqueda">21. ¿Es un árbol binario de búsqueda? — ⭐⭐</a></li>
+</ul>
+</li>
+<li><a href="#h-grafos">H. Grafos</a><ul>
+<li><a href="#22-contar-islas">22. Contar islas — ⭐⭐</a></li>
+<li><a href="#23-orden-de-materias-con-prerrequisitos">23. Orden de materias con prerrequisitos — ⭐⭐⭐</a></li>
+</ul>
+</li>
+<li><a href="#i-backtracking">I. Backtracking</a><ul>
+<li><a href="#24-subconjuntos">24. Subconjuntos — ⭐⭐</a></li>
+<li><a href="#25-permutaciones">25. Permutaciones — ⭐⭐</a></li>
+</ul>
+</li>
+<li><a href="#j-programacion-dinamica">J. Programación dinámica</a><ul>
+<li><a href="#26-formas-de-subir-una-escalera">26. Formas de subir una escalera — ⭐</a></li>
+<li><a href="#27-subarreglo-de-suma-maxima">27. Subarreglo de suma máxima — ⭐⭐</a></li>
+<li><a href="#28-subsecuencia-comun-mas-larga">28. Subsecuencia común más larga — ⭐⭐⭐</a></li>
+</ul>
+</li>
+<li><a href="#k-ordenamiento-y-diseno">K. Ordenamiento y diseño</a><ul>
+<li><a href="#29-merge-sort">29. Merge sort — ⭐⭐</a></li>
+<li><a href="#30-cache-lru">30. Caché LRU — ⭐⭐⭐</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav>
+<main><h1 id="30-problemas-clasicos-de-entrevista-tecnica-por-patron">30 problemas clásicos de entrevista técnica (por patrón)</h1>
+<p>Son los problemas que más se repiten en entrevistas de <em>live coding</em>, agrupados por <strong>patrón</strong>. En la entrevista no te evalúan por memorizar soluciones: te evalúan por <strong>reconocer el patrón</strong> y explicarlo. Los 50 ejercicios de <code>03-logica/</code> son el calentamiento; aquí está el siguiente nivel.</p>
+<h2 id="como-practicar">Cómo practicar</h2>
+<div class="codehilite"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span><span class="m">09</span>-entrevista-tecnica/algoritmos
+copy<span class="w"> </span>plantilla.py<span class="w"> </span>mis_soluciones.py<span class="w">          </span><span class="c1"># o: copy plantilla.js mis_soluciones.js</span>
+python<span class="w"> </span>pruebas.py<span class="w"> </span>mis_soluciones<span class="w"> </span><span class="m">1</span><span class="w">           </span><span class="c1"># prueba solo el problema 1</span>
+python<span class="w"> </span>pruebas.py<span class="w"> </span>mis_soluciones<span class="w">             </span><span class="c1"># todos: OK / FALLO / PENDIENTE</span>
+node<span class="w"> </span>pruebas.js<span class="w"> </span>mis_soluciones.js<span class="w"> </span><span class="m">1</span><span class="w">          </span><span class="c1"># lo mismo en JavaScript</span>
+</code></pre></div>
+
+<ol>
+<li>Lee el enunciado y <strong>cronométrate</strong>: ⭐ 10 min, ⭐⭐ 20 min, ⭐⭐⭐ 30 min.</li>
+<li>Antes de programar, di en voz alta (o escribe en un comentario) la idea y su complejidad. Sigue el método de <a href="../01-METODO-LIVE-CODING.html">01-METODO-LIVE-CODING.md</a>.</li>
+<li>Si a la mitad del tiempo no avanzas, abre la <strong>pista</strong>. Si se acaba el tiempo, lee la solución en <code>soluciones.py</code> / <code>soluciones.js</code>, <strong>ciérrala</strong> y vuelve a escribirla tú al día siguiente.</li>
+<li>Anota tu resultado en la tabla de seguimiento del <a href="../02-PLAN-DE-ESTUDIO.html">plan de estudio</a>.</li>
+</ol>
+<blockquote>
+<p>Las soluciones de referencia pasan las pruebas en los dos lenguajes (30/30). Cada función dice el patrón y la complejidad en su comentario.</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Patrón</th>
+<th>Problemas</th>
+<th>Señal en el enunciado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A. Hash (dict / Set / Map)</td>
+<td>1–5</td>
+<td>"¿existe?", "contar", "pares que suman", "en O(n)"</td>
+</tr>
+<tr>
+<td>B. Dos punteros</td>
+<td>6–9</td>
+<td>Arreglo <strong>ordenado</strong>, "en el mismo arreglo", "pares/tripletas"</td>
+</tr>
+<tr>
+<td>C. Ventana deslizante</td>
+<td>10–11</td>
+<td>"subarreglo/subcadena <strong>contigua</strong> más larga/corta"</td>
+</tr>
+<tr>
+<td>D. Pila</td>
+<td>12–13 (y 14)</td>
+<td>Paréntesis, expresiones, "el siguiente mayor", deshacer</td>
+</tr>
+<tr>
+<td>E. Búsqueda binaria</td>
+<td>15–16</td>
+<td>Ordenado, "en O(log n)", "el mínimo valor que cumple…"</td>
+</tr>
+<tr>
+<td>F. Listas enlazadas</td>
+<td>17–18</td>
+<td>Punteros, "en O(1) de memoria"</td>
+</tr>
+<tr>
+<td>G. Árboles</td>
+<td>19–21</td>
+<td>Recursión (DFS) o por niveles (BFS)</td>
+</tr>
+<tr>
+<td>H. Grafos</td>
+<td>22–23</td>
+<td>Cuadrículas, dependencias, "conectados", "orden"</td>
+</tr>
+<tr>
+<td>I. Backtracking</td>
+<td>24–25</td>
+<td>"<strong>todas</strong> las combinaciones/permutaciones"</td>
+</tr>
+<tr>
+<td>J. Programación dinámica</td>
+<td>26–28</td>
+<td>"¿de cuántas formas…?", "máximo/mínimo" con decisiones que se repiten</td>
+</tr>
+<tr>
+<td>K. Ordenamiento y diseño</td>
+<td>29–30</td>
+<td>"implementa…", "diseña una clase…"</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="a-arreglos-y-hash">A. Arreglos y hash</h2>
+<h3 id="1-contiene-duplicado">1. Contiene duplicado — ⭐</h3>
+<p>Devuelve <code>True</code> si algún valor aparece al menos dos veces. <code>[1, 2, 3, 1]</code> → <code>True</code>; <code>[1, 2, 3, 4]</code> → <code>False</code>.
+<strong>Objetivo:</strong> O(n) tiempo.</p>
+<details><summary>Pista</summary>Recorre una vez guardando lo que ya viste en un <code>set</code>. Alternativa en una línea: comparar <code>len(set(nums))</code> con <code>len(nums)</code>. Menciona también la opción de ordenar: O(n log n) pero O(1) de memoria.</details>
+
+<h3 id="2-elemento-mayoritario">2. Elemento mayoritario — ⭐</h3>
+<p>Devuelve el valor que aparece <strong>más de n/2 veces</strong> (siempre existe). <code>[2, 2, 1, 1, 1, 2, 2]</code> → <code>2</code>.
+<strong>Objetivo:</strong> O(n) tiempo; extra: O(1) de memoria.</p>
+<details><summary>Pista</summary>Con un diccionario de conteos es O(n) y O(n) de memoria. Para O(1): algoritmo de votación de Boyer-Moore. Guarda un candidato y un contador; si el contador llega a 0 cambias de candidato; +1 si coincide, −1 si no.</details>
+
+<h3 id="3-secuencia-consecutiva-mas-larga">3. Secuencia consecutiva más larga — ⭐⭐</h3>
+<p>Largo de la secuencia más larga de enteros consecutivos (en cualquier orden). <code>[100, 4, 200, 1, 3, 2]</code> → <code>4</code> (1, 2, 3, 4).
+<strong>Objetivo:</strong> O(n), es decir, <strong>sin ordenar</strong>.</p>
+<details><summary>Pista</summary>Mete todo en un <code>set</code>. Un número <code>n</code> es el inicio de una secuencia solo si <code>n - 1</code> NO está en el set; desde ahí cuenta hacia arriba. Cada número se visita como mucho dos veces.</details>
+
+<h3 id="4-subarreglos-que-suman-k">4. Subarreglos que suman k — ⭐⭐</h3>
+<p>¿Cuántos subarreglos <strong>contiguos</strong> suman exactamente <code>k</code>? Puede haber negativos. <code>[1, 1, 1], k=2</code> → <code>2</code>; <code>[1, -1, 0], k=0</code> → <code>3</code>.
+<strong>Objetivo:</strong> O(n).</p>
+<details><summary>Pista</summary>Sumas prefijas. Si la suma acumulada hasta i es <code>P</code> y antes hubo una suma acumulada <code>P - k</code>, el tramo entre ambas suma k. Guarda en un diccionario cuántas veces apareció cada suma acumulada (empieza con <code>{0: 1}</code>). La ventana deslizante no sirve aquí porque hay negativos.</details>
+
+<h3 id="5-producto-de-todos-excepto-si-mismo">5. Producto de todos excepto sí mismo — ⭐⭐</h3>
+<p><code>resultado[i]</code> = producto de todos los elementos menos <code>nums[i]</code>, <strong>sin usar división</strong>. <code>[1, 2, 3, 4]</code> → <code>[24, 12, 8, 6]</code>.
+<strong>Objetivo:</strong> O(n).</p>
+<details><summary>Pista</summary>Cada resultado = (producto de todo lo que está a la izquierda) × (producto de todo lo que está a la derecha). Una pasada de izquierda a derecha y otra de derecha a izquierda. Pregunta al entrevistador por los ceros: es la razón por la que no se usa división.</details>
+
+<hr />
+<h2 id="b-dos-punteros">B. Dos punteros</h2>
+<h3 id="6-mover-ceros">6. Mover ceros — ⭐</h3>
+<p>Mueve los ceros al final <strong>modificando la misma lista</strong> y conservando el orden del resto. <code>[0, 1, 0, 3, 12]</code> → <code>[1, 3, 12, 0, 0]</code>.
+<strong>Objetivo:</strong> O(n) tiempo, O(1) memoria.</p>
+<details><summary>Pista</summary>Un puntero <code>escribir</code> marca dónde va el próximo número distinto de cero; otro puntero <code>leer</code> recorre todo. Cuando <code>leer</code> encuentra un no-cero, intercambias y avanzas <code>escribir</code>.</details>
+
+<h3 id="7-fusionar-dos-listas-ordenadas">7. Fusionar dos listas ordenadas — ⭐</h3>
+<p><code>[1, 3, 5]</code> y <code>[2, 4]</code> → <code>[1, 2, 3, 4, 5]</code>, <strong>sin</strong> <code>sort()</code>.
+<strong>Objetivo:</strong> O(n + m).</p>
+<details><summary>Pista</summary>Un índice en cada lista; agrega siempre el menor de los dos y avanza ese índice. Al final copia lo que sobre. Es el corazón de merge sort (problema 29).</details>
+
+<h3 id="8-tres-suma-3sum">8. Tres suma (3Sum) — ⭐⭐</h3>
+<p>Todas las tripletas <strong>distintas</strong> que suman 0. <code>[-1, 0, 1, 2, -1, -4]</code> → <code>[[-1, -1, 2], [-1, 0, 1]]</code>.
+<strong>Objetivo:</strong> O(n²).</p>
+<details><summary>Pista</summary>Ordena. Fija el primer número <code>i</code> y busca los otros dos con dos punteros (<code>izq = i + 1</code>, <code>der = final</code>): si la suma es menor que 0, mueve <code>izq</code>; si es mayor, mueve <code>der</code>. Salta los valores repetidos para no duplicar tripletas. En JS: <code>sort((a, b) => a - b)</code>.</details>
+
+<h3 id="9-contenedor-con-mas-agua">9. Contenedor con más agua — ⭐⭐</h3>
+<p><code>alturas[i]</code> es la altura de una línea vertical. Elige dos líneas que, junto con el eje X, formen el recipiente con más agua: área = <code>(j - i) × min(h[i], h[j])</code>. <code>[1, 8, 6, 2, 5, 4, 8, 3, 7]</code> → <code>49</code>.
+<strong>Objetivo:</strong> O(n).</p>
+<details><summary>Pista</summary>Empieza con un puntero en cada extremo (máximo ancho). Mueve siempre el lado <b>más bajo</b>: mover el alto nunca puede mejorar el área, porque el ancho baja y la altura sigue limitada por el bajo.</details>
+
+<hr />
+<h2 id="c-ventana-deslizante">C. Ventana deslizante</h2>
+<h3 id="10-maxima-suma-de-k-elementos-seguidos">10. Máxima suma de k elementos seguidos — ⭐</h3>
+<p><code>[2, 1, 5, 1, 3, 2], k=3</code> → <code>9</code> (5 + 1 + 3). Si <code>k</code> no es válido, devuelve <code>None</code> / <code>null</code>.
+<strong>Objetivo:</strong> O(n), sin volver a sumar la ventana completa en cada paso.</p>
+<details><summary>Pista</summary>Suma los primeros k. Luego, en cada paso, suma el elemento que entra y resta el que sale (<code>nums[i - k]</code>).</details>
+
+<h3 id="11-subcadena-mas-larga-sin-repetir-letras">11. Subcadena más larga sin repetir letras — ⭐⭐</h3>
+<p><code>"abcabcbb"</code> → <code>3</code> ("abc"); <code>"bbbbb"</code> → <code>1</code>; <code>"pwwkew"</code> → <code>3</code> ("wke").
+<strong>Objetivo:</strong> O(n).</p>
+<details><summary>Pista</summary>Ventana <code>[inicio, i]</code> que nunca tiene repetidos. Guarda en un diccionario la última posición de cada letra. Si la letra actual ya está <b>dentro</b> de la ventana (posición ≥ inicio), mueve <code>inicio</code> a esa posición + 1. Prueba con "abba": es el caso que rompe la mayoría de primeras versiones.</details>
+
+<hr />
+<h2 id="d-pilas">D. Pilas</h2>
+<h3 id="12-evaluar-notacion-polaca-inversa">12. Evaluar notación polaca inversa — ⭐⭐</h3>
+<p><code>["2", "1", "+", "3", "*"]</code> → <code>9</code>, porque es <code>(2 + 1) * 3</code>. La división <strong>trunca hacia cero</strong>.
+<strong>Objetivo:</strong> O(n).</p>
+<details><summary>Pista</summary>Números a la pila. Con un operador, saca <code>b</code> y luego <code>a</code> (¡en ese orden!) y apila <code>a op b</code>. En Python, <code>int(a / b)</code> trunca hacia 0; <code>a // b</code> redondea hacia −∞ y falla con negativos.</details>
+
+<h3 id="13-temperaturas-diarias">13. Temperaturas diarias — ⭐⭐</h3>
+<p>Para cada día, ¿cuántos días hay que esperar hasta uno más cálido? 0 si no hay. <code>[73, 74, 75, 71, 69, 72, 76, 73]</code> → <code>[1, 1, 4, 2, 1, 1, 0, 0]</code>.
+<strong>Objetivo:</strong> O(n). La versión de dos bucles es O(n²).</p>
+<details><summary>Pista</summary>Pila monótona: guarda los <b>índices</b> de los días que todavía esperan respuesta (sus temperaturas quedan en orden decreciente). Cuando llega un día más cálido que el tope, ese día es la respuesta del tope: lo sacas y calculas la distancia. Repite.</details>
+
+<h3 id="14-pila-con-minimo-en-o1">14. Pila con mínimo en O(1) — ⭐⭐</h3>
+<p>Clase <code>PilaMinima</code> con <code>apilar(x)</code>, <code>desapilar()</code>, <code>tope()</code> y <code>minimo()</code>, <strong>todas en O(1)</strong>.</p>
+<details><summary>Pista</summary>Guarda junto a cada valor el mínimo que había hasta ese momento: pares <code>(valor, minimo_hasta_aqui)</code>. Al desapilar, el mínimo anterior "vuelve solo".</details>
+
+<hr />
+<h2 id="e-busqueda-binaria">E. Búsqueda binaria</h2>
+<h3 id="15-raiz-cuadrada-entera">15. Raíz cuadrada entera — ⭐</h3>
+<p>Parte entera de √n sin <code>sqrt</code> ni <code>** 0.5</code>. <code>8</code> → <code>2</code>; <code>16</code> → <code>4</code>.
+<strong>Objetivo:</strong> O(log n).</p>
+<details><summary>Pista</summary>Búsqueda binaria sobre la <b>respuesta</b> entre 0 y n: si <code>medio * medio <= n</code>, la respuesta es ≥ medio (busca a la derecha); si no, a la izquierda. Al terminar, <code>der</code> queda en la respuesta. Este patrón ("el mayor valor que cumple X") aparece mucho.</details>
+
+<h3 id="16-buscar-en-arreglo-ordenado-y-rotado">16. Buscar en arreglo ordenado y rotado — ⭐⭐⭐</h3>
+<p>Una lista ordenada fue rotada: <code>[4, 5, 6, 7, 0, 1, 2]</code>. Devuelve el índice del objetivo o −1. Objetivo 0 → <code>4</code>.
+<strong>Objetivo:</strong> O(log n).</p>
+<details><summary>Pista</summary>En cada paso, al menos una mitad está ordenada (compara <code>nums[izq]</code> con <code>nums[medio]</code>). Si el objetivo está dentro del rango de la mitad ordenada, busca ahí; si no, en la otra.</details>
+
+<hr />
+<h2 id="f-listas-enlazadas">F. Listas enlazadas</h2>
+<p>Usan las clases de <code>estructuras.py</code> / <code>estructuras.js</code>: cada nodo tiene <code>.valor</code> y <code>.siguiente</code>.</p>
+<h3 id="17-invertir-una-lista-enlazada">17. Invertir una lista enlazada — ⭐⭐</h3>
+<p><code>1 → 2 → 3 → 4</code> → <code>4 → 3 → 2 → 1</code>. Devuelve la nueva cabeza.
+<strong>Objetivo:</strong> O(n) tiempo, O(1) memoria. Extra: hazlo también recursivo.</p>
+<details><summary>Pista</summary>Tres variables: <code>anterior</code> (empieza en None), <code>actual</code> y <code>siguiente</code>. En cada paso: guarda el siguiente, apunta <code>actual.siguiente</code> a <code>anterior</code> y avanza las dos. Dibújalo en papel: es la mejor forma de no perderte.</details>
+
+<h3 id="18-detectar-un-ciclo">18. Detectar un ciclo — ⭐⭐</h3>
+<p>¿Algún nodo apunta a uno anterior?
+<strong>Objetivo:</strong> O(1) de memoria. Con un set de visitados es fácil, pero usa O(n).</p>
+<details><summary>Pista</summary>Floyd, "tortuga y liebre": un puntero avanza de 1 en 1 y otro de 2 en 2. Si hay ciclo, se encuentran; si el rápido llega a None, no hay ciclo.</details>
+
+<hr />
+<h2 id="g-arboles">G. Árboles</h2>
+<p>Usan <code>NodoArbol</code> (<code>.valor</code>, <code>.izq</code>, <code>.der</code>). Las pruebas crean los árboles desde listas por niveles: <code>[3, 9, 20, None, None, 15, 7]</code>.</p>
+<h3 id="19-altura-de-un-arbol">19. Altura de un árbol — ⭐</h3>
+<p>Número de niveles. Árbol vacío → 0.</p>
+<details><summary>Pista</summary>Caso base: None → 0. Caso recursivo: 1 + max(altura izquierda, altura derecha). Es la plantilla de casi todos los problemas de árboles.</details>
+
+<h3 id="20-recorrido-por-niveles">20. Recorrido por niveles — ⭐⭐</h3>
+<p><code>[3, 9, 20, None, None, 15, 7]</code> → <code>[[3], [9, 20], [15, 7]]</code>.</p>
+<details><summary>Pista</summary>BFS con una cola (<code>collections.deque</code>). Truco: al empezar cada vuelta, <code>len(cola)</code> es exactamente la cantidad de nodos de ese nivel.</details>
+
+<h3 id="21-es-un-arbol-binario-de-busqueda">21. ¿Es un árbol binario de búsqueda? — ⭐⭐</h3>
+<p>En un BST, <strong>todo</strong> el subárbol izquierdo es menor que el nodo y <strong>todo</strong> el derecho es mayor.</p>
+<details><summary>Pista</summary>Comparar cada nodo solo con sus hijos NO basta: en <code>[5, 4, 6, None, None, 3, 7]</code> el 3 está a la derecha del 5. Pasa en la recursión un rango <code>(minimo, maximo)</code> permitido: al ir a la izquierda el máximo pasa a ser el valor del nodo; al ir a la derecha, el mínimo.</details>
+
+<hr />
+<h2 id="h-grafos">H. Grafos</h2>
+<h3 id="22-contar-islas">22. Contar islas — ⭐⭐</h3>
+<p>Cuadrícula de <code>"1"</code> (tierra) y <code>"0"</code> (agua). Una isla es un grupo de 1 conectados en horizontal o vertical.</p>
+<div class="codehilite"><pre><span></span><code>11000
+11000      → 3 islas
+00100
+00011
+</code></pre></div>
+
+<details><summary>Pista</summary>Recorre todas las celdas. Cada vez que encuentres un "1" no visitado, suma una isla y lanza un BFS/DFS que marque como visitada toda esa isla. Usa un set de visitados para no modificar la entrada (pregunta si puedes modificarla).</details>
+
+<h3 id="23-orden-de-materias-con-prerrequisitos">23. Orden de materias con prerrequisitos — ⭐⭐⭐</h3>
+<p>Hay <code>n</code> materias (0..n−1) y pares <code>[materia, requisito]</code>. Devuelve un orden válido para cursarlas todas, o <code>[]</code> si es imposible (hay un ciclo).
+<code>n = 4, [[1, 0], [2, 0], [3, 1], [3, 2]]</code> → <code>[0, 1, 2, 3]</code> (o <code>[0, 2, 1, 3]</code>).</p>
+<details><summary>Pista</summary>Orden topológico, algoritmo de Kahn. Cuenta cuántos requisitos pendientes tiene cada materia. Mete en una cola las que tienen 0. Al "tomar" una materia, resta 1 a las que dependen de ella; si alguna llega a 0, entra a la cola. Si al final no tomaste las n materias, hay un ciclo.</details>
+
+<hr />
+<h2 id="i-backtracking">I. Backtracking</h2>
+<h3 id="24-subconjuntos">24. Subconjuntos — ⭐⭐</h3>
+<p>Todos los subconjuntos de <code>[1, 2, 3]</code> (8, incluido <code>[]</code>). En cualquier orden.</p>
+<details><summary>Pista</summary>Para cada elemento decides "lo tomo" o "no lo tomo": un árbol de decisiones de profundidad n, con 2ⁿ hojas. Patrón: elegir → explorar → <b>deshacer</b> (<code>append</code> → recursión → <code>pop</code>). Guarda una <b>copia</b> de la lista actual, no la referencia.</details>
+
+<h3 id="25-permutaciones">25. Permutaciones — ⭐⭐</h3>
+<p>Todas las permutaciones de <code>[1, 2, 3]</code> (6).</p>
+<details><summary>Pista</summary>Mismo patrón que el 24, pero en cada nivel eliges cualquiera de los elementos que aún no usaste (lleva un arreglo <code>usados</code>). Cuando la lista actual tiene n elementos, guardas una copia.</details>
+
+<hr />
+<h2 id="j-programacion-dinamica">J. Programación dinámica</h2>
+<h3 id="26-formas-de-subir-una-escalera">26. Formas de subir una escalera — ⭐</h3>
+<p>Puedes subir 1 o 2 escalones a la vez. ¿De cuántas formas subes <code>n</code> escalones? <code>3</code> → <code>3</code> (1+1+1, 1+2, 2+1); <code>5</code> → <code>8</code>.
+<strong>Objetivo:</strong> O(n) y que <code>n = 45</code> responda al instante.</p>
+<details><summary>Pista</summary>Para llegar al escalón n vienes del n−1 o del n−2: <code>formas(n) = formas(n-1) + formas(n-2)</code>. Es Fibonacci. La recursión directa es O(2ⁿ); con memoización o con dos variables es O(n). Explica esa diferencia: es exactamente lo que quieren escuchar.</details>
+
+<h3 id="27-subarreglo-de-suma-maxima">27. Subarreglo de suma máxima — ⭐⭐</h3>
+<p><code>[-2, 1, -3, 4, -1, 2, 1, -5, 4]</code> → <code>6</code> (el tramo <code>[4, -1, 2, 1]</code>).
+<strong>Objetivo:</strong> O(n).</p>
+<details><summary>Pista</summary>Kadane: <code>actual = max(n, actual + n)</code>. ¿Me conviene seguir con la racha o empezar de nuevo aquí? Guarda el mejor visto. Cuidado: si todos son negativos, la respuesta es el mayor de ellos, no 0.</details>
+
+<h3 id="28-subsecuencia-comun-mas-larga">28. Subsecuencia común más larga — ⭐⭐⭐</h3>
+<p>Largo de la subsecuencia común más larga (no tiene que ser contigua). <code>"abcde"</code>, <code>"ace"</code> → <code>3</code>.
+<strong>Objetivo:</strong> O(len(a) × len(b)).</p>
+<details><summary>Pista</summary>Tabla <code>dp[i][j]</code> = respuesta para <code>a[:i]</code> y <code>b[:j]</code>. Si <code>a[i-1] == b[j-1]</code>: <code>dp[i-1][j-1] + 1</code>; si no: <code>max(dp[i-1][j], dp[i][j-1])</code>. Dibuja la tabla con "abcde" y "ace" antes de programar. Es la base de <code>diff</code> y de git.</details>
+
+<hr />
+<h2 id="k-ordenamiento-y-diseno">K. Ordenamiento y diseño</h2>
+<h3 id="29-merge-sort">29. Merge sort — ⭐⭐</h3>
+<p>Ordena con merge sort <strong>sin modificar</strong> la lista original.</p>
+<details><summary>Pista</summary>Si tiene 0 o 1 elementos, ya está ordenada. Si no: parte en dos, ordena cada mitad (recursión) y fusiónalas con el problema 7. Ten lista la comparación: merge sort es O(n log n) siempre y estable, pero usa O(n) de memoria; quicksort es O(n log n) en promedio, O(n²) en el peor caso y ordena en el mismo arreglo.</details>
+
+<h3 id="30-cache-lru">30. Caché LRU — ⭐⭐⭐</h3>
+<p>Clase <code>CacheLRU(capacidad)</code> con <code>obtener(clave)</code> (valor o −1) y <code>poner(clave, valor)</code>. Al superar la capacidad, expulsa la clave <strong>usada hace más tiempo</strong>. Ambas operaciones en O(1).</p>
+<details><summary>Pista</summary>Necesitas búsqueda O(1) (diccionario) y además saber el orden de uso. En Python, <code>OrderedDict</code> con <code>move_to_end</code> y <code>popitem(last=False)</code>. En JS, un <code>Map</code> conserva el orden de inserción: borrar y volver a insertar mueve la clave al final. Si te piden hacerlo "a mano": diccionario + lista doblemente enlazada.</details>
+
+<hr />
+<p><strong>Siguiente nivel:</strong> cuando resuelvas estos 30 sin pistas, practica en <a href="https://leetcode.com/">LeetCode</a> o <a href="https://neetcode.io/practice">NeetCode 150</a>, filtrando por los mismos patrones.</p></main></div>
+<script>
+document.querySelectorAll('.codehilite').forEach(b => {
+  const btn = document.createElement('button'); btn.className = 'copiar'; btn.textContent = 'Copiar';
+  btn.onclick = () => { const t = b.querySelector('pre').innerText;
+    navigator.clipboard.writeText(t).then(() => { btn.textContent = '¡Copiado!'; setTimeout(() => btn.textContent = 'Copiar', 1500); }); };
+  b.prepend(btn);
+});
+</script></body></html>

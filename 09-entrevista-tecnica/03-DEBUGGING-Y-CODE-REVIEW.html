@@ -1,0 +1,381 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Debugging y code review: encuentra el error</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,Segoe UI,sans-serif;line-height:1.6;color:#1f2937;background:#f8fafc}
+.layout{display:grid;grid-template-columns:270px 1fr;max-width:1400px;margin:auto}
+nav{position:sticky;top:0;height:100vh;overflow:auto;padding:18px;border-right:1px solid #e5e7eb;background:#fff;font-size:13.5px}
+nav ul{list-style:none;padding-left:10px;margin:3px 0} nav>div>ul{padding-left:0} nav a{color:#334155;text-decoration:none} nav a:hover{color:#0a5bd6}
+.volver{display:inline-block;margin-bottom:10px;font-weight:600;color:#0a5bd6!important}
+main{padding:24px 40px;min-width:0} h1{color:#0a5bd6} h2{border-top:2px solid #e5e7eb;padding-top:22px;margin-top:36px}
+table{border-collapse:collapse;width:100%;margin:12px 0;font-size:14px;display:block;overflow-x:auto}
+th,td{border:1px solid #e5e7eb;padding:6px 10px;text-align:left;vertical-align:top} th{background:#f1f5f9}
+code{background:#eef2f7;padding:1px 5px;border-radius:4px;font-size:.9em}
+.codehilite{border-radius:8px;margin:12px 0;overflow:auto;position:relative} .codehilite pre{padding:14px;margin:0;font-size:13px;line-height:1.5}
+.codehilite code{background:none;padding:0;color:inherit}
+blockquote{margin:12px 0;padding:8px 16px;background:#fff7ed;border-left:4px solid #f59e0b;border-radius:4px}
+.copiar{position:absolute;right:6px;top:6px;padding:3px 10px;font-size:12px;border:0;border-radius:4px;cursor:pointer;background:#334155;color:#fff}
+@media (max-width:900px){.layout{grid-template-columns:1fr} nav{position:static;height:auto;border-right:0} main{padding:16px}}
+pre { line-height: 125%; }
+td.linenos .normal { color: #6e7681; background-color: #0d1117; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #6e7681; background-color: #0d1117; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #e6edf3; background-color: #6e7681; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #e6edf3; background-color: #6e7681; padding-left: 5px; padding-right: 5px; }
+.codehilite .hll { background-color: #6e7681 }
+.codehilite { background: #0d1117; color: #E6EDF3 }
+.codehilite .c { color: #8B949E; font-style: italic } /* Comment */
+.codehilite .err { color: #F85149 } /* Error */
+.codehilite .esc { color: #E6EDF3 } /* Escape */
+.codehilite .g { color: #E6EDF3 } /* Generic */
+.codehilite .k { color: #FF7B72 } /* Keyword */
+.codehilite .l { color: #A5D6FF } /* Literal */
+.codehilite .n { color: #E6EDF3 } /* Name */
+.codehilite .o { color: #FF7B72; font-weight: bold } /* Operator */
+.codehilite .x { color: #E6EDF3 } /* Other */
+.codehilite .p { color: #E6EDF3 } /* Punctuation */
+.codehilite .ch { color: #8B949E; font-style: italic } /* Comment.Hashbang */
+.codehilite .cm { color: #8B949E; font-style: italic } /* Comment.Multiline */
+.codehilite .cp { color: #8B949E; font-weight: bold; font-style: italic } /* Comment.Preproc */
+.codehilite .cpf { color: #8B949E; font-style: italic } /* Comment.PreprocFile */
+.codehilite .c1 { color: #8B949E; font-style: italic } /* Comment.Single */
+.codehilite .cs { color: #8B949E; font-weight: bold; font-style: italic } /* Comment.Special */
+.codehilite .gd { color: #FFA198; background-color: #490202 } /* Generic.Deleted */
+.codehilite .ge { color: #E6EDF3; font-style: italic } /* Generic.Emph */
+.codehilite .ges { color: #E6EDF3; font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.codehilite .gr { color: #FFA198 } /* Generic.Error */
+.codehilite .gh { color: #79C0FF; font-weight: bold } /* Generic.Heading */
+.codehilite .gi { color: #56D364; background-color: #0F5323 } /* Generic.Inserted */
+.codehilite .go { color: #8B949E } /* Generic.Output */
+.codehilite .gp { color: #8B949E } /* Generic.Prompt */
+.codehilite .gs { color: #E6EDF3; font-weight: bold } /* Generic.Strong */
+.codehilite .gu { color: #79C0FF } /* Generic.Subheading */
+.codehilite .gt { color: #FF7B72 } /* Generic.Traceback */
+.codehilite .g-Underline { color: #E6EDF3; text-decoration: underline } /* Generic.Underline */
+.codehilite .kc { color: #79C0FF } /* Keyword.Constant */
+.codehilite .kd { color: #FF7B72 } /* Keyword.Declaration */
+.codehilite .kn { color: #FF7B72 } /* Keyword.Namespace */
+.codehilite .kp { color: #79C0FF } /* Keyword.Pseudo */
+.codehilite .kr { color: #FF7B72 } /* Keyword.Reserved */
+.codehilite .kt { color: #FF7B72 } /* Keyword.Type */
+.codehilite .ld { color: #79C0FF } /* Literal.Date */
+.codehilite .m { color: #A5D6FF } /* Literal.Number */
+.codehilite .s { color: #A5D6FF } /* Literal.String */
+.codehilite .na { color: #E6EDF3 } /* Name.Attribute */
+.codehilite .nb { color: #E6EDF3 } /* Name.Builtin */
+.codehilite .nc { color: #F0883E; font-weight: bold } /* Name.Class */
+.codehilite .no { color: #79C0FF; font-weight: bold } /* Name.Constant */
+.codehilite .nd { color: #D2A8FF; font-weight: bold } /* Name.Decorator */
+.codehilite .ni { color: #FFA657 } /* Name.Entity */
+.codehilite .ne { color: #F0883E; font-weight: bold } /* Name.Exception */
+.codehilite .nf { color: #D2A8FF; font-weight: bold } /* Name.Function */
+.codehilite .nl { color: #79C0FF; font-weight: bold } /* Name.Label */
+.codehilite .nn { color: #FF7B72 } /* Name.Namespace */
+.codehilite .nx { color: #E6EDF3 } /* Name.Other */
+.codehilite .py { color: #79C0FF } /* Name.Property */
+.codehilite .nt { color: #7EE787 } /* Name.Tag */
+.codehilite .nv { color: #79C0FF } /* Name.Variable */
+.codehilite .ow { color: #FF7B72; font-weight: bold } /* Operator.Word */
+.codehilite .pm { color: #E6EDF3 } /* Punctuation.Marker */
+.codehilite .w { color: #6E7681 } /* Text.Whitespace */
+.codehilite .mb { color: #A5D6FF } /* Literal.Number.Bin */
+.codehilite .mf { color: #A5D6FF } /* Literal.Number.Float */
+.codehilite .mh { color: #A5D6FF } /* Literal.Number.Hex */
+.codehilite .mi { color: #A5D6FF } /* Literal.Number.Integer */
+.codehilite .mo { color: #A5D6FF } /* Literal.Number.Oct */
+.codehilite .sa { color: #79C0FF } /* Literal.String.Affix */
+.codehilite .sb { color: #A5D6FF } /* Literal.String.Backtick */
+.codehilite .sc { color: #A5D6FF } /* Literal.String.Char */
+.codehilite .dl { color: #79C0FF } /* Literal.String.Delimiter */
+.codehilite .sd { color: #A5D6FF } /* Literal.String.Doc */
+.codehilite .s2 { color: #A5D6FF } /* Literal.String.Double */
+.codehilite .se { color: #79C0FF } /* Literal.String.Escape */
+.codehilite .sh { color: #79C0FF } /* Literal.String.Heredoc */
+.codehilite .si { color: #A5D6FF } /* Literal.String.Interpol */
+.codehilite .sx { color: #A5D6FF } /* Literal.String.Other */
+.codehilite .sr { color: #79C0FF } /* Literal.String.Regex */
+.codehilite .s1 { color: #A5D6FF } /* Literal.String.Single */
+.codehilite .ss { color: #A5D6FF } /* Literal.String.Symbol */
+.codehilite .bp { color: #E6EDF3 } /* Name.Builtin.Pseudo */
+.codehilite .fm { color: #D2A8FF; font-weight: bold } /* Name.Function.Magic */
+.codehilite .vc { color: #79C0FF } /* Name.Variable.Class */
+.codehilite .vg { color: #79C0FF } /* Name.Variable.Global */
+.codehilite .vi { color: #79C0FF } /* Name.Variable.Instance */
+.codehilite .vm { color: #79C0FF } /* Name.Variable.Magic */
+.codehilite .il { color: #A5D6FF } /* Literal.Number.Integer.Long */
+</style></head><body><div class="layout">
+<nav><a class="volver" href="../LEEME-PRIMERO.html">← Índice del kit</a><br><strong>En esta página</strong><div class="toc">
+<ul>
+<li><a href="#python">Python</a><ul>
+<li><a href="#1-la-lista-que-recuerda">1. La lista que recuerda</a></li>
+<li><a href="#2-borrar-mientras-recorres">2. Borrar mientras recorres</a></li>
+<li><a href="#3-la-busqueda-que-no-encuentra-el-ultimo">3. La búsqueda que no encuentra el último</a></li>
+<li><a href="#4-el-promedio-que-explota">4. El promedio que explota</a></li>
+<li><a href="#5-dinero-con-float">5. Dinero con float</a></li>
+<li><a href="#6-is-en-vez-de">6. is en vez de ==</a></li>
+<li><a href="#7-la-matriz-con-filas-clonadas">7. La matriz con filas clonadas</a></li>
+<li><a href="#8-horarios-comparados-como-texto">8. Horarios comparados como texto</a></li>
+<li><a href="#9-consulta-armada-con-f-string">9. Consulta armada con f-string</a></li>
+<li><a href="#10-el-reporte-que-hace-1-001-consultas">10. El reporte que hace 1 001 consultas</a></li>
+</ul>
+</li>
+<li><a href="#javascript">JavaScript</a><ul>
+<li><a href="#11-igualdad-con-conversion">11. Igualdad con conversión</a></li>
+<li><a href="#12-sort-que-ordena-mal">12. sort que ordena mal</a></li>
+<li><a href="#13-foreach-con-async">13. forEach con async</a></li>
+<li><a href="#14-el-await-que-falta">14. El await que falta</a></li>
+<li><a href="#15-var-en-un-bucle">15. var en un bucle</a></li>
+</ul>
+</li>
+<li><a href="#ejercicio-de-code-review">Ejercicio de code review</a></li>
+<li><a href="#checklist-para-revisar-codigo-usala-tambien-con-tu-propio-codigo">Checklist para revisar código (úsala también con tu propio código)</a></li>
+</ul>
+</div>
+</nav>
+<main><h1 id="debugging-y-code-review-encuentra-el-error">Debugging y code review: encuentra el error</h1>
+<p>En muchas entrevistas te muestran código y te preguntan: <em>"¿qué está mal aquí?"</em> o <em>"¿qué le dirías a quien lo escribió?"</em>. Evalúan si conoces las trampas del lenguaje y si revisas con criterio: corrección, seguridad, rendimiento y legibilidad.</p>
+<p><strong>Cómo practicar:</strong> lee cada fragmento, escribe qué falla, con qué entrada falla y cómo lo corriges. Después abre la respuesta. Si puedes, <strong>ejecuta</strong> el fragmento para comprobarlo.</p>
+<p><strong>Cómo responder en la entrevista:</strong> (1) qué hace mal, (2) un ejemplo de entrada que lo rompe, (3) la corrección, (4) cómo evitarías que vuelva a pasar, por ejemplo con una prueba o una regla del linter.</p>
+<hr />
+<h2 id="python">Python</h2>
+<h3 id="1-la-lista-que-recuerda">1. La lista que recuerda</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">agregar_nota</span><span class="p">(</span><span class="n">nota</span><span class="p">,</span> <span class="n">notas</span><span class="o">=</span><span class="p">[]):</span>
+    <span class="n">notas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nota</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">notas</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">agregar_nota</span><span class="p">(</span><span class="mi">8</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">agregar_nota</span><span class="p">(</span><span class="mi">9</span><span class="p">))</span>   <span class="c1"># el autor esperaba [9]</span>
+</code></pre></div>
+
+<details><summary>Respuesta</summary><p>Imprime <code>[8]</code> y luego <code>[8, 9]</code>. El valor por defecto se crea <b>una sola vez</b>, al definir la función, y todas las llamadas comparten la misma lista mutable. Corrección: <code>def agregar_nota(nota, notas=None):</code> y dentro <code>if notas is None: notas = []</code>. Pylint lo detecta (W0102, dangerous-default-value).</p></details>
+
+<h3 id="2-borrar-mientras-recorres">2. Borrar mientras recorres</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">quitar_reprobados</span><span class="p">(</span><span class="n">notas</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">notas</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">7</span><span class="p">:</span>
+            <span class="n">notas</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">notas</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">quitar_reprobados</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]))</span>
+</code></pre></div>
+
+<details><summary>Respuesta</summary><p>Devuelve <code>[6, 8, 9]</code>: el 6 se salva. Al borrar el 5, todos los elementos se corren una posición y el bucle salta el siguiente. Además modifica la lista que recibió, un efecto secundario sorpresa. Corrección: crear una lista nueva, <code>return [n for n in notas if n &gt;= 7]</code>. Regla: nunca modifiques una colección mientras la recorres.</p></details>
+
+<h3 id="3-la-busqueda-que-no-encuentra-el-ultimo">3. La búsqueda que no encuentra el último</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">buscar</span><span class="p">(</span><span class="n">lista</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="n">izq</span><span class="p">,</span> <span class="n">der</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">lista</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="k">while</span> <span class="n">izq</span> <span class="o">&lt;</span> <span class="n">der</span><span class="p">:</span>
+        <span class="n">medio</span> <span class="o">=</span> <span class="p">(</span><span class="n">izq</span> <span class="o">+</span> <span class="n">der</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+        <span class="k">if</span> <span class="n">lista</span><span class="p">[</span><span class="n">medio</span><span class="p">]</span> <span class="o">==</span> <span class="n">x</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">medio</span>
+        <span class="k">if</span> <span class="n">lista</span><span class="p">[</span><span class="n">medio</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">x</span><span class="p">:</span>
+            <span class="n">izq</span> <span class="o">=</span> <span class="n">medio</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">der</span> <span class="o">=</span> <span class="n">medio</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">buscar</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="mi">5</span><span class="p">))</span>
+</code></pre></div>
+
+<details><summary>Respuesta</summary><p>Devuelve <code>-1</code>. Cuando <code>izq == der</code> todavía queda un elemento por revisar, pero el bucle termina antes. Es un error <i>off-by-one</i>. Corrección: <code>while izq &lt;= der</code>. Prueba siempre con el primer elemento, el último, uno que no existe y una lista vacía.</p></details>
+
+<h3 id="4-el-promedio-que-explota">4. El promedio que explota</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">promedio</span><span class="p">(</span><span class="n">notas</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">notas</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">notas</span><span class="p">)</span>
+
+<span class="n">promedio</span><span class="p">([])</span>
+</code></pre></div>
+
+<details><summary>Respuesta</summary><p><code>ZeroDivisionError</code> con una lista vacía. Hay que decidir y documentar qué pasa en ese caso: devolver <code>None</code> o <code>0</code>, o lanzar un <code>ValueError</code> con un mensaje claro. Por ejemplo: <code>if not notas: return None</code>. Es el caso de borde que más se olvida.</p></details>
+
+<h3 id="5-dinero-con-float">5. Dinero con float</h3>
+<div class="codehilite"><pre><span></span><code><span class="n">subtotal</span> <span class="o">=</span> <span class="mf">0.1</span> <span class="o">+</span> <span class="mf">0.2</span>
+<span class="k">if</span> <span class="n">subtotal</span> <span class="o">==</span> <span class="mf">0.3</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"cobrar 0.30"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="mf">1.10</span> <span class="o">*</span> <span class="mi">3</span><span class="p">)</span>
+</code></pre></div>
+
+<details><summary>Respuesta</summary><p>No imprime "cobrar" y la multiplicación da <code>3.3000000000000003</code>. Un <code>float</code> es binario y no representa exactamente 0.1. Para dinero usa <code>Decimal("0.10")</code> (construido desde texto) o enteros en centavos; para comparar floats, <code>math.isclose(a, b)</code>. En SQL: <code>DECIMAL(10, 2)</code>, nunca <code>FLOAT</code>.</p></details>
+
+<h3 id="6-is-en-vez-de">6. <code>is</code> en vez de <code>==</code></h3>
+<div class="codehilite"><pre><span></span><code><span class="n">codigo</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Código: "</span><span class="p">)</span>       <span class="c1"># el usuario escribe LAB-001</span>
+<span class="k">if</span> <span class="n">codigo</span> <span class="ow">is</span> <span class="s2">"LAB-001"</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"encontrado"</span><span class="p">)</span>
+</code></pre></div>
+
+<details><summary>Respuesta</summary><p>Casi nunca imprime "encontrado". <code>is</code> compara <b>identidad</b> (si son el mismo objeto en memoria), no igualdad de valor, y el texto leído es un objeto distinto. Python 3.8+ incluso muestra un <code>SyntaxWarning</code>. Usa <code>==</code> para valores; <code>is</code> solo para <code>None</code>, <code>True</code> y <code>False</code>.</p></details>
+
+<h3 id="7-la-matriz-con-filas-clonadas">7. La matriz con filas clonadas</h3>
+<div class="codehilite"><pre><span></span><code><span class="n">tablero</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span>
+<span class="n">tablero</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tablero</span><span class="p">)</span>
+</code></pre></div>
+
+<details><summary>Respuesta</summary><p>Imprime <code>[[1, 0, 0], [1, 0, 0], [1, 0, 0]]</code>: <code>* 3</code> repite <b>la misma lista</b> tres veces, así que las tres filas son una sola. Corrección: <code>[[0] * 3 for _ in range(3)]</code>. Es la misma idea que copia superficial vs profunda (<code>copy.deepcopy</code>).</p></details>
+
+<h3 id="8-horarios-comparados-como-texto">8. Horarios comparados como texto</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">se_cruzan</span><span class="p">(</span><span class="n">ini1</span><span class="p">,</span> <span class="n">fin1</span><span class="p">,</span> <span class="n">ini2</span><span class="p">,</span> <span class="n">fin2</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">ini1</span> <span class="o">&lt;</span> <span class="n">fin2</span> <span class="ow">and</span> <span class="n">ini2</span> <span class="o">&lt;</span> <span class="n">fin1</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">se_cruzan</span><span class="p">(</span><span class="s2">"9:00"</span><span class="p">,</span> <span class="s2">"10:00"</span><span class="p">,</span> <span class="s2">"9:30"</span><span class="p">,</span> <span class="s2">"11:00"</span><span class="p">))</span>   <span class="c1"># se cruzan, ¿verdad?</span>
+</code></pre></div>
+
+<details><summary>Respuesta</summary><p>Devuelve <code>False</code>. Los textos se comparan carácter por carácter, y <code>"9:00" &lt; "11:00"</code> es falso porque "9" &gt; "1". Comparar horas como texto solo funciona si <b>siempre</b> tienen dos dígitos (<code>09:00</code>). Corrección: validar el formato con <code>^([01]\d|2[0-3]):[0-5]\d$</code> (como en <code>08-guia-desde-cero</code>) o convertir a minutos: <code>h * 60 + m</code>.</p></details>
+
+<h3 id="9-consulta-armada-con-f-string">9. Consulta armada con f-string</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">buscar_docente</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">nombre</span><span class="p">):</span>
+    <span class="n">sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"SELECT * FROM docentes WHERE nombre = '</span><span class="si">{</span><span class="n">nombre</span><span class="si">}</span><span class="s2">'"</span>
+    <span class="k">return</span> <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+
+<span class="n">buscar_docente</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="s2">"x' OR '1'='1"</span><span class="p">)</span>
+</code></pre></div>
+
+<details><summary>Respuesta</summary><p><b>Inyección SQL</b>: con esa entrada la consulta queda <code>WHERE nombre = 'x' OR '1'='1'</code> y devuelve todos los registros. Con otras entradas un atacante puede leer otras tablas o borrar datos. Corrección: consulta parametrizada, <code>db.execute("SELECT * FROM docentes WHERE nombre = ?", (nombre,))</code>. Nunca concatenes entrada del usuario en SQL. Es el número 1 que revisan en un code review.</p></details>
+
+<h3 id="10-el-reporte-que-hace-1-001-consultas">10. El reporte que hace 1 001 consultas</h3>
+<div class="codehilite"><pre><span></span><code><span class="n">labs</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"SELECT id, nombre FROM laboratorios"</span><span class="p">)</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+<span class="n">reporte</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">lab</span> <span class="ow">in</span> <span class="n">labs</span><span class="p">:</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"SELECT COUNT(*) FROM reservas WHERE laboratorio_id = ?"</span><span class="p">,</span>
+                       <span class="p">(</span><span class="n">lab</span><span class="p">[</span><span class="s2">"id"</span><span class="p">],))</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">reporte</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">lab</span><span class="p">[</span><span class="s2">"nombre"</span><span class="p">],</span> <span class="n">total</span><span class="p">))</span>
+</code></pre></div>
+
+<details><summary>Respuesta</summary><p>Funciona, pero es el problema <b>N+1</b>: una consulta para la lista y una más por cada laboratorio. Con 1 000 laboratorios son 1 001 viajes a la base de datos. Corrección, una sola consulta: <code>SELECT l.nombre, COUNT(r.id) FROM laboratorios l LEFT JOIN reservas r ON r.laboratorio_id = l.id GROUP BY l.id</code>. El <code>LEFT JOIN</code> conserva los laboratorios con 0 reservas. Los ORMs esconden este problema; se soluciona con <code>joinedload</code> o <code>include</code>.</p></details>
+
+<hr />
+<h2 id="javascript">JavaScript</h2>
+<h3 id="11-igualdad-con-conversion">11. Igualdad con conversión</h3>
+<div class="codehilite"><pre><span></span><code><span class="kd">function</span><span class="w"> </span><span class="nx">validarCantidad</span><span class="p">(</span><span class="nx">cantidad</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">cantidad</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">""</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s2">"La cantidad es obligatoria"</span><span class="p">;</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="s2">"OK"</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">validarCantidad</span><span class="p">(</span><span class="mf">0</span><span class="p">));</span>
+</code></pre></div>
+
+<details><summary>Respuesta</summary><p>Devuelve "La cantidad es obligatoria". Con <code>==</code>, JS convierte los tipos: <code>0 == ""</code> es <code>true</code> (también <code>"0" == false</code> y <code>null == undefined</code>). Usa siempre <code>===</code>. Para validar: <code>if (cantidad === "" || cantidad === null || Number.isNaN(Number(cantidad)))</code>. ESLint lo exige con la regla <code>eqeqeq</code>.</p></details>
+
+<h3 id="12-sort-que-ordena-mal">12. <code>sort</code> que ordena mal</h3>
+<div class="codehilite"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">edades</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mf">10</span><span class="p">,</span><span class="w"> </span><span class="mf">9</span><span class="p">,</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="mf">100</span><span class="p">];</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">edades</span><span class="p">.</span><span class="nx">sort</span><span class="p">());</span>
+</code></pre></div>
+
+<details><summary>Respuesta</summary><p>Imprime <code>[1, 10, 100, 9]</code>: sin comparador, <code>sort</code> convierte todo a texto y ordena alfabéticamente. Corrección: <code>edades.sort((a, b) =&gt; a - b)</code>. Ojo: <code>sort</code> también <b>modifica</b> el arreglo original; si no quieres eso, usa <code>[...edades].sort(...)</code> o <code>toSorted</code>.</p></details>
+
+<h3 id="13-foreach-con-async">13. <code>forEach</code> con <code>async</code></h3>
+<div class="codehilite"><pre><span></span><code><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">guardarTodas</span><span class="p">(</span><span class="nx">reservas</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">reservas</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="k">async</span><span class="w"> </span><span class="p">(</span><span class="nx">r</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="nx">db</span><span class="p">.</span><span class="nx">guardar</span><span class="p">(</span><span class="nx">r</span><span class="p">);</span>
+<span class="w">  </span><span class="p">});</span>
+<span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Todas guardadas"</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<details><summary>Respuesta</summary><p>"Todas guardadas" se imprime <b>antes</b> de guardar, y los errores de <code>guardar</code> se pierden: <code>forEach</code> no espera promesas. Corrección en serie: <code>for (const r of reservas) await db.guardar(r);</code>. En paralelo: <code>await Promise.all(reservas.map((r) =&gt; db.guardar(r)));</code>.</p></details>
+
+<h3 id="14-el-await-que-falta">14. El <code>await</code> que falta</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">saludar</span><span class="p">(</span><span class="nx">email</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">usuario</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">buscarUsuario</span><span class="p">(</span><span class="nx">email</span><span class="p">);</span><span class="w">   </span><span class="c1">// buscarUsuario es async</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">usuario</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s2">"No existe"</span><span class="p">;</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="sb">`Hola </span><span class="si">${</span><span class="nx">usuario</span><span class="p">.</span><span class="nx">nombre</span><span class="si">}</span><span class="sb">`</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<details><summary>Respuesta</summary><p>Siempre devuelve "Hola undefined". Sin <code>await</code>, <code>usuario</code> es una <code>Promise</code>, que siempre es <i>truthy</i>, y una promesa no tiene <code>.nombre</code>. Corrección: <code>const usuario = await buscarUsuario(email);</code>. TypeScript o la regla de ESLint <code>no-floating-promises</code> lo detectan.</p></details>
+
+<h3 id="15-var-en-un-bucle">15. <code>var</code> en un bucle</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mf">3</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">setTimeout</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Turno"</span><span class="p">,</span><span class="w"> </span><span class="nx">i</span><span class="p">),</span><span class="w"> </span><span class="mf">100</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<details><summary>Respuesta</summary><p>Imprime "Turno 4" tres veces. <code>var</code> tiene alcance de función, así que las tres funciones comparten la misma <code>i</code>, y cuando se ejecutan el bucle ya terminó con <code>i = 4</code>. Corrección: <code>let i</code>, que crea una variable nueva en cada vuelta. En Python pasa lo mismo con <code>[lambda: i for i in range(3)]</code>; se corrige con <code>lambda i=i: i</code>.</p></details>
+
+<hr />
+<h2 id="ejercicio-de-code-review">Ejercicio de code review</h2>
+<p>Te piden revisar este pull request. <strong>Antes de ver la respuesta, encuentra al menos 8 problemas</strong> y ordénalos por gravedad.</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">sqlite3</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flask</span><span class="w"> </span><span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">request</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">secret_key</span> <span class="o">=</span> <span class="s2">"123"</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">"/reservas"</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">"GET"</span><span class="p">,</span> <span class="s2">"POST"</span><span class="p">])</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">reservas</span><span class="p">():</span>
+    <span class="n">db</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">"app.db"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">"POST"</span><span class="p">:</span>
+        <span class="n">docente</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">[</span><span class="s2">"docente"</span><span class="p">]</span>
+        <span class="n">lab</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">[</span><span class="s2">"lab"</span><span class="p">]</span>
+        <span class="n">fecha</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">[</span><span class="s2">"fecha"</span><span class="p">]</span>
+        <span class="n">ini</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">[</span><span class="s2">"ini"</span><span class="p">]</span>
+        <span class="n">fin</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">[</span><span class="s2">"fin"</span><span class="p">]</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="sa">f</span><span class="s2">"INSERT INTO reservas VALUES (null, </span><span class="si">{</span><span class="n">lab</span><span class="si">}</span><span class="s2">, '</span><span class="si">{</span><span class="n">docente</span><span class="si">}</span><span class="s2">', '</span><span class="si">{</span><span class="n">fecha</span><span class="si">}</span><span class="s2">', '</span><span class="si">{</span><span class="n">ini</span><span class="si">}</span><span class="s2">', '</span><span class="si">{</span><span class="n">fin</span><span class="si">}</span><span class="s2">')"</span><span class="p">)</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="n">filas</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"SELECT * FROM reservas"</span><span class="p">)</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+    <span class="n">html</span> <span class="o">=</span> <span class="s2">""</span>
+    <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">filas</span><span class="p">:</span>
+        <span class="n">lab</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="sa">f</span><span class="s2">"SELECT nombre FROM laboratorios WHERE id = </span><span class="si">{</span><span class="n">f</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+        <span class="n">html</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">"&lt;li&gt;</span><span class="si">{</span><span class="n">f</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">lab</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">f</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">f</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">f</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="si">}</span><span class="s2">&lt;/li&gt;"</span>
+    <span class="k">return</span> <span class="s2">"&lt;ul&gt;"</span> <span class="o">+</span> <span class="n">html</span> <span class="o">+</span> <span class="s2">"&lt;/ul&gt;"</span>
+</code></pre></div>
+
+<details><summary>Respuesta (12 problemas, del más grave al menos grave)</summary>
+<ol>
+<li><b>Inyección SQL</b> en el INSERT y en el SELECT del bucle (f-strings). Usar parámetros <code>?</code>.</li>
+<li><b>XSS</b>: <code>docente</code> se inserta en el HTML sin escapar; un nombre como <code>&lt;script&gt;…&lt;/script&gt;</code> se ejecuta en el navegador de cada visitante. Usar plantillas Jinja, que escapan por defecto, o <code>markupsafe.escape</code>.</li>
+<li><b>Clave secreta débil y escrita en el código</b> (<code>"123"</code>). Leerla de una variable de entorno: <code>os.environ["SECRET_KEY"]</code>.</li>
+<li><b>Sin validación</b>: campos vacíos, formato de fecha y hora, <code>fin &gt; ini</code>, que el laboratorio exista y no esté en mantenimiento.</li>
+<li><b>No revisa choques de horario</b>: es la regla de negocio principal (<code>ini1 &lt; fin2 AND ini2 &lt; fin1</code>).</li>
+<li><b>Sin CSRF</b> en un formulario POST (Flask-WTF o un token propio).</li>
+<li><code>request.form["x"]</code> lanza <code>KeyError</code> → error 400 genérico si falta un campo; mejor <code>request.form.get("x", "").strip()</code> con un mensaje de error claro.</li>
+<li><b>La conexión nunca se cierra</b>: se pierde en cada petición. Usar <code>g</code> + <code>teardown_appcontext</code> o <code>with</code>.</li>
+<li><b>N+1</b>: una consulta por cada reserva para traer el nombre del laboratorio. Usar <code>JOIN</code>.</li>
+<li>Después del POST no hay <b>redirect</b> (patrón Post/Redirect/Get): al recargar la página se duplica la reserva.</li>
+<li><code>INSERT</code> sin nombres de columnas, <code>SELECT *</code> e índices mágicos (<code>f[1]</code>, <code>f[2]</code>) se rompen si cambia la tabla. Nombrar las columnas y usar <code>row_factory = sqlite3.Row</code>.</li>
+<li>Sin pruebas, sin paginación y sin separación de responsabilidades: la ruta valida, guarda y genera HTML. Separar en <code>validaciones.py</code>, <code>db.py</code> y plantillas, como en <code>08-guia-desde-cero</code>.</li>
+</ol>
+<p><b>Cómo comunicarlo:</b> empieza por lo bueno ("la ruta es corta y se entiende"), separa lo que <b>bloquea</b> el merge (1–5) de las <b>sugerencias</b> (10–12) y propone la corrección en lugar de solo señalar el problema.</p>
+</details>
+
+<hr />
+<h2 id="checklist-para-revisar-codigo-usala-tambien-con-tu-propio-codigo">Checklist para revisar código (úsala también con tu propio código)</h2>
+<table>
+<thead>
+<tr>
+<th>Área</th>
+<th>Pregunta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Corrección</td>
+<td>¿Hace lo que dice el requisito? ¿Funciona con vacíos, nulos, bordes y errores de red o de base de datos?</td>
+</tr>
+<tr>
+<td>Seguridad</td>
+<td>¿Consultas parametrizadas? ¿Salida escapada? ¿Secretos fuera del código? ¿Se valida en el servidor? ¿Se revisa quién puede hacer qué?</td>
+</tr>
+<tr>
+<td>Rendimiento</td>
+<td>¿Consultas dentro de bucles (N+1)? ¿Bucles anidados innecesarios? ¿Falta paginación o índices?</td>
+</tr>
+<tr>
+<td>Legibilidad</td>
+<td>¿Nombres claros? ¿Funciones cortas con una sola tarea? ¿Código duplicado? ¿Números mágicos?</td>
+</tr>
+<tr>
+<td>Errores</td>
+<td>¿Se manejan las excepciones? ¿Los mensajes ayudan al usuario sin exponer detalles internos?</td>
+</tr>
+<tr>
+<td>Pruebas</td>
+<td>¿Hay pruebas de las reglas de negocio? ¿Cubren los casos de borde?</td>
+</tr>
+</tbody>
+</table></main></div>
+<script>
+document.querySelectorAll('.codehilite').forEach(b => {
+  const btn = document.createElement('button'); btn.className = 'copiar'; btn.textContent = 'Copiar';
+  btn.onclick = () => { const t = b.querySelector('pre').innerText;
+    navigator.clipboard.writeText(t).then(() => { btn.textContent = '¡Copiado!'; setTimeout(() => btn.textContent = 'Copiar', 1500); }); };
+  b.prepend(btn);
+});
+</script></body></html>
