@@ -1,0 +1,19 @@
+# Dependencias, entornos y builds
+node_modules/
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.class
+dist/
+
+# Bases de datos que crean las apps y las pruebas
+*.db
+
+# Salidas temporales del CI
+salida.txt
+
+# Editores y notas
+.vscode/
+.idea/
+.obsidian/

@@ -1,0 +1,101 @@
+# Ejecuta todas las pruebas del kit en cada push y pull request.
+name: Pruebas
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  python:
+    name: Python (algoritmos, lógica, SQL y Flask)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - run: pip install flask pytest
+
+      - name: Algoritmos de entrevista (30 problemas)
+        working-directory: 09-entrevista-tecnica/algoritmos
+        run: python pruebas.py
+
+      - name: Lógica (50 ejercicios)
+        working-directory: 03-logica
+        run: |
+          python soluciones.py | tee salida.txt
+          python soluciones_extra.py | tee -a salida.txt
+          if grep -q "FALLO" salida.txt; then exit 1; fi
+
+      - name: SQL (40 ejercicios)
+        working-directory: 03-logica/sql
+        run: |
+          python ejecutar_sql.py practica.sql > salida.txt
+          python ejecutar_sql.py ejercicios_extra.sql >> salida.txt
+          if grep -q "\*\*\* ERROR" salida.txt; then grep -A1 "\*\*\* ERROR" salida.txt; exit 1; fi
+
+      - name: Proyectos Flask
+        run: |
+          for p in 02-proyectos/python-flask-crud 06-retos-resueltos/python-flask-crud \
+                   04-simulacro/solucion-flask 08-guia-desde-cero/solucionario/reservas-flask; do
+            echo "::group::$p"
+            (cd "$p" && python -m pytest -q)
+            echo "::endgroup::"
+          done
+
+  node:
+    name: Node (algoritmos, lógica, Express y React)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+
+      - name: Algoritmos de entrevista (30 problemas)
+        working-directory: 09-entrevista-tecnica/algoritmos
+        run: node pruebas.js
+
+      - name: Lógica (51 ejercicios)
+        working-directory: 03-logica
+        run: |
+          node soluciones.js | tee salida.txt
+          node soluciones_extra.js | tee -a salida.txt
+          if grep -q "FALLO" salida.txt; then exit 1; fi
+
+      - name: Proyectos Express
+        run: |
+          for p in 02-proyectos/node-express-crud 06-retos-resueltos/node-express-crud \
+                   08-guia-desde-cero/solucionario/reservas-express; do
+            echo "::group::$p"
+            (cd "$p" && npm install --no-audit --no-fund && npm test)
+            echo "::endgroup::"
+          done
+
+      - name: Build de React
+        run: |
+          for p in 02-proyectos/react-vite-crud 06-retos-resueltos/react-vite-crud; do
+            echo "::group::$p"
+            (cd "$p" && npm install --no-audit --no-fund && npm run build)
+            echo "::endgroup::"
+          done
+
+  java:
+    name: Java (consola POO)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: "17"
+      - name: Pruebas de Biblioteca.java
+        run: |
+          for p in 02-proyectos/java-consola-poo 06-retos-resueltos/java-consola-poo; do
+            echo "::group::$p"
+            salida="$RUNNER_TEMP/$(echo "$p" | tr '/' '_')"
+            javac -encoding UTF-8 -d "$salida" "$p/Biblioteca.java"
+            (cd "$salida" && java -cp . Biblioteca --test)
+            echo "::endgroup::"
+          done
