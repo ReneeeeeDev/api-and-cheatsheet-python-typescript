@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block titulo %}Notas de {{ est.nombre }}{% endblock %}
+{% block contenido %}
+<h1>Notas de {{ est.nombre }}</h1>
+<p>{{ est.cedula }} · {{ est.carrera }} · <a href="{{ url_for('index') }}">Volver</a></p>
+
+<div class="tarjetas">
+  <div class="tarjeta"><strong>Materias</strong><span>{{ resumen.materias }}</span></div>
+  <div class="tarjeta"><strong>Promedio simple</strong><span>{{ resumen.promedio if resumen.promedio is not none else '-' }}</span></div>
+  <div class="tarjeta"><strong>Promedio ponderado (créditos)</strong><span>{{ resumen.ponderado if resumen.ponderado is not none else '-' }}</span></div>
+</div>
+
+<section class="panel">
+  <h2>Registrar / actualizar nota</h2>
+  <form method="post" class="form-linea">
+    <label>Materia
+      <select name="materia_id" required>
+        <option value="">-- Seleccione --</option>
+        {% for m in materias %}<option value="{{ m.id }}">{{ m.nombre }} ({{ m.creditos }} cr.)</option>{% endfor %}
+      </select>
+    </label>
+    <label>Nota <input name="nota" type="number" step="0.01" min="0" max="10" required></label>
+    <button type="submit">Guardar</button>
+  </form>
+  <p><small>Si la materia ya tiene nota, se actualiza (UPSERT).</small></p>
+</section>
+
+<table>
+  <thead><tr><th>Materia</th><th>Créditos</th><th>Nota</th><th>Estado</th><th></th></tr></thead>
+  <tbody>
+  {% for n in detalle %}
+    <tr>
+      <td>{{ n.materia }}</td><td>{{ n.creditos }}</td>
+      <td class="{{ 'ok-txt' if n.nota >= 7 else 'error-txt' }}">{{ "%.2f"|format(n.nota) }}</td>
+      <td>{{ n.estado }}</td>
+      <td><form method="post" action="{{ url_for('eliminar_nota', nota_id=n.id) }}"><button class="peligro">Eliminar</button></form></td>
+    </tr>
+  {% else %}
+    <tr><td colspan="5">Sin notas registradas.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

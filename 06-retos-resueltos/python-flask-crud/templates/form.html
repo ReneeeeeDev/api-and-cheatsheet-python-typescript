@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block titulo %}{{ titulo }} estudiante{% endblock %}
+{% block contenido %}
+<h1>{{ titulo }} estudiante</h1>
+<form method="post" class="formulario">
+  <label for="cedula">Cédula</label>
+  <input id="cedula" name="cedula" value="{{ est.cedula or '' }}" required pattern="[0-9]{10}" title="10 dígitos">
+
+  <label for="nombre">Nombre completo</label>
+  <input id="nombre" name="nombre" value="{{ est.nombre or '' }}" required minlength="3">
+
+  <label for="email">Email</label>
+  <input id="email" name="email" type="email" value="{{ est.email or '' }}" required>
+
+  <label for="carrera_id">Carrera</label>
+  <select id="carrera_id" name="carrera_id" required>
+    <option value="">-- Seleccione --</option>
+    {% for c in carreras %}
+      <option value="{{ c.id }}" {% if (est.carrera_id|string) == (c.id|string) %}selected{% endif %}>{{ c.nombre }}</option>
+    {% endfor %}
+  </select>
+
+  <label for="promedio">Promedio (0-10)</label>
+  <input id="promedio" name="promedio" type="number" step="0.01" min="0" max="10" value="{{ est.promedio or 0 }}">
+
+  <div class="acciones">
+    <button type="submit">Guardar</button>
+    <a class="btn sec" href="{{ url_for('index') }}">Cancelar</a>
+  </div>
+</form>
+{% endblock %}

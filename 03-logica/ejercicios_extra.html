@@ -1,0 +1,213 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>20 ejercicios extra (31–50): lógica aplicada a problemas reales</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,Segoe UI,sans-serif;line-height:1.6;color:#1f2937;background:#f8fafc}
+.layout{display:grid;grid-template-columns:270px 1fr;max-width:1400px;margin:auto}
+nav{position:sticky;top:0;height:100vh;overflow:auto;padding:18px;border-right:1px solid #e5e7eb;background:#fff;font-size:13.5px}
+nav ul{list-style:none;padding-left:10px;margin:3px 0} nav>div>ul{padding-left:0} nav a{color:#334155;text-decoration:none} nav a:hover{color:#0a5bd6}
+.volver{display:inline-block;margin-bottom:10px;font-weight:600;color:#0a5bd6!important}
+main{padding:24px 40px;min-width:0} h1{color:#0a5bd6} h2{border-top:2px solid #e5e7eb;padding-top:22px;margin-top:36px}
+table{border-collapse:collapse;width:100%;margin:12px 0;font-size:14px;display:block;overflow-x:auto}
+th,td{border:1px solid #e5e7eb;padding:6px 10px;text-align:left;vertical-align:top} th{background:#f1f5f9}
+code{background:#eef2f7;padding:1px 5px;border-radius:4px;font-size:.9em}
+.codehilite{border-radius:8px;margin:12px 0;overflow:auto;position:relative} .codehilite pre{padding:14px;margin:0;font-size:13px;line-height:1.5}
+.codehilite code{background:none;padding:0;color:inherit}
+blockquote{margin:12px 0;padding:8px 16px;background:#fff7ed;border-left:4px solid #f59e0b;border-radius:4px}
+.copiar{position:absolute;right:6px;top:6px;padding:3px 10px;font-size:12px;border:0;border-radius:4px;cursor:pointer;background:#334155;color:#fff}
+@media (max-width:900px){.layout{grid-template-columns:1fr} nav{position:static;height:auto;border-right:0} main{padding:16px}}
+pre { line-height: 125%; }
+td.linenos .normal { color: #6e7681; background-color: #0d1117; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #6e7681; background-color: #0d1117; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #e6edf3; background-color: #6e7681; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #e6edf3; background-color: #6e7681; padding-left: 5px; padding-right: 5px; }
+.codehilite .hll { background-color: #6e7681 }
+.codehilite { background: #0d1117; color: #E6EDF3 }
+.codehilite .c { color: #8B949E; font-style: italic } /* Comment */
+.codehilite .err { color: #F85149 } /* Error */
+.codehilite .esc { color: #E6EDF3 } /* Escape */
+.codehilite .g { color: #E6EDF3 } /* Generic */
+.codehilite .k { color: #FF7B72 } /* Keyword */
+.codehilite .l { color: #A5D6FF } /* Literal */
+.codehilite .n { color: #E6EDF3 } /* Name */
+.codehilite .o { color: #FF7B72; font-weight: bold } /* Operator */
+.codehilite .x { color: #E6EDF3 } /* Other */
+.codehilite .p { color: #E6EDF3 } /* Punctuation */
+.codehilite .ch { color: #8B949E; font-style: italic } /* Comment.Hashbang */
+.codehilite .cm { color: #8B949E; font-style: italic } /* Comment.Multiline */
+.codehilite .cp { color: #8B949E; font-weight: bold; font-style: italic } /* Comment.Preproc */
+.codehilite .cpf { color: #8B949E; font-style: italic } /* Comment.PreprocFile */
+.codehilite .c1 { color: #8B949E; font-style: italic } /* Comment.Single */
+.codehilite .cs { color: #8B949E; font-weight: bold; font-style: italic } /* Comment.Special */
+.codehilite .gd { color: #FFA198; background-color: #490202 } /* Generic.Deleted */
+.codehilite .ge { color: #E6EDF3; font-style: italic } /* Generic.Emph */
+.codehilite .ges { color: #E6EDF3; font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.codehilite .gr { color: #FFA198 } /* Generic.Error */
+.codehilite .gh { color: #79C0FF; font-weight: bold } /* Generic.Heading */
+.codehilite .gi { color: #56D364; background-color: #0F5323 } /* Generic.Inserted */
+.codehilite .go { color: #8B949E } /* Generic.Output */
+.codehilite .gp { color: #8B949E } /* Generic.Prompt */
+.codehilite .gs { color: #E6EDF3; font-weight: bold } /* Generic.Strong */
+.codehilite .gu { color: #79C0FF } /* Generic.Subheading */
+.codehilite .gt { color: #FF7B72 } /* Generic.Traceback */
+.codehilite .g-Underline { color: #E6EDF3; text-decoration: underline } /* Generic.Underline */
+.codehilite .kc { color: #79C0FF } /* Keyword.Constant */
+.codehilite .kd { color: #FF7B72 } /* Keyword.Declaration */
+.codehilite .kn { color: #FF7B72 } /* Keyword.Namespace */
+.codehilite .kp { color: #79C0FF } /* Keyword.Pseudo */
+.codehilite .kr { color: #FF7B72 } /* Keyword.Reserved */
+.codehilite .kt { color: #FF7B72 } /* Keyword.Type */
+.codehilite .ld { color: #79C0FF } /* Literal.Date */
+.codehilite .m { color: #A5D6FF } /* Literal.Number */
+.codehilite .s { color: #A5D6FF } /* Literal.String */
+.codehilite .na { color: #E6EDF3 } /* Name.Attribute */
+.codehilite .nb { color: #E6EDF3 } /* Name.Builtin */
+.codehilite .nc { color: #F0883E; font-weight: bold } /* Name.Class */
+.codehilite .no { color: #79C0FF; font-weight: bold } /* Name.Constant */
+.codehilite .nd { color: #D2A8FF; font-weight: bold } /* Name.Decorator */
+.codehilite .ni { color: #FFA657 } /* Name.Entity */
+.codehilite .ne { color: #F0883E; font-weight: bold } /* Name.Exception */
+.codehilite .nf { color: #D2A8FF; font-weight: bold } /* Name.Function */
+.codehilite .nl { color: #79C0FF; font-weight: bold } /* Name.Label */
+.codehilite .nn { color: #FF7B72 } /* Name.Namespace */
+.codehilite .nx { color: #E6EDF3 } /* Name.Other */
+.codehilite .py { color: #79C0FF } /* Name.Property */
+.codehilite .nt { color: #7EE787 } /* Name.Tag */
+.codehilite .nv { color: #79C0FF } /* Name.Variable */
+.codehilite .ow { color: #FF7B72; font-weight: bold } /* Operator.Word */
+.codehilite .pm { color: #E6EDF3 } /* Punctuation.Marker */
+.codehilite .w { color: #6E7681 } /* Text.Whitespace */
+.codehilite .mb { color: #A5D6FF } /* Literal.Number.Bin */
+.codehilite .mf { color: #A5D6FF } /* Literal.Number.Float */
+.codehilite .mh { color: #A5D6FF } /* Literal.Number.Hex */
+.codehilite .mi { color: #A5D6FF } /* Literal.Number.Integer */
+.codehilite .mo { color: #A5D6FF } /* Literal.Number.Oct */
+.codehilite .sa { color: #79C0FF } /* Literal.String.Affix */
+.codehilite .sb { color: #A5D6FF } /* Literal.String.Backtick */
+.codehilite .sc { color: #A5D6FF } /* Literal.String.Char */
+.codehilite .dl { color: #79C0FF } /* Literal.String.Delimiter */
+.codehilite .sd { color: #A5D6FF } /* Literal.String.Doc */
+.codehilite .s2 { color: #A5D6FF } /* Literal.String.Double */
+.codehilite .se { color: #79C0FF } /* Literal.String.Escape */
+.codehilite .sh { color: #79C0FF } /* Literal.String.Heredoc */
+.codehilite .si { color: #A5D6FF } /* Literal.String.Interpol */
+.codehilite .sx { color: #A5D6FF } /* Literal.String.Other */
+.codehilite .sr { color: #79C0FF } /* Literal.String.Regex */
+.codehilite .s1 { color: #A5D6FF } /* Literal.String.Single */
+.codehilite .ss { color: #A5D6FF } /* Literal.String.Symbol */
+.codehilite .bp { color: #E6EDF3 } /* Name.Builtin.Pseudo */
+.codehilite .fm { color: #D2A8FF; font-weight: bold } /* Name.Function.Magic */
+.codehilite .vc { color: #79C0FF } /* Name.Variable.Class */
+.codehilite .vg { color: #79C0FF } /* Name.Variable.Global */
+.codehilite .vi { color: #79C0FF } /* Name.Variable.Instance */
+.codehilite .vm { color: #79C0FF } /* Name.Variable.Magic */
+.codehilite .il { color: #A5D6FF } /* Literal.Number.Integer.Long */
+</style></head><body><div class="layout">
+<nav><a class="volver" href="../LEEME-PRIMERO.html">← Índice del kit</a><br><strong>En esta página</strong><div class="toc">
+<ul>
+<li><a href="#31-ruc-de-persona-natural">31. RUC de persona natural — ⭐</a></li>
+<li><a href="#32-factura-con-descuento-e-iva">32. Factura con descuento e IVA — ⭐⭐</a></li>
+<li><a href="#33-estadisticas-de-notas">33. Estadísticas de notas — ⭐⭐</a></li>
+<li><a href="#34-segundos-a-hhmmss">34. Segundos a HH:MM:SS — ⭐</a></li>
+<li><a href="#35-detectar-reservas-en-conflicto">35. Detectar reservas en conflicto — ⭐⭐</a></li>
+<li><a href="#36-fusionar-intervalos-clasico-de-entrevistas">36. Fusionar intervalos — ⭐⭐⭐ (clásico de entrevistas)</a></li>
+<li><a href="#37-letras-mas-frecuentes">37. Letras más frecuentes — ⭐⭐</a></li>
+<li><a href="#38-matriz-en-espiral">38. Matriz en espiral — ⭐⭐⭐</a></li>
+<li><a href="#39-validar-contrasena-con-mensajes">39. Validar contraseña con mensajes — ⭐⭐</a></li>
+<li><a href="#40-numero-a-letras-para-facturas-y-cheques">40. Número a letras — ⭐⭐⭐ (para facturas y cheques)</a></li>
+<li><a href="#41-multiplicar-matrices">41. Multiplicar matrices — ⭐⭐</a></li>
+<li><a href="#42-rotar-lista">42. Rotar lista — ⭐</a></li>
+<li><a href="#43-agrupar-anagramas">43. Agrupar anagramas — ⭐⭐</a></li>
+<li><a href="#44-cambio-minimo-de-monedas-programacion-dinamica">44. Cambio mínimo de monedas — ⭐⭐⭐ (programación dinámica)</a></li>
+<li><a href="#45-fecha-valida">45. Fecha válida — ⭐⭐</a></li>
+<li><a href="#46-dias-habiles-entre-fechas">46. Días hábiles entre fechas — ⭐⭐</a></li>
+<li><a href="#47-cuota-de-prestamo-sistema-frances">47. Cuota de préstamo (sistema francés) — ⭐⭐</a></li>
+<li><a href="#48-primer-caracter-no-repetido">48. Primer carácter no repetido — ⭐</a></li>
+<li><a href="#49-reorden-de-inventario">49. Reorden de inventario — ⭐⭐</a></li>
+<li><a href="#50-sistema-de-calificaciones">50. Sistema de calificaciones — ⭐⭐</a></li>
+<li><a href="#retos-de-consola-programas-completos-sin-solucion-para-practicar-en-2030-min-cada-uno">Retos de consola (programas completos, sin solución: para practicar en 20–30 min cada uno)</a></li>
+</ul>
+</div>
+</nav>
+<main><h1 id="20-ejercicios-extra-3150-logica-aplicada-a-problemas-reales">20 ejercicios extra (31–50): lógica aplicada a problemas reales</h1>
+<p>Soluciones: <code>soluciones_extra.py</code> y <code>soluciones_extra.js</code> (mismos nombres; en JS en camelCase).
+Ejecutar las pruebas: <code>python soluciones_extra.py</code> · <code>node soluciones_extra.js</code>.</p>
+<p><strong>Cómo practicar:</strong> lee el enunciado, escribe la función en un archivo nuevo, pruébala con los ejemplos y <strong>solo después</strong> compara con la solución. Anota cuánto tardaste.</p>
+<hr />
+<h3 id="31-ruc-de-persona-natural">31. RUC de persona natural — ⭐</h3>
+<p><code>validar_ruc_natural(ruc)</code>: en Ecuador, el RUC de una persona natural tiene 13 dígitos: su cédula (válida) + <code>001</code>.
+<code>"1710034065001"</code> → True · <code>"1710034065002"</code> → False</p>
+<h3 id="32-factura-con-descuento-e-iva">32. Factura con descuento e IVA — ⭐⭐</h3>
+<p><code>calcular_factura(items)</code> donde items = <code>[(descripcion, cantidad, precio_unitario)]</code>.
+Si el subtotal <strong>supera</strong> $100, aplica 10 % de descuento. El IVA (15 %) se calcula sobre el subtotal con descuento. Redondea a 2 decimales.
+Devuelve <code>{subtotal, descuento, base, iva, total}</code>.
+<code>[("Mouse", 2, 15), ("Teclado", 1, 45)]</code> → subtotal 75, descuento 0, iva 11.25, total 86.25
+<code>[("Monitor", 1, 200)]</code> → descuento 20, base 180, iva 27, total 207</p>
+<h3 id="33-estadisticas-de-notas">33. Estadísticas de notas — ⭐⭐</h3>
+<p><code>estadisticas(notas)</code> → <code>{min, max, promedio (2 dec.), mediana, moda}</code>. La mediana, con n par, es el promedio de los dos del centro. Si hay empate en la moda, devuelve la menor.
+<code>[7, 9, 8, 9, 6, 7]</code> → min 6, max 9, promedio 7.67, mediana 7.5, moda 7</p>
+<h3 id="34-segundos-a-hhmmss">34. Segundos a HH:MM:SS — ⭐</h3>
+<p><code>3725</code> → <code>"01:02:05"</code></p>
+<h3 id="35-detectar-reservas-en-conflicto">35. Detectar reservas en conflicto — ⭐⭐</h3>
+<p><code>reservas_en_conflicto(reservas)</code>, reservas = <code>[(id, laboratorio, "HH:MM" inicio, "HH:MM" fin)]</code> del mismo día. Devuelve los pares <code>(id1, id2)</code> del <strong>mismo laboratorio</strong> cuyos horarios se cruzan (los contiguos no chocan).
+<code>[(1,"L1","08:00","10:00"), (2,"L1","09:00","11:00"), (3,"L2","08:00","10:00"), (4,"L1","10:00","12:00")]</code> → <code>[(1, 2), (2, 4)]</code></p>
+<h3 id="36-fusionar-intervalos-clasico-de-entrevistas">36. Fusionar intervalos — ⭐⭐⭐ (clásico de entrevistas)</h3>
+<p><code>[[14,15],[8,10],[9,12],[12,13]]</code> → <code>[[8,13],[14,15]]</code>.
+Pista: ordena por inicio; si el siguiente empieza antes o justo cuando termina el último, amplía el último.</p>
+<h3 id="37-letras-mas-frecuentes">37. Letras más frecuentes — ⭐⭐</h3>
+<p><code>top_caracteres(texto, n=3)</code>: ignora mayúsculas y lo que no sea letra. En caso de empate, orden alfabético.
+<code>"Desarrollo de Software"</code> → <code>[("e",3), ("o",3), ("r",3)]</code></p>
+<h3 id="38-matriz-en-espiral">38. Matriz en espiral — ⭐⭐⭐</h3>
+<p><code>matriz_espiral(3)</code> → <code>[[1,2,3],[8,9,4],[7,6,5]]</code>
+Pista: 4 límites (arriba, abajo, izquierda, derecha) que se van cerrando.</p>
+<h3 id="39-validar-contrasena-con-mensajes">39. Validar contraseña con mensajes — ⭐⭐</h3>
+<p><code>validar_password(clave)</code> devuelve la <strong>lista de reglas incumplidas</strong>: mínimo 8 caracteres, una mayúscula, una minúscula, un número, un símbolo y sin espacios.
+<code>"Clave#2026"</code> → <code>[]</code> · <code>"abc"</code> → 4 errores</p>
+<h3 id="40-numero-a-letras-para-facturas-y-cheques">40. Número a letras — ⭐⭐⭐ (para facturas y cheques)</h3>
+<p><code>numero_a_letras(n)</code> para 0 ≤ n &lt; 1 000 000.
+<code>1995</code> → <code>"mil novecientos noventa y cinco"</code> · <code>100</code> → <code>"cien"</code> · <code>115</code> → <code>"ciento quince"</code> · <code>21000</code> → <code>"veintiun mil"</code>
+Pista: casos &lt; 30 en tabla, decenas "y", centenas, y recursión para los miles.</p>
+<h3 id="41-multiplicar-matrices">41. Multiplicar matrices — ⭐⭐</h3>
+<p><code>[[1,2],[3,4]] × [[5,6],[7,8]]</code> → <code>[[19,22],[43,50]]</code>. Lanza error si las dimensiones no son compatibles.</p>
+<h3 id="42-rotar-lista">42. Rotar lista — ⭐</h3>
+<p>Rotar a la derecha k posiciones: <code>[1,2,3,4,5], 2</code> → <code>[4,5,1,2,3]</code>. Con k mayor que la longitud usa el residuo.</p>
+<h3 id="43-agrupar-anagramas">43. Agrupar anagramas — ⭐⭐</h3>
+<p><code>["amor","gato","Roma","toga","ramo","sol"]</code> → <code>[["amor","Roma","ramo"],["gato","toga"],["sol"]]</code> (grupos más grandes primero).
+Pista: la clave de cada grupo es la palabra con sus letras ordenadas.</p>
+<h3 id="44-cambio-minimo-de-monedas-programacion-dinamica">44. Cambio mínimo de monedas — ⭐⭐⭐ (programación dinámica)</h3>
+<p><code>cambio_minimo(monto, monedas)</code>: mínima cantidad de monedas; -1 si es imposible.
+<code>cambio_minimo(30, (1, 10, 25))</code> → 3 (10+10+10). El método "greedy" daría 6 (25+1+1+1+1+1): por eso se necesita programación dinámica.
+<code>cambio_minimo(63)</code> con (1,5,10,25,50) → 5 · <code>cambio_minimo(3, (2,))</code> → -1</p>
+<h3 id="45-fecha-valida">45. Fecha válida — ⭐⭐</h3>
+<p><code>fecha_valida(dia, mes, anio)</code> considerando años bisiestos.
+<code>(29, 2, 2024)</code> → True · <code>(29, 2, 2026)</code> → False · <code>(31, 4, 2026)</code> → False</p>
+<h3 id="46-dias-habiles-entre-fechas">46. Días hábiles entre fechas — ⭐⭐</h3>
+<p>Cuenta lunes a viernes entre dos fechas (inclusive), excluyendo los feriados recibidos.
+Del 21/09/2026 al 02/10/2026 → 10 · del 05/10 al 11/10 con feriado el 09/10 → 4</p>
+<h3 id="47-cuota-de-prestamo-sistema-frances">47. Cuota de préstamo (sistema francés) — ⭐⭐</h3>
+<p><code>cuota_prestamo(monto, tasa_anual, meses)</code>: <code>C = P·i / (1 − (1+i)^−n)</code>, con <code>i = tasa_anual / 12</code>.
+<code>(5000, 0.12, 12)</code> → 444.24. Extra: <code>tabla_amortizacion</code> con mes, cuota, interés, capital y saldo.</p>
+<h3 id="48-primer-caracter-no-repetido">48. Primer carácter no repetido — ⭐</h3>
+<p><code>"aabbcdc"</code> → <code>"d"</code> · <code>"aa"</code> → None</p>
+<h3 id="49-reorden-de-inventario">49. Reorden de inventario — ⭐⭐</h3>
+<p>Productos <code>{codigo, stock, venta_diaria}</code>. Hay que pedir si el stock no cubre 15 días de venta. La cantidad a pedir es la necesaria para tener el <strong>doble</strong> de cobertura (30 días) menos el stock actual. Devuelve <code>[(codigo, cantidad)]</code> ordenado de mayor a menor cantidad.
+<code>[{"A", stock 10, venta 2}, {"B", stock 100, venta 1}]</code> → <code>[("A", 50)]</code></p>
+<h3 id="50-sistema-de-calificaciones">50. Sistema de calificaciones — ⭐⭐</h3>
+<p><code>sistema_notas(parciales, examen, asistencia)</code>: nota final = 60 % del promedio de parciales + 40 % del examen. Reglas, en este orden: asistencia &lt; 70 % → "Reprobado por asistencia"; final ≥ 7 → "Aprobado"; ≥ 5 → "Supletorio"; si no → "Reprobado".
+<code>([8,7,9], 6, 90)</code> → <code>(7.2, "Aprobado")</code></p>
+<hr />
+<h2 id="retos-de-consola-programas-completos-sin-solucion-para-practicar-en-2030-min-cada-uno">Retos de consola (programas completos, sin solución: para practicar en 20–30 min cada uno)</h2>
+<ol>
+<li><strong>Cajero automático:</strong> menú de consultar saldo, depositar, retirar (sin saldo negativo, máximo $500 por retiro), historial y salir.</li>
+<li><strong>Agenda de contactos</strong> en archivo JSON: agregar, buscar por nombre, editar, eliminar y listar ordenado.</li>
+<li><strong>Juego adivina el número:</strong> número aleatorio del 1 al 100, pistas "mayor/menor", contador de intentos y récord guardado en archivo.</li>
+<li><strong>Conversor de unidades</strong> con menú: temperatura, longitud y moneda (tasas en un diccionario).</li>
+<li><strong>Registro de notas de un curso:</strong> ingresar estudiantes y 3 notas; mostrar la tabla con promedio, el mejor, los reprobados y el promedio del curso.</li>
+</ol></main></div>
+<script>
+document.querySelectorAll('.codehilite').forEach(b => {
+  const btn = document.createElement('button'); btn.className = 'copiar'; btn.textContent = 'Copiar';
+  btn.onclick = () => { const t = b.querySelector('pre').innerText;
+    navigator.clipboard.writeText(t).then(() => { btn.textContent = '¡Copiado!'; setTimeout(() => btn.textContent = 'Copiar', 1500); }); };
+  b.prepend(btn);
+});
+</script></body></html>
